@@ -2,7 +2,7 @@
   <div class="inner">
     <div class="inner__left">
       <div class="menu" @click="menuListener">
-        <div class="menu__item" data-id="bill">Счет</div>
+        <div class="menu__item active" data-id="bill">Счет</div>
         <div class="menu__item" data-id="plus">Новый доход</div>
         <div class="menu__item" data-id="minus">Новый расход</div>
         <div class="menu__item" data-id="kat">Категории</div>
@@ -10,14 +10,18 @@
     </div>
     <div class="inner__right">
       <div class="content">
-        {{menuId}}
+        <div class="content-item" v-show="menuId == 'kat'">
+          <category-handler/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import CategoryHandler from './CategoryHandler.vue';
 export default {
+  components: { CategoryHandler },
   name: 'MainContent',
   data() {
     return {
