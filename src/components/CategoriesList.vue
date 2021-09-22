@@ -8,12 +8,16 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapActions} from 'vuex';
 import Category from './Category.vue';
 export default {
   components: { Category },
   name: 'CategoriesList',
   computed: mapGetters(['getAllCategories']),
+  methods: mapActions(['getData']),
+  async mounted() {
+    this.getData();
+  }
 
 }
 </script>

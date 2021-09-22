@@ -1,7 +1,8 @@
 <template>
   <li>
-    <div class="type">{{item.type}}</div>
-    <div class="title">{{item.name}}</div>
+    <div>{{item.id}}</div>
+    <div class="row">{{item.type}}</div>
+    <div class="row">{{item.name}}</div>
   </li>
 </template>
 <script>
@@ -14,11 +15,8 @@ export default {
   li {
     padding: 5px;
     display: flex;
-    .type {
-      width: 100px;
-    }
-    .title {
-      width: 100px;
+    .row {
+      margin-left: 10px;
     }
   }
 </style>

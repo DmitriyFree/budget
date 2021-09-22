@@ -10,6 +10,9 @@
     </div>
     <div class="inner__right">
       <div class="content">
+        <div class="content-item" v-show="menuId == 'bill'">
+          <statistics-handler/>
+        </div>
         <div class="content-item" v-show="menuId == 'kat'">
           <category-handler/>
         </div>
@@ -19,9 +22,10 @@
 </template>
 
 <script>
+import StatisticsHandler from './StatisticsHandler.vue'
 import CategoryHandler from './CategoryHandler.vue';
 export default {
-  components: { CategoryHandler },
+  components: { CategoryHandler, StatisticsHandler },
   name: 'MainContent',
   data() {
     return {

@@ -1,35 +1,6 @@
 export default {
   state: {
-    categories: [
-      {
-        name: 'Зарплата',
-        type: 'Доход'
-      },
-      {
-        name: 'Депозит',
-        type: 'Доход'
-      },
-      {
-        name: 'Другое',
-        type: 'Доход'
-      },
-      {
-        name: 'Еда',
-        type: 'Расход'
-      },
-      {
-        name: 'Дом',
-        type: 'Расход'
-      },
-      {
-        name: 'Машына',
-        type: 'Расход'
-      },
-      {
-        name: 'Развленения',
-        type: 'Расход'
-      },
-    ]
+    categories: []
   },
   getters: {
     getAllCategories(state) {
@@ -37,10 +8,29 @@ export default {
     }
   },
   mutations: {
-    addCategory(state, category) {
-      state.categories.push(category);
+    upDate(state, categories) {
+      state.categories = categories;
     }
   },
   actions: {
+    async getData(ctx) {
+      const res = await fetch('http://localhost:3000/categories');
+      if (!res.ok) {
+
+      }
+      const data =  await res.json();
+      ctx.commit('upDate', data);
+    }
+    ,
+    async addCategory(ctx, category) {
+      const res = await fetch('http://localhost:3000/categories', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: category
+      });
+      await ctx.dispatch('getData');
+    },
   },
 }

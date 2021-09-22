@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapActions} from 'vuex';
 export default {
   name: 'CreateCategoryForm',
   data() {
@@ -23,14 +23,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['addCategory']),
+    ...mapActions(['addCategory']),
     formHandler() {
       if (this.name && this.type) {
         const newCategory = {
           name: this.name,
           type: this.type
         }
-        this.addCategory(newCategory);
+        this.addCategory(JSON.stringify(newCategory));
         this.resetForm();
       }
     },
