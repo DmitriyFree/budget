@@ -8,7 +8,7 @@
   </div>
 </template>
 <script>
-import CategoriesList from './CategoriesList.vue'
+import CategoriesList from '../record/CategoriesList.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
 export default {
   components: { CreateCategoryForm, CategoriesList },

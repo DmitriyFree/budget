@@ -1,4 +1,38 @@
 {
+  "bills": [
+    {
+      "id": 1,
+      "name": "Наличные",
+      "currency": "UAH",
+      "startBalance": 0,
+      "records": [
+        {
+          "id": 1,
+          "type": "Доход",
+          "category": "Зарплата",
+          "date": "Fri Sep 24 2021",
+          "sum": "10000",
+          "description": ""
+        },
+        {
+          "id": 2,
+          "type": "Расход",
+          "category": "Дом",
+          "date": "Fri Sep 24 2021",
+          "sum": "3000",
+          "description": ""
+        },
+        {
+          "id": 3,
+          "type": "Расход",
+          "category": "Еда",
+          "date": "Fri Sep 24 2021",
+          "sum": "2000",
+          "description": ""
+        }
+      ]
+    }
+  ],
   "categories": [
     {
       "id": 1,
@@ -36,7 +70,21 @@
       "id": 7
     }
   ],
-  "records": [
-
+  "currency": [
+    {
+      "title": "Гривня",
+      "short": "UAH",
+      "id": 1
+    },
+    {
+      "title": "Американский Долар",
+      "short": "USD",
+      "id": 2
+    },
+    {
+      "title": "Евро",
+      "short": "EUR",
+      "id": 3
+    }
   ]
 }
