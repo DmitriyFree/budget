@@ -28,13 +28,14 @@ export default {
     //   }
     //   return await res.json();
     // },
-    async addBills(ctx, bill) {
+    async addBill(ctx, bill) {
+      const data = JSON.stringify(bill);
       const res = await fetch('http://localhost:3000/bills', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
-        body: bill
+        body: data
       });
       await ctx.dispatch('getBills');
     },
@@ -48,5 +49,14 @@ export default {
       });
       await ctx.dispatch('getBills');
     },
+    async removeBillById(ctx, id) {
+      const res = await fetch(`http://localhost:3000/bills/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json'
+        },
+      });
+      await ctx.dispatch('getBills');
+    }
   },
 }

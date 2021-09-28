@@ -5,14 +5,16 @@
     </div>
     <div class="record-handler__form">
       <create-record-form/>
+      <statistic/>
     </div>
   </div>
 </template>
 
 <script>
 import CreateRecordForm from './CreateRecordForm.vue'
+import Statistic from './Statistic.vue'
 export default {
-  components: { CreateRecordForm },
+  components: { CreateRecordForm, Statistic },
   name: 'RecordHandler'
 }
 </script>

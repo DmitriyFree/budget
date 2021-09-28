@@ -1,10 +1,10 @@
 <template>
-  <div class="statistics">
-    <div class="statistics__header">
-      <div class="statistics__header-title">Баланс</div>
-      <div class="statistics__header-result">5000</div>
+  <div class="balance">
+    <div class="balance__header">
+      <div class="balance__header-title">Баланс</div>
+      <div class="balance__header-result">5000</div>
     </div>
-    <div class="statistics__total">
+    <div class="balance__total">
       <div class="top">
         <div class="top-title">Доход</div>
         <div class="top-result">10000</div>
@@ -22,12 +22,12 @@
 import StatisticCategory from './StatisticCategory.vue'
 export default {
   components: { StatisticCategory },
-  name: 'StatisticsHandler'
+  name: 'BalanceHandler'
 }
 </script>
 
 <style lang="scss" scoped>
-  .statistics {
+  .balance {
     padding: 10px 20px;
     &__header {
       padding: 10px 0;

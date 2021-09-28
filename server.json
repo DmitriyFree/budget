@@ -31,6 +31,20 @@
           "description": ""
         }
       ]
+    },
+    {
+      "name": "Карта",
+      "currency": "UAH",
+      "startBalance": 0,
+      "records": [],
+      "id": 2
+    },
+    {
+      "name": "Долар",
+      "currency": "USD",
+      "startBalance": "0",
+      "records": [],
+      "id": 3
     }
   ],
   "categories": [
