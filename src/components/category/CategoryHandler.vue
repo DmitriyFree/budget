@@ -1,18 +1,29 @@
 <template>
-  <div class="category">
-    <div class="category__title">Категории</div>
-    <div class="category__content">
-      <create-category-form/>
+  <div class="handler">
+    <div class="handler__header">
+      <div class="title">Категории</div>
+      <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
+      </div>
+    </div>
+    <div class="handler__content">
+      <div class="handler__content-form" v-bind:class="{done: !btnActive}">
+        <create-category-form/>
+      </div>
       <categories-list/>
     </div>
   </div>
 </template>
 <script>
-import CategoriesList from '../record/CategoriesList.vue'
+import CategoriesList from '../category/CategoriesList.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
 export default {
   components: { CreateCategoryForm, CategoriesList },
   name: 'CategoryHandler',
+    data() {
+    return {
+      btnActive: false
+    }
+  }
 }
 </script>
 

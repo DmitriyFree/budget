@@ -1,12 +1,14 @@
 <template>
-  <div class="currency-handler">
-    <div class="currency-handler__header">
-      <div class="currency-handler__header-title">Валюты</div>
+    <div class="handler">
+    <div class="handler__header">
+      <div class="title">Валюты</div>
+      <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
+      </div>
     </div>
-    <div class="currency-handler__form">
-      <create-currency-form/>
-    </div>
-    <div class="currency-handler__list">
+    <div class="handler__content">
+      <div class="handler__content-form" v-bind:class="{done: !btnActive}">
+        <create-currency-form/>
+      </div>
       <currency-list/>
     </div>
   </div>
@@ -17,7 +19,12 @@ import CreateCurrencyForm from './CreateCurrencyForm.vue'
 import CurrencyList from './CurrencyList.vue'
 export default {
   components: { CreateCurrencyForm, CurrencyList },
-  name: 'CurrencyHandler'
+  name: 'CurrencyHandler',
+  data() {
+    return {
+      btnActive: false
+    }
+  }
 }
 </script>
 

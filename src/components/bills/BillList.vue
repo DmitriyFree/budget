@@ -1,6 +1,6 @@
 <template>
-  <div class="bills">
-    <div class="bills__title">Список категорий</div>
+  <div class="list-header">
+    <div class="list-header__title">Список счетов</div>
     <table>
       <thead>
         <tr>
@@ -34,12 +34,11 @@ export default {
   computed: mapGetters(['getAllBills']),
   methods: {
     ...mapActions(['getBills', 'removeBillById']),
-    remove(val) {
-      const c = confirm('Вы уверенны?');
-      if(c) {
-        this.removeBillById(val);
+    remove(id) {
+      const result = confirm('Вы уверенны?');
+      if(result) {
+        this.removeBillById(id);
       }
-
     }
   },
   async mounted() {
@@ -50,49 +49,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .bills {
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-      padding: 20px 0 10px;
-    }
-    &-list {
-      list-style: none;
-    }
-  }
-  table {
-    border-collapse: collapse;
-  }
-  thead {
-    // background: #00aacc;
-    background: #11aaf3;
-    tr th {
-      padding: 10px 15px;
-    }
-  }
-  tbody {
-    tr td {
-      padding: 10px 15px;
-    }
-  }
-  td, th {
-      border: 1px solid #777;
-  }
-  .td-btn {
-    display: flex;
-    .edit__btn {
-    background: #17ac17;
-    padding: 5px 10px;
-    text-align: center;
-    cursor: pointer;
-    }
-    .remove__btn {
-    background: #e90909;
-    margin-left: 15px;
-    padding: 5px 10px;
-    text-align: center;
-    cursor: pointer;
-    }
-  }
-
 </style>

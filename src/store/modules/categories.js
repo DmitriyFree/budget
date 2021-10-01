@@ -33,5 +33,14 @@ export default {
       });
       await ctx.dispatch('getData');
     },
+    async removeCategoryById(ctx, id) {
+      const res = await fetch(`http://localhost:3000/categories/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json'
+        },
+      });
+      await ctx.dispatch('getData');
+    }
   },
 }

@@ -29,5 +29,14 @@ export default {
       });
       await ctx.dispatch('getCurrencyData');
     },
+    async removeCurrencyById(ctx, id) {
+      const res = await fetch(`http://localhost:3000/currency/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-type': 'application/json'
+        },
+      });
+      await ctx.dispatch('getCurrencyData');
+    }
   },
 }
