@@ -5,7 +5,10 @@ export default {
   getters: {
     getAllBills(state) {
       return state.bills;
-    }
+    },
+    // getBillById(state) {
+    //   return 5;
+    // }
   },
   mutations: {
     updateBills(state, bills) {
@@ -21,13 +24,13 @@ export default {
       const bills =  await res.json();
       ctx.commit('updateBills', bills);
     },
-    // async getBillById(ctx, id) {
-    //   const res = await fetch(`http://localhost:3000/bills/${id}`);
-    //   if (!res.ok) {
+    async getBillById(ctx, id) {
+      const res = await fetch(`http://localhost:3000/bills/${id}`);
+      if (!res.ok) {
 
-    //   }
-    //   return await res.json();
-    // },
+      }
+      return await res.json();
+    },
     async addBill(ctx, bill) {
       const data = JSON.stringify(bill);
       const res = await fetch('http://localhost:3000/bills', {
@@ -40,6 +43,7 @@ export default {
       await ctx.dispatch('getBills');
     },
     async putBillById(ctx, data) {
+      console.log(data);
       const res = await fetch(`http://localhost:3000/bills/${data.id}`, {
         method: 'PUT',
         headers: {
@@ -56,6 +60,34 @@ export default {
           'Content-type': 'application/json'
         },
       });
+      await ctx.dispatch('getBills');
+    },
+    async removeRecordlById(ctx, data) {
+
+      console.log(data);
+      const bill = await ctx.dispatch('getBillById', data.bill);
+
+      let records = bill.records;
+      console.log(records);
+      if(data.record > -1) {
+        records.splice(data.record - 1, 1);
+      }
+      console.log(records);
+      bill.records = records;
+      const newData = {
+        id: data.bill,
+        bill: JSON.stringify(bill)
+      }
+      await ctx.dispatch('putBillById', newData);
+
+
+
+      // const res = await fetch(`http://localhost:3000/bills/${data.id}`, {
+      //   method: 'PUT',
+      //   headers: {
+      //     'Content-type': 'application/json'
+      //   },
+      // });
       await ctx.dispatch('getBills');
     }
   },

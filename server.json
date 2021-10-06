@@ -29,6 +29,30 @@
           "date": "Fri Sep 24 2021",
           "sum": "2000",
           "description": ""
+        },
+        {
+          "id": 4,
+          "type": "Доход",
+          "category": "Зарплата",
+          "date": "Sat Oct 02 2021",
+          "sum": "5000",
+          "description": "Зарплата"
+        },
+        {
+          "id": 6,
+          "type": "Расход",
+          "category": "Еда",
+          "date": "Tue Oct 05 2021",
+          "sum": "550",
+          "description": ""
+        },
+        {
+          "id": 6,
+          "type": "Расход",
+          "category": "Машына",
+          "date": "Tue Oct 05 2021",
+          "sum": "500",
+          "description": ""
         }
       ]
     },
@@ -42,7 +66,7 @@
     {
       "name": "Долар",
       "currency": "USD",
-      "startBalance": "0",
+      "startBalance": 0,
       "records": [],
       "id": 3
     }

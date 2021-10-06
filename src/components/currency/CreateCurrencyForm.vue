@@ -1,11 +1,28 @@
 <template>
-  <div>
-    <form class="currency-form" @submit.prevent="formHandler">
+  <div class="create-form">
+    <!-- <form class="currency-form" @submit.prevent="formHandler">
       <div class="currency-form__title">Добавить Валюту</div>
       <input class="currency-form__name form-row" type="text" name="title" v-model="title">
       <input class="currency-form__short form-row" type="text" name="short" v-model="short">
       <button class="currency-form__btn form-row" type="submit">ДОБАВИТЬ</button>
-    </form>
+    </form> -->
+    <form @submit.prevent="formHandler">
+      <div class="title">Добавить Валюту</div>
+      <div class="row">
+        <label>Title</label>
+        <input type="text" required v-model="title">
+        <!-- v-bind:value="currency.title" -->
+      </div>
+      <div class="row">
+        <label>Short</label>
+        <input type="text" required v-model="short">
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+        <!-- <div class="inner"></div>
+        <button type="submit">login</button> -->
+      </button>
+     </form>
   </div>
 </template>
 
@@ -27,7 +44,7 @@ export default {
           title: this.title,
           short: this.short
         }
-        await this.addCurrency(JSON.stringify(data));
+        await this.addCurrency(data);
         this.resetForm();
       } else {
         console.log('Enter data');
@@ -43,31 +60,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .currency-form {
+  .create-form {
+    position: relative;
+    padding: 20px 0 20px;
     border-bottom: 1px solid #aaa;
-    padding: 10px 0 20px;
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    &__name {
-      height: 30px;
-    }
-    &__short {
-      height: 30px;
-    }
-    &__btn {
-      font-weight: 700;
-      color: #000;
-      background: #00aacc80;
-      padding: 10px 25px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-  .form-row {
-    margin-top: 10px;
-    display: block;
-    outline: none;
   }
 </style>

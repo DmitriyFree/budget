@@ -5,6 +5,12 @@ export default {
   getters: {
     getAllCurrencies(state) {
       return state.currency;
+    },
+    getCurrencyById(state) {
+      return (id) => {
+        const arr = state.currency.filter(item => item.id === id)
+        return arr[0];
+      }
     }
   },
   mutations: {
@@ -20,12 +26,14 @@ export default {
       ctx.commit('updateCurrency', data);
     },
     async addCurrency(ctx, data) {
+      if(!data) return
+      const json = JSON.stringify(data);
       const res = await fetch('http://localhost:3000/currency', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
-        body: data
+        body: json
       });
       await ctx.dispatch('getCurrencyData');
     },
@@ -35,6 +43,18 @@ export default {
         headers: {
           'Content-type': 'application/json'
         },
+      });
+      await ctx.dispatch('getCurrencyData');
+    },
+    async putCurrencyById(ctx, data) {
+      if(!data.currency) return
+      const jsonData = JSON.stringify(data.currency)
+      const res = await fetch(`http://localhost:3000/currency/${data.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: jsonData
       });
       await ctx.dispatch('getCurrencyData');
     }

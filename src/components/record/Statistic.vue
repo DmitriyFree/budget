@@ -1,6 +1,6 @@
 <template>
  <div>
-   <select name="" id="">
+   <select class="bills-select" @change="selectHandler">
      <option v-for="item in getAllBills" :key="item.id">{{item.name}}</option>
    </select>
   <div class="statistic">
@@ -9,31 +9,28 @@
       <div class="statistic__header-result">{{total}}</div>
     </div>
     <div class="statistic__total">
-      <div class="top">
+      <div class="top" @click="topActive = !topActive">
         <div class="top-title">Доход</div>
         <div class="top-result">{{income}}</div>
+        <div class="top-btn" v-bind:class="{active: !topActive}">
+          <img src="@/assets/images/triangle.svg" alt="">
+        </div>
       </div>
-      <div class="top-list" v-for="item in inCat" :key="item[0]">
-        <category-statistic-item v-bind:item="item[1]"/>
+      <div class="top-list" v-for="item in inCat" :key="item[0]" v-bind:class="{done: topActive}">
+        <category-statistic-item v-bind:item="item[1]" v-bind:selectedBill="selectedBill"/>
       </div>
       <div class="bottom" @click="bottomActive = !bottomActive">
         <div class="bottom-title">Расход</div>
         <div class="bottom-result">{{outcome}}</div>
+          <div class="top-btn" v-bind:class="{active: !bottomActive}">
+          <img src="@/assets/images/triangle.svg" alt="">
+        </div>
       </div>
       <div class="bottom-list" v-for="item in outCat" :key="item[0]" v-bind:class="{done: bottomActive}">
-        <category-statistic-item v-bind:item="item[1]"/>
+        <category-statistic-item v-bind:item="item[1]" v-bind:selectedBill="selectedBill"/>
       </div>
     </div>
    </div>
-
-   <!-- <div>
-     <span>{{income}}</span>
-     <span>{{outcome}}</span>
-     <span>{{total}}</span>
-   </div>
-   <ul v-for="item in outCat" :key="item.key">
-     <li>{{item[1].name}} {{item[1].total}}</li>
-   </ul> -->
  </div>
 </template>
 
@@ -45,12 +42,16 @@ export default {
   name: 'Statistic',
   data() {
     return {
+      bills: [],
       income: 0,
       outcome: 0,
       total: 0,
       inCat: [],
       outCat: [],
-      bottomActive: true
+      selectedBill: 0,
+      topActive: true,
+      bottomActive: true,
+      id: 0
     }
   },
   computed: mapGetters(['getAllBills']),
@@ -68,6 +69,7 @@ export default {
         this.outcome = this.culcRecords(outcomeRecords);
 
         this.total = this.income - this.outcome;
+        this.selectedBill = bill.id;
       }
     },
     culcCategory(records) {
@@ -96,11 +98,15 @@ export default {
       });
       return result;
     },
+    selectHandler(e) {
+      const index = e.target.selectedIndex;
+      this.culcBill(this.bills[index]);
+    }
   },
   async mounted() {
     await this.getBills();
-    const bills = await this.getAllBills;;
-    this.culcBill(bills[0]);
+    this.bills = await this.getAllBills;;
+    this.culcBill(this.bills[this.selectedBill]);
     // this.click();
   }
 }
@@ -120,6 +126,7 @@ export default {
       &-result {
         font-size: 20px;
         margin-left: 10px;
+
       }
     }
     &__total {
@@ -129,16 +136,33 @@ export default {
   }
   .top, .bottom {
     display: flex;
-    padding: 5px 0;
+    padding: 10px 5px;
     font-size: 18px;
     line-height: 20px;
+    background: #11aaf3;
     cursor: pointer;
+    border-bottom: 1px solid #fff;
     &-title {
       font-weight: 700;
     }
     &-result {
-      margin-left: 10px;
+      margin-left: 15px;
     }
+    &-btn {
+      margin-left: 25px;
+      &.active {
+         transform: rotate(90deg);
+        }
+    }
+  }
+  .bills-select {
+    display: block;
+    outline: none;
+    padding: 5px 10px;
+    margin-top: 15px;
+  }
+  .bottom {
+    margin-top: 10px;
   }
   .bottom-list {
     transition: 1s;

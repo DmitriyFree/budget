@@ -21,6 +21,9 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+input {
+  outline: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -120,6 +123,46 @@ table {
     padding: 5px 10px;
     text-align: center;
     cursor: pointer;
+    }
+  }
+  form {
+    .title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .row {
+      margin-top: 10px;
+      label {
+        display: block;
+        font-size: 14px;
+        color: #11aaf3;
+        // color: #000;
+        max-width: 220px;
+        overflow: hidden;
+      }
+      input {
+        height: 32px;
+        width: 220px;
+        padding: 0 10px;
+        border: 1px solid #11aaf3;
+        // border: 1px solid #000;
+        font-size: 16px;
+        line-height: 17px;
+        color: #232323;
+      }
+      &.btn {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        background: #11aaf3;;
+        padding: 10px 25px;
+        margin-top: 22px;
+        border: none;
+        cursor: pointer;
+        max-width: 200px;
+        overflow: hidden;
+      }
     }
   }
 </style>

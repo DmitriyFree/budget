@@ -77,7 +77,7 @@ export default {
           break;
         }
       }
-      return "Сентября";
+      return month;
     },
   },
 };

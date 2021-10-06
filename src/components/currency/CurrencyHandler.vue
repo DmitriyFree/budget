@@ -1,5 +1,5 @@
 <template>
-    <div class="handler">
+  <div class="handler">
     <div class="handler__header">
       <div class="title">Валюты</div>
       <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
