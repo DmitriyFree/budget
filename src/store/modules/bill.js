@@ -6,9 +6,12 @@ export default {
     getAllBills(state) {
       return state.bills;
     },
-    // getBillById(state) {
-    //   return 5;
-    // }
+    getBillById(state) {
+      return (id) => {
+        const arr = state.bills.filter(item => item.id === id);
+        return arr[0];
+      }
+    }
   },
   mutations: {
     updateBills(state, bills) {
@@ -88,6 +91,18 @@ export default {
       //     'Content-type': 'application/json'
       //   },
       // });
+      await ctx.dispatch('getBills');
+    },
+    async putBillById(ctx, data) {
+      if(!data.bill) return
+      const jsonData = JSON.stringify(data.bill)
+      const res = await fetch(`http://localhost:3000/bills/${data.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: jsonData
+      });
       await ctx.dispatch('getBills');
     }
   },

@@ -4,7 +4,6 @@
       <div class="row">
         <label>Title</label>
         <input type="text" required v-model="title">
-        <!-- v-bind:value="currency.title" -->
       </div>
       <div class="row">
         <label>Short</label>
@@ -12,8 +11,6 @@
       </div>
       <button type="submit" class="row btn">
         Изменить
-        <!-- <div class="inner"></div>
-        <button type="submit">login</button> -->
       </button>
      </form>
   </div>
@@ -23,7 +20,6 @@ import {mapGetters, mapActions, mapMutations} from 'vuex'
 export default {
   name: "EditCurrencyForm",
   props: ['currency'],
-  computed: mapGetters(['getCurrencyById']),
   data() {
     return {
       id: 1,
@@ -57,10 +53,4 @@ export default {
 },
 };
 </script>
-<style lang="scss" scoped>
-  .edit-form {
-    padding: 25px 20px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.1);
-  }
-
-</style>
+<style lang="scss" scoped></style>

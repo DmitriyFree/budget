@@ -17,28 +17,44 @@
           <td>{{item.currency}}</td>
           <td>
             <div class="td-btn">
-              <div class="edit__btn">Edit</div>
+              <div class="edit__btn" @click="editBill(item.id)">Edit</div>
               <div class="remove__btn" @click="remove(item.id)">Remove</div>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <modal v-show="getModalActive">
+      <edit-bill-form v-bind:bill="elem"/>
+    </modal>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
+import Modal from '../modal/Modal.vue';
+import EditBillForm from './EditBillForm.vue';
 export default {
+  components: { Modal, EditBillForm },
   name: 'BillList',
-  computed: mapGetters(['getAllBills']),
+  computed: mapGetters(['getAllBills', 'getBillById', 'getModalActive']),
+  data() {
+    return {
+      elem: ''
+    }
+  },
   methods: {
     ...mapActions(['getBills', 'removeBillById']),
+    ...mapMutations(['changeModalActive']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
         this.removeBillById(id);
       }
+    },
+    editBill(id) {
+      this.changeModalActive(true);
+      this.elem = this.getBillById(id);
     }
   },
   async mounted() {

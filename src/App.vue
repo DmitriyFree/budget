@@ -150,6 +150,13 @@ table {
         line-height: 17px;
         color: #232323;
       }
+      select {
+        display: block;
+        outline: none;
+        padding: 6px 10px;
+        border: 1px solid #11aaf3;
+        background: transparent;
+      }
       &.btn {
         display: inline-block;
         font-size: 14px;
@@ -164,5 +171,14 @@ table {
         overflow: hidden;
       }
     }
+  }
+  .create-form {
+    position: relative;
+    padding: 20px 0 20px;
+    border-bottom: 1px solid #aaa;
+  }
+  .edit-form {
+    padding: 25px 20px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
   }
 </style>

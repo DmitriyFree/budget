@@ -18,46 +18,51 @@
           <td>{{item.type}}</td>
           <td>
             <div class="td-btn">
-              <div class="edit__btn">Edit</div>
+              <div class="edit__btn" @click.prevent="editCategory(item.id)">Edit</div>
               <div class="remove__btn" @click="remove(item.id)">Remove</div>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <modal v-show="getModalActive">
+      <edit-category-form v-bind:category="element"/>
+    </modal>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
+import Modal from '../modal/Modal.vue';
+import EditCategoryForm from './EditCategoryForm.vue';
 export default {
+  components: { Modal, EditCategoryForm },
   name: 'CategoriesList',
-  computed: mapGetters(['getAllCategories']),
+  computed: mapGetters(['getAllCategories', 'getModalActive', 'getCategoryById']),
+  data() {
+    return {
+      element: ''
+    }
+  },
   methods: {
-    ...mapActions(['getData', 'removeCategoryById']),
+    ...mapActions(['getCategoriesData', 'removeCategoryById']),
+    ...mapMutations(['changeModalActive']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
         this.removeCategoryById(id);
       }
+    },
+    editCategory(id) {
+      this.changeModalActive(true);
+      this.element = this.getCategoryById(id);
     }
   },
   async mounted() {
-    this.getData();
+    this.getCategoriesData();
   }
 
 }
 </script>
 
-<style lang="scss" scoped>
-  // .categories {
-  //   &__title {
-  //     font-size: 18px;
-  //     font-weight: 700;
-  //     padding: 20px 0 10px;
-  //   }
-  //   &-list {
-  //     list-style: none;
-  //   }
-  // }
-</style>
+<style lang="scss" scoped></style>

@@ -1,17 +1,10 @@
 <template>
   <div class="create-form">
-    <!-- <form class="currency-form" @submit.prevent="formHandler">
-      <div class="currency-form__title">Добавить Валюту</div>
-      <input class="currency-form__name form-row" type="text" name="title" v-model="title">
-      <input class="currency-form__short form-row" type="text" name="short" v-model="short">
-      <button class="currency-form__btn form-row" type="submit">ДОБАВИТЬ</button>
-    </form> -->
     <form @submit.prevent="formHandler">
       <div class="title">Добавить Валюту</div>
       <div class="row">
         <label>Title</label>
         <input type="text" required v-model="title">
-        <!-- v-bind:value="currency.title" -->
       </div>
       <div class="row">
         <label>Short</label>
@@ -19,8 +12,6 @@
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
-        <!-- <div class="inner"></div>
-        <button type="submit">login</button> -->
       </button>
      </form>
   </div>

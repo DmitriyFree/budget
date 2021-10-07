@@ -1,17 +1,25 @@
 <template>
-  <div>
-    <form class="bill-form" @submit.prevent="formHandler">
-      <div class="bill-form__title">Новый Счет</div>
-      <input class="bill-form__name form-row" type="text" name="name" v-model="name" placeholder="Название">
-      <div class="bill-form__type">
-        <div class="title">Валюта</div>
+  <div class="create-form">
+    <form @submit.prevent="formHandler">
+      <div class="title">Новый Счет</div>
+      <div class="row">
+        <label>Название</label>
+        <input type="text" required v-model="name">
+      </div>
+       <div class="row">
+        <label>Валюта</label>
         <select v-model="currency">
           <option v-for="item in getAllCurrencies" :key="item.id" >{{item.short}}</option>
         </select>
       </div>
-      <input class="bill-form__name form-row" type="text" name="name" v-model="start" placeholder="Начальный баланс">
-      <button class="bill-form__btn form-row" type="submit">ДОБАВИТЬ</button>
-    </form>
+      <div class="row">
+        <label>Начальный баланс</label>
+        <input type="text" required v-model="start">
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+      </button>
+     </form>
   </div>
 </template>
 
@@ -54,43 +62,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .bill-form {
-    border-bottom: 1px solid #aaa;
-    padding: 10px 0 20px;
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    &__name {
-      height: 30px;
-    }
-    &__type {
-      display: flex;
-      margin-top: 10px;
-      .title {
-        font-weight: 700;
-        line-height: 30px;
-      }
-      select {
-        display: block;
-        outline: none;
-        padding: 5px 10px;
-        margin-left: 10px;
-      }
-    }
-    &__btn {
-      font-weight: 700;
-      color: #000;
-      background: #00aacc80;
-      padding: 10px 25px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-  .form-row {
-    margin-top: 10px;
-    display: block;
-    outline: none;
-  }
-</style>
+<style lang="scss" scoped></style>

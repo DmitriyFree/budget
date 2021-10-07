@@ -1,14 +1,22 @@
 <template>
-  <div>
-    <form class="category-form" @submit.prevent="formHandler">
-      <div class="category-form__title">Создать</div>
-      <input class="category-form__name form-row" type="text" name="name" v-model="name">
-      <select class="category-form__type form-row" v-model="type">
-        <option selected value="Доход">Доход</option>
-        <option value="Расход">Расход</option>
-      </select>
-      <button class="category-form__btn form-row" type="submit">ДОБАВИТЬ</button>
-    </form>
+  <div class="create-form">
+    <form @submit.prevent="formHandler">
+      <div class="title">Добавить Категорию</div>
+      <div class="row">
+        <label>Название</label>
+        <input type="text" required v-model="name">
+      </div>
+       <div class="row">
+        <label>Валюта</label>
+        <select class="category-form__type form-row" v-model="type">
+          <option selected value="Доход">Доход</option>
+          <option value="Расход">Расход</option>
+        </select>
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+      </button>
+     </form>
   </div>
 </template>
 
@@ -42,32 +50,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-  .category-form {
-    border-bottom: 1px solid #aaa;
-    padding: 10px 0 20px;
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    &__name {
-      height: 30px;
-    }
-    &__type {
-      padding: 5px;
-    }
-    &__btn {
-      font-weight: 700;
-      color: #000;
-      background: #00aacc80;
-      padding: 10px 25px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-  .form-row {
-    margin-top: 10px;
-    display: block;
-    outline: none;
-  }
-</style>
+<style lang="scss" scoped></style>
