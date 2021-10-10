@@ -1,6 +1,6 @@
 <template>
  <div>
-   <select class="bills-select" @change="selectHandler">
+   <select class="bills-select" @change="selectHandler" v-model="billName">
      <option v-for="item in getAllBills" :key="item.id">{{item.name}}</option>
    </select>
   <div class="statistic">
@@ -16,7 +16,7 @@
           <img src="@/assets/images/triangle.svg" alt="">
         </div>
       </div>
-      <div class="top-list" v-for="item in inCat" :key="item[0]" v-bind:class="{done: topActive}">
+      <div class="top-list" v-for="item in getIncomeRecords(billName)" :key="item[0]" v-bind:class="{done: topActive}">
         <category-statistic-item v-bind:item="item[1]" v-bind:selectedBill="selectedBill"/>
       </div>
       <div class="bottom" @click="bottomActive = !bottomActive">
@@ -26,88 +26,53 @@
           <img src="@/assets/images/triangle.svg" alt="">
         </div>
       </div>
-      <div class="bottom-list" v-for="item in outCat" :key="item[0]" v-bind:class="{done: bottomActive}">
+      <div class="bottom-list" v-for="item in getOutcomeRecords(billName)" :key="item[0]" v-bind:class="{done: bottomActive}">
         <category-statistic-item v-bind:item="item[1]" v-bind:selectedBill="selectedBill"/>
       </div>
     </div>
    </div>
+   <modal v-show="getModalActive">
+     <edit-record-form/>
+   </modal>
  </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex';
+import Modal from '../modal/Modal.vue';
 import CategoryStatisticItem from './CategoryStatisticItem.vue';
+import EditRecordForm from './EditRecordForm.vue';
 export default {
-  components: { CategoryStatisticItem },
+  components: { CategoryStatisticItem, Modal, EditRecordForm },
   name: 'Statistic',
   data() {
     return {
       bills: [],
+      total: 0,
       income: 0,
       outcome: 0,
-      total: 0,
-      inCat: [],
-      outCat: [],
       selectedBill: 0,
       topActive: true,
       bottomActive: true,
-      id: 0
+      id: 0,
+      billName: ''
     }
   },
-  computed: mapGetters(['getAllBills']),
+  computed: mapGetters(['getAllBills', 'getAllRecords', 'getModalActive', 'getIncomeRecords', 'getOutcomeRecords', 'getStatisticOneBill']),
   methods: {
-    ...mapActions(['getBills']),
-    culcBill(bill) {
-      if(bill.records) {
-        const incomeRecords = bill.records.filter(record => record.type == 'Доход');
-        const outcomeRecords = bill.records.filter(record => record.type == 'Расход');
-
-        this.inCat = this.culcCategory(incomeRecords);
-        this.outCat = this.culcCategory(outcomeRecords);
-
-        this.income = this.culcRecords(incomeRecords) + bill.startBalance;
-        this.outcome = this.culcRecords(outcomeRecords);
-
-        this.total = this.income - this.outcome;
-        this.selectedBill = bill.id;
-      }
-    },
-    culcCategory(records) {
-      let arr = new Map();
-      records.forEach(record => {
-        const nameCategory = record.category;
-        if (arr.has(nameCategory)) {
-          let obj = arr.get(nameCategory);
-          obj.total += +record.sum;
-          obj.records.push(record);
-          arr.set(record.category, obj);
-        } else {
-          arr.set(nameCategory, {
-            name: nameCategory,
-            total: +record.sum,
-            records: [record]
-          });
-        }
-      });
-      return arr;
-    },
-    culcRecords(records) {
-      let result = 0;
-      records.forEach(item => {
-        result += +(item.sum);
-      });
-      return result;
-    },
+    ...mapActions(['getBills', 'getRecordsData']),
     selectHandler(e) {
-      const index = e.target.selectedIndex;
-      this.culcBill(this.bills[index]);
+      const data = this.getStatisticOneBill(this.billName);
+      this.total = data.total;
+      this.income = data.income;
+      this.outcome = data.outcome;
+      // this.culcBill(this.bills[index].name);
     }
   },
   async mounted() {
     await this.getBills();
-    this.bills = await this.getAllBills;;
-    this.culcBill(this.bills[this.selectedBill]);
-    // this.click();
+    await this.getRecordsData();
+    this.bills = await this.getAllBills;
   }
 }
 </script>

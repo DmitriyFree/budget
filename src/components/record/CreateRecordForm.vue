@@ -7,28 +7,56 @@
 
     <form class="record-form" @submit.prevent="formHandler" v-show="income === true">
       <div class="record-form__title">Новый доход</div>
-      <select class="record-form__type form-row" v-model="bill">
-        <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
-      </select>
-      <select class="record-form__type form-row" v-model="category">
-        <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
-      </select>
-      <input class="record-form__name form-row" type="text" name="name" placeholder="Сумма" v-model="sum">
-      <input class="record-form__name form-row" type="text" name="name" placeholder="Описание" v-model="description">
-      <button class="record-form__btn form-row" type="submit" @submit.prevent="formHandler">ДОБАВИТЬ</button>
+      <div class="row">
+        <label>Счет</label>
+        <select v-model="bill">
+          <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Категория</label>
+        <select v-model="category">
+          <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Сумма</label>
+        <input type="text" required v-model="sum">
+      </div>
+      <div class="row">
+        <label>Описание</label>
+        <input type="text" required v-model="description">
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+      </button>
     </form>
 
     <form class="record-form" @submit.prevent="formHandler" v-show="income === false">
       <div class="record-form__title">Новый расход</div>
-      <select class="record-form__type form-row"  v-model="bill">
-        <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
-      </select>
-      <select class="record-form__type form-row" v-model="category">
-        <option v-for="item in outcomeCategories" :key="item.id">{{item.name}}</option>
-      </select>
-      <input class="record-form__name form-row" type="text" name="name" placeholder="Сумма" v-model="sum">
-      <input class="record-form__name form-row" type="text" name="name" placeholder="Описание" v-model="description">
-      <button class="record-form__btn form-row" type="submit" @submit.prevent="formHandler">ДОБАВИТЬ</button>
+      <div class="row">
+        <label>Счет</label>
+        <select v-model="bill">
+          <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Категория</label>
+        <select v-model="category">
+          <option v-for="item in outcomeCategories" :key="item.id">{{item.name}}</option>
+        </select>
+      </div>
+      <div class="row">
+        <label>Сумма</label>
+        <input type="text" required v-model="sum">
+      </div>
+      <div class="row">
+        <label>Описание</label>
+        <input type="text" required v-model="description">
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+      </button>
     </form>
   </div>
 </template>
@@ -56,7 +84,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBills', 'putBillById']),
+    ...mapActions(['getBills', 'putBillById', 'addRecord']),
     clickIncome() {
       this.income = true;
     },
@@ -65,27 +93,28 @@ export default {
     },
     formHandler() {
       if (this.bill && this.category && this.sum) {
-        const selected = this.getAllBills;
-        selected.filter(item => item.name == this.bill);
-        const oneBill = selected[0];
+        // const selected = this.getAllBills;
+        // selected.filter(item => item.name == this.bill);
+        // const oneBill = selected[0];
         const date = new Date();
         let type = 'Доход';
         if (!this.income) type = 'Расход';
 
         const newRecord = {
-          id: oneBill.records.length + 1,
+          bill: this.bill,
           type: type,
           category: this.category,
           date: date.toDateString(),
           sum: this.sum,
           description: this.description
         }
-        oneBill.records.push(newRecord);
-        const data = {
-          bill: JSON.stringify(oneBill),
-          id: 1
-        }
-        this.putBillById(data);
+        // oneBill.records.push(newRecord);
+        // const data = {
+        //   bill: JSON.stringify(oneBill),
+        //   id: 1
+        // }
+        // this.putBillById(data);
+        this.addRecord(newRecord)
 
       }
       this.resetForm();

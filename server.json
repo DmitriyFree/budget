@@ -70,6 +70,62 @@
       "id": 3
     }
   ],
+  "records": [
+    {
+      "id": 1,
+      "bill": "Наличные",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "Fri Sep 24 2021",
+      "sum": "10000",
+      "description": ""
+    },
+    {
+      "id": 2,
+      "bill": "Наличные",
+      "type": "Расход",
+      "category": "Дом",
+      "date": "Fri Sep 24 2021",
+      "sum": "3000",
+      "description": ""
+    },
+    {
+      "bill": "Наличные",
+      "type": "Расход",
+      "category": "Еда",
+      "date": "Fri Sep 24 2021",
+      "sum": "1000",
+      "description": "food",
+      "id": 3
+    },
+    {
+      "bill": "Наличные",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "Sat Oct 02 2021",
+      "sum": "7000",
+      "description": "Зарплата",
+      "id": 4
+    },
+    {
+      "bill": "Наличные",
+      "type": "Расход",
+      "category": "Еда",
+      "date": "Tue Oct 05 2021",
+      "sum": "700",
+      "description": "",
+      "id": 6
+    },
+    {
+      "id": 6,
+      "bill": "Наличные",
+      "type": "Расход",
+      "category": "Машына",
+      "date": "Tue Oct 05 2021",
+      "sum": "500",
+      "description": ""
+    }
+  ],
   "categories": [
     {
       "id": 1,
