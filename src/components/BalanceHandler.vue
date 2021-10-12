@@ -1,77 +1,66 @@
 <template>
-  <div class="balance">
-    <div class="balance__header">
-      <div class="balance__header-title">Баланс</div>
-      <div class="balance__header-result">5000</div>
+  <div class="handler statistic">
+    <div class="handler__header">
+      <div class="title">Баланс по Счетам</div>
     </div>
-    <div class="balance__total">
-      <div class="top">
-        <div class="top-title">Доход</div>
-        <div class="top-result">10000</div>
-      </div>
-      <div class="bottom">
-        <div class="bottom-title">Расход</div>
-        <div class="bottom-result">5000</div>
-      </div>
-    </div>
-    <statistic-category/>
+    <table>
+      <thead>
+        <tr>
+         <th>№</th>
+         <th>Название</th>
+         <th>Валюта</th>
+         <th>Доход</th>
+         <th>Расход</th>
+         <th>Сумма</th>
+         <th>Сумма в {{getMainCurrency.short}}</th>
+       </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item of getStatisticAllBills" :key="item.key">
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.currency}}</td>
+          <td>{{item.income}}</td>
+          <td>{{item.outcome}}</td>
+          <td>{{item.total}}</td>
+          <td>{{item.inMain}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script>
 import StatisticCategory from './StatisticCategory.vue'
+import {mapGetters, mapActions} from "vuex"
 export default {
   components: { StatisticCategory },
-  name: 'BalanceHandler'
+  name: 'BalanceHandler',
+  computed: {
+    ...mapGetters(['getStatisticAllBills', 'getMainCurrency'])
+  },
+  data() {
+    return {
+      billsStat: []
+    }
+  },
+  methods: {
+    ...mapActions(['getBills', 'getRecordsData', 'getCurrencyData']),
+    test(data) {
+      console.log(data);
+    }
+  },
+  async mounted() {
+    await this.getBills();
+    await this.getRecordsData();
+    await this.getCurrencyData();
+  }
+
 }
 </script>
 
 <style lang="scss" scoped>
-  .balance {
-    padding: 10px 20px;
-    &__header {
-      padding: 10px 0;
-      border-bottom: 1px solid #aaa;
-      display: flex;
-      &-title {
-        font-size: 20px;
-        font-weight: 700;
-      }
-      &-result {
-        font-size: 20px;
-        margin-left: 10px;
-      }
-    }
-    &__total {
-      padding: 10px 0;
-      border-bottom: 1px solid #aaa;
-    }
+  .statistic .handler__header {
+    border: none;
   }
-  .top, .bottom {
-    display: flex;
-    padding: 5px 0 0;
-    font-size: 18px;
-    line-height: 20px;
-    &-title {
-      font-weight: 700;
-    }
-    &-result {
-      margin-left: 10px;
-    }
-  }
-  // .top {
-  //   &-title {
-  //     font-size: 18px;
-  //     font-weight: 700;
-  //   }
-  // }
-  // .category {
-  //   padding: 10px 20px;
-  //   &__title {
-  //     padding: 10px 0;
-  //     font-size: 20px;
-  //     font-weight: 700;
-  //     border-bottom: 1px solid #aaa;
-  //   }
-  // }
 </style>

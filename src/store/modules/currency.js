@@ -11,6 +11,20 @@ export default {
         const arr = state.currency.filter(item => item.id === id)
         return arr[0];
       }
+    },
+    getCurrencyByShort(state) {
+      return (short) => {
+        const arr = state.currency.filter(item => item.short === short);
+        return arr[0];
+      }
+    },
+    getMainCurrency(state) {
+      let main = {};
+      const arr = state.currency;
+      arr.forEach(item => {
+        if (item.main == true) main = item;
+      });
+      return main
     }
   },
   mutations: {

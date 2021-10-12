@@ -1,13 +1,4 @@
 <template>
-  <!-- <div class="record-handler">
-    <div class="record-handler__header">
-      <div class="record-handler__header-title">Новая запись</div>
-    </div>
-    <div class="record-handler__form">
-      <create-record-form/>
-      <statistic/>
-    </div>
-  </div> -->
   <div class="handler">
     <div class="handler__header">
       <div class="title">Новая запись</div>

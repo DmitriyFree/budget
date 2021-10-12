@@ -3,7 +3,7 @@
     <div class="inner__left">
       <div class="menu" @click="menuListener">
         <div class="menu__item active" data-id="balance">Баланс</div>
-        <div class="menu__item" data-id="record">Новая запись</div>
+        <div class="menu__item" data-id="record">Записи</div>
         <div class="menu__item" data-id="kat">Категории</div>
         <div class="menu__item" data-id="bills">Счета</div>
         <div class="menu__item" data-id="currency">Валюты</div>

@@ -4,63 +4,12 @@
       "id": 1,
       "name": "Наличные",
       "currency": "UAH",
-      "startBalance": 0,
-      "records": [
-        {
-          "id": 1,
-          "type": "Доход",
-          "category": "Зарплата",
-          "date": "Fri Sep 24 2021",
-          "sum": "10000",
-          "description": ""
-        },
-        {
-          "id": 2,
-          "type": "Расход",
-          "category": "Дом",
-          "date": "Fri Sep 24 2021",
-          "sum": "3000",
-          "description": ""
-        },
-        {
-          "id": 3,
-          "type": "Расход",
-          "category": "Еда",
-          "date": "Fri Sep 24 2021",
-          "sum": "2000",
-          "description": ""
-        },
-        {
-          "id": 4,
-          "type": "Доход",
-          "category": "Зарплата",
-          "date": "Sat Oct 02 2021",
-          "sum": "5000",
-          "description": "Зарплата"
-        },
-        {
-          "id": 6,
-          "type": "Расход",
-          "category": "Еда",
-          "date": "Tue Oct 05 2021",
-          "sum": "550",
-          "description": ""
-        },
-        {
-          "id": 6,
-          "type": "Расход",
-          "category": "Машына",
-          "date": "Tue Oct 05 2021",
-          "sum": "500",
-          "description": ""
-        }
-      ]
+      "startBalance": 0
     },
     {
       "name": "Карта",
       "currency": "UAH",
       "startBalance": 0,
-      "records": [],
       "id": 2
     },
     {
@@ -167,16 +116,22 @@
     {
       "title": "Гривня",
       "short": "UAH",
+      "main": false,
+      "rate": 26.36,
       "id": 1
     },
     {
       "title": "Американский Долар",
       "short": "USD",
+      "main": true,
+      "rate": 1,
       "id": 2
     },
     {
       "title": "Евро",
       "short": "EUR",
+      "main": false,
+      "rate": 0.87,
       "id": 3
     }
   ]

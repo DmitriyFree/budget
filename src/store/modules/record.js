@@ -28,8 +28,6 @@ export default {
       return (billName) => {
         const records = state.records;
         const incomeRecords = records.filter(record => record.type == 'Доход' && record.bill == billName);
-        // const arr = state.bills.filter(item => item.id === id);
-        // return arr[0];
         let arr = new Map();
         incomeRecords.forEach(record => {
           const nameCategory = record.category;
