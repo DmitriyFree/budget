@@ -132,14 +132,24 @@ table {
     }
     .row {
       margin-top: 10px;
-      label {
+      .label {
         display: block;
-        font-size: 14px;
-        color: #11aaf3;
-        // color: #000;
         max-width: 220px;
         overflow: hidden;
+        label {
+          display: inline-block;
+          font-size: 14px;
+          color: #11aaf3;
+        // color: #000;
+        }
+        .error {
+          color: #e90909;
+          font-size: 12px;
+          margin-left: 15px;
+          // display: none;
+        }
       }
+
       input {
         height: 32px;
         width: 220px;

@@ -3,12 +3,18 @@
     <form @submit.prevent="formHandler">
       <div class="title">Добавить Валюту</div>
       <div class="row">
-        <label>Title</label>
-        <input type="text" required v-model="title">
+        <div class="label">
+          <label>Название</label>
+          <span class="error show">{{titleError}}</span>
+        </div>
+        <input type="text" required v-model="title" @input="resetTitleError">
       </div>
       <div class="row">
-        <label>Short</label>
-        <input type="text" required v-model="short">
+        <div class="label">
+          <label>Код</label>
+          <span class="error show">{{shortError}}</span>
+        </div>
+        <input type="text" required v-model="short" @input="resetShortError">
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
@@ -24,13 +30,15 @@ export default {
   data() {
     return {
       title: '',
-      short: ''
+      short: '',
+      titleError: '',
+      shortError: ''
     }
   },
   methods: {
     ...mapActions(['addCurrency']),
     async formHandler() {
-      if (this.title && this.short) {
+      if (this.checkFormData()) {
         const data = {
           title: this.title,
           short: this.short
@@ -41,6 +49,22 @@ export default {
         console.log('Enter data');
       }
 
+    },
+    checkFormData() {
+      if (!this.title && !this.short) return false;
+      if (this.title.length < 3) this.titleError = 'минимум 3 символа';
+      if (this.title.length > 20) this.titleError = 'максимум 20 символов';
+      if (this.short.length != 3) this.shortError = 'длина 3 символа';
+
+      if(this.titleError || this.shortError) return false;
+      return true;
+
+    },
+    resetTitleError() {
+      this.titleError = '';
+    },
+    resetShortError() {
+      this.shortError = '';
     },
     resetForm() {
       this.title= '';

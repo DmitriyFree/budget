@@ -116,8 +116,6 @@
     {
       "title": "Гривня",
       "short": "UAH",
-      "main": false,
-      "rate": 26.36,
       "id": 1
     },
     {
