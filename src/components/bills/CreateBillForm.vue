@@ -3,18 +3,27 @@
     <form @submit.prevent="formHandler">
       <div class="title">Новый Счет</div>
       <div class="row">
-        <label>Название</label>
-        <input type="text" required v-model="name">
+        <div class="label">
+          <label>Название</label>
+          <span class="error show">{{nameError}}</span>
+        </div>
+        <input type="text" required v-model="name" @input="resetNameError">
       </div>
        <div class="row">
-        <label>Валюта</label>
-        <select v-model="currency">
+        <div class="label">
+          <label>Валюта</label>
+          <span class="error">{{currencyError}}</span>
+        </div>
+        <select v-model="currency" required @input="resetCurrencyError">
           <option v-for="item in getAllCurrencies" :key="item.id" >{{item.short}}</option>
         </select>
       </div>
       <div class="row">
-        <label>Начальный баланс</label>
-        <input type="text" required v-model="start">
+        <div class="label">
+          <label>Начальный баланс</label>
+          <span class="error">{{startBalanceError}}</span>
+        </div>
+        <input type="text" v-model="startBalance" @input="resetStartBalanceError">
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
@@ -31,14 +40,17 @@ export default {
     return {
       name: '',
       currency: '',
-      start: ''
+      startBalance: 0,
+      nameError: '',
+      currencyError: '',
+      startBalanceError: ''
     }
   },
   computed: mapGetters(['getAllCurrencies']),
   methods: {
     ...mapActions(['getCurrencyData', 'addBill']),
     formHandler() {
-      if (this.name && this.currency && this.start) {
+      if (this.checkFormData()) {
         const newBill = {
           name: this.name,
           currency: this.currency,
@@ -49,6 +61,27 @@ export default {
         this.addBill(newBill);
         this.resetForm();
       }
+    },
+    checkFormData() {
+      if (!this.name) return false;
+      if (this.name.length < 3) this.nameError = 'минимум 3 символа';
+      if (this.name.length > 20) this.nameError = 'максимум 20 символов';
+      if (!this.currency) this.currencyError = 'выбирете тип';
+      if (isNaN(this.startBalance)) this.startBalanceError = 'только число';
+
+
+      if(this.nameError || this.currencyError || this.startBalanceError) return false;
+      return true;
+
+    },
+    resetNameError() {
+      this.nameError = '';
+    },
+    resetCurrencyError() {
+      this.currencyError = '';
+    },
+    resetStartBalanceError() {
+      this.startBalanceError = '';
     },
     resetForm() {
       this.name = '';

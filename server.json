@@ -15,7 +15,7 @@
     {
       "name": "Долар",
       "currency": "USD",
-      "startBalance": 0,
+      "startBalance": "",
       "id": 3
     }
   ],
@@ -77,9 +77,9 @@
   ],
   "categories": [
     {
-      "id": 1,
       "name": "Зарплата",
-      "type": "Доход"
+      "type": "Доход",
+      "id": 1
     },
     {
       "name": "Депозит",
@@ -116,6 +116,8 @@
     {
       "title": "Гривня",
       "short": "UAH",
+      "main": false,
+      "rate": 26.36,
       "id": 1
     },
     {

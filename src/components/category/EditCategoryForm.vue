@@ -2,12 +2,18 @@
   <div class="edit-form">
      <form @submit.prevent="formHandler">
       <div class="row">
-        <label>Название</label>
-        <input type="text" required v-model="name">
+        <div class="label">
+          <label>Название</label>
+          <span class="error">{{nameError}}</span>
+        </div>
+        <input type="text" required v-model="name" @input="resetNameError">
       </div>
        <div class="row">
-        <label>Валюта</label>
-        <select v-model="type">
+        <div class="label">
+          <label>Валюта</label>
+          <span class="error">{{typeError}}</span>
+        </div>
+        <select v-model="type" required @input="resetTypeError">
           <option>Доход</option>
           <option>Расход</option>
         </select>
@@ -27,14 +33,16 @@ export default {
     return {
       id: 0,
       name: '',
-      type: ''
+      type: '',
+      nameError: '',
+      typeError: ''
     }
   },
   methods: {
     ...mapActions(['putCategoryById']),
     ...mapMutations(['changeModalActive']),
     async formHandler() {
-      if (!this.id || !this.name || !this.type) return
+      if (!this.checkFormData()) return
       const data = {
         id: this.id,
         category: {
@@ -45,7 +53,23 @@ export default {
       await this.putCategoryById(data);
       this.changeModalActive(false);
 
-    }
+    },
+    checkFormData() {
+      if (!this.name) return false;
+      if (this.name.length < 3) this.nameError = 'минимум 3 символа';
+      if (this.name.length > 20) this.nameError = 'максимум 20 символов';
+      if (!this.type) this.typeError = 'выбирете тип';
+
+      if(this.nameError || this.typeError) return false;
+      return true;
+
+    },
+    resetNameError() {
+      this.nameError = '';
+    },
+    resetTypeError() {
+      this.typeError = '';
+    },
   },
   watch: {
     category() {
