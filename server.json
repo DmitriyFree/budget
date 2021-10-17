@@ -21,28 +21,28 @@
   ],
   "records": [
     {
-      "id": 1,
       "bill": "Наличные",
       "type": "Доход",
       "category": "Зарплата",
-      "date": "Fri Sep 24 2021",
-      "sum": "10000",
-      "description": ""
+      "date": "2021-09-24",
+      "sum": "9000",
+      "description": "",
+      "id": 1
     },
     {
-      "id": 2,
       "bill": "Наличные",
       "type": "Расход",
       "category": "Дом",
-      "date": "Fri Sep 24 2021",
+      "date": "2021-09-24",
       "sum": "3000",
-      "description": ""
+      "description": "",
+      "id": 2
     },
     {
       "bill": "Наличные",
       "type": "Расход",
       "category": "Еда",
-      "date": "Fri Sep 24 2021",
+      "date": "2021-09-24",
       "sum": "1000",
       "description": "food",
       "id": 3
@@ -51,7 +51,7 @@
       "bill": "Наличные",
       "type": "Доход",
       "category": "Зарплата",
-      "date": "Sat Oct 02 2021",
+      "date": "2021-10-02",
       "sum": "7000",
       "description": "Зарплата",
       "id": 4
@@ -59,20 +59,38 @@
     {
       "bill": "Наличные",
       "type": "Расход",
-      "category": "Еда",
-      "date": "Tue Oct 05 2021",
-      "sum": "700",
+      "category": "Машына",
+      "date": "2021-10-05",
+      "sum": "500",
       "description": "",
       "id": 6
     },
     {
-      "id": 6,
       "bill": "Наличные",
       "type": "Расход",
       "category": "Машына",
-      "date": "Tue Oct 05 2021",
+      "date": "2021-10-05",
       "sum": "500",
-      "description": ""
+      "description": "",
+      "id": 5
+    },
+    {
+      "bill": "Наличные",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "2021-10-15",
+      "sum": "4000",
+      "description": "",
+      "id": 7
+    },
+    {
+      "bill": "Карта",
+      "type": "Доход",
+      "category": "Другое",
+      "date": "2021-10-16",
+      "sum": "500",
+      "description": "",
+      "id": 8
     }
   ],
   "categories": [

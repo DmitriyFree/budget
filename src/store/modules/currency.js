@@ -25,6 +25,11 @@ export default {
         if (item.main == true) main = item;
       });
       return main
+    },
+    checkOriginalCode(state) {
+      return (code) => {
+        return false;
+      }
     }
   },
   mutations: {
@@ -71,6 +76,21 @@ export default {
         body: jsonData
       });
       await ctx.dispatch('getCurrencyData');
+    },
+    async resetMainCurrency(ctx) {
+      let mainCurrency = await ctx.getters.getMainCurrency;
+      mainCurrency.main = false;
+      const json = JSON.stringify(mainCurrency);
+      const res = await fetch(`http://localhost:3000/currency/${mainCurrency.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: json
+      });
+      await ctx.dispatch('getCurrencyData');
+
     }
+
   },
 }

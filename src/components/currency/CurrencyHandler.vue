@@ -10,6 +10,7 @@
         <create-currency-form/>
       </div>
       <currency-list/>
+      <div class="main-currency">Основная валюта {{getMainCurrency.title}} ({{getMainCurrency.short}})</div>
     </div>
   </div>
 </template>
@@ -17,13 +18,23 @@
 <script>
 import CreateCurrencyForm from './CreateCurrencyForm.vue'
 import CurrencyList from './CurrencyList.vue'
+import {mapGetters, mapActions} from "vuex"
 export default {
   components: { CreateCurrencyForm, CurrencyList },
   name: 'CurrencyHandler',
+  computed: {
+    ...mapGetters(['getMainCurrency'])
+  },
   data() {
     return {
       btnActive: false
     }
+  },
+  methods: {
+    ...mapActions(['getCurrencyData'])
+  },
+  async mounted() {
+    this.getCurrencyData();
   }
 }
 </script>
@@ -39,5 +50,9 @@ export default {
         font-weight: 700;
       }
     }
+  }
+  .main-currency {
+    font-weight: 700;
+    margin-top: 10px;
   }
 </style>

@@ -8,24 +8,45 @@
     <form class="record-form" @submit.prevent="formHandler" v-show="income === true">
       <div class="record-form__title">Новый доход</div>
       <div class="row">
+        <div class="label">
         <label>Счет</label>
-        <select v-model="bill">
+          <span class="error"></span>
+        </div>
+        <select v-model="bill" required>
           <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
         </select>
       </div>
       <div class="row">
+        <div class="label">
         <label>Категория</label>
-        <select v-model="category">
+          <span class="error"></span>
+        </div>
+        <select v-model="category" required>
           <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
         </select>
       </div>
       <div class="row">
+        <div class="label">
         <label>Сумма</label>
-        <input type="text" required v-model="sum">
+          <span class="error">{{sumError}}</span>
+        </div>
+        <input type="text" required v-model="sum" @input="resetSumError">
       </div>
+
       <div class="row">
+        <div class="label">
+        <label>Дата</label>
+          <span class="error">{{dateError}}</span>
+        </div>
+        <input type="date" required v-model="date" @input="resetDateError">
+      </div>
+
+      <div class="row">
+        <div class="label">
         <label>Описание</label>
-        <input type="text" required v-model="description">
+          <span class="error">{{descriptionError}}</span>
+        </div>
+        <input type="text" v-model="description" @input="resetDescriptionError">
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
@@ -35,24 +56,45 @@
     <form class="record-form" @submit.prevent="formHandler" v-show="income === false">
       <div class="record-form__title">Новый расход</div>
       <div class="row">
+        <div class="label">
         <label>Счет</label>
+          <span class="error"></span>
+        </div>
         <select v-model="bill">
           <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
         </select>
       </div>
       <div class="row">
+        <div class="label">
         <label>Категория</label>
+          <span class="error"></span>
+        </div>
         <select v-model="category">
           <option v-for="item in outcomeCategories" :key="item.id">{{item.name}}</option>
         </select>
       </div>
       <div class="row">
+        <div class="label">
         <label>Сумма</label>
-        <input type="text" required v-model="sum">
+          <span class="error">{{sumError}}</span>
+        </div>
+        <input type="text" required v-model="sum" @input="resetSumError">
       </div>
+
       <div class="row">
+        <div class="label">
+        <label>Дата</label>
+          <span class="error">{{dateError}}</span>
+        </div>
+        <input type="date" required v-model="date" @input="resetDateError">
+      </div>
+
+      <div class="row">
+        <div class="label">
         <label>Описание</label>
-        <input type="text" required v-model="description">
+          <span class="error">{{descriptionError}}</span>
+        </div>
+        <input type="text" v-model="description" @input="resetDescriptionError">
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
@@ -71,7 +113,11 @@ export default {
       bill: '',
       category: '',
       sum: '',
-      description: ''
+      date: '',
+      description: '',
+      sumError: '',
+      dateError: '',
+      descriptionError: ''
     }
   },
   computed: {
@@ -92,11 +138,8 @@ export default {
       this.income = false;
     },
     formHandler() {
-      if (this.bill && this.category && this.sum) {
-        // const selected = this.getAllBills;
-        // selected.filter(item => item.name == this.bill);
-        // const oneBill = selected[0];
-        const date = new Date();
+      if (this.checkFormData()) {
+
         let type = 'Доход';
         if (!this.income) type = 'Расход';
 
@@ -104,20 +147,34 @@ export default {
           bill: this.bill,
           type: type,
           category: this.category,
-          date: date.toDateString(),
+          date: this.date,
           sum: this.sum,
           description: this.description
         }
-        // oneBill.records.push(newRecord);
-        // const data = {
-        //   bill: JSON.stringify(oneBill),
-        //   id: 1
-        // }
-        // this.putBillById(data);
-        this.addRecord(newRecord)
 
+        this.addRecord(newRecord)
+        this.resetForm();
       }
-      this.resetForm();
+
+    },
+    checkFormData() {
+      if (!this.bill || !this.category) return false;
+      if (this.description.length > 20) this.descriptionError = 'максимум 20 символов';
+      if (!this.date) this.dateError = 'выберите дату';
+      if (isNaN(this.sum)) this.sumError = 'только число';
+
+
+      if(this.sumError || this.dateError || this.descriptionError) return false;
+      return true;
+    },
+    resetSumError() {
+      this.sumError = '';
+    },
+    resetDateError() {
+      this.dateError = '';
+    },
+    resetDescriptionError() {
+      this.descriptionError = '';
     },
     resetForm() {
       this.bill = '';
@@ -126,8 +183,10 @@ export default {
       this.category = '';
     }
    },
-   async mounted() {
-     this.getBills();
+    async mounted() {
+      this.getBills();
+      let dateString = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
+      this.date = dateString;
    }
 }
 </script>
