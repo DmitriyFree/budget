@@ -80,14 +80,14 @@ export default {
   },
   actions: {
     async getRecordsData(ctx) {
-      const res = await fetch('http://localhost:3000/records');
+      const res = await fetch('https://mybudgetproject.herokuapp.com/records');
       const data = await res.json();
       ctx.commit('updateRecords', data);
     },
     async addRecord(ctx, data) {
       if(!data) return
       const json = JSON.stringify(data);
-      const res = await fetch('http://localhost:3000/records', {
+      const res = await fetch('https://mybudgetproject.herokuapp.com/records', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -97,7 +97,7 @@ export default {
       await ctx.dispatch('getRecordsData');
     },
     async removeRecordById(ctx, id) {
-      const res = await fetch(`http://localhost:3000/records/${id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/records/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
@@ -108,7 +108,7 @@ export default {
     async putRecordById(ctx, data) {
       if(!data.record) return
       const jsonData = JSON.stringify(data.record)
-      const res = await fetch(`http://localhost:3000/records/${data.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/records/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

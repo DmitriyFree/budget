@@ -20,7 +20,7 @@ export default {
   },
   actions: {
     async getBills(ctx) {
-      const res = await fetch('http://localhost:3000/bills');
+      const res = await fetch('https://mybudgetproject.herokuapp.com/bills');
       if (!res.ok) {
 
       }
@@ -28,7 +28,7 @@ export default {
       ctx.commit('updateBills', bills);
     },
     async getBillById(ctx, id) {
-      const res = await fetch(`http://localhost:3000/bills/${id}`);
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/bills/${id}`);
       if (!res.ok) {
 
       }
@@ -36,7 +36,7 @@ export default {
     },
     async addBill(ctx, bill) {
       const data = JSON.stringify(bill);
-      const res = await fetch('http://localhost:3000/bills', {
+      const res = await fetch('https://mybudgetproject.herokuapp.com/bills', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -47,7 +47,7 @@ export default {
     },
     async putBillById(ctx, data) {
       console.log(data);
-      const res = await fetch(`http://localhost:3000/bills/${data.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/bills/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
@@ -57,7 +57,7 @@ export default {
       await ctx.dispatch('getBills');
     },
     async removeBillById(ctx, id) {
-      const res = await fetch(`http://localhost:3000/bills/${id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/bills/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
@@ -68,7 +68,7 @@ export default {
     async putBillById(ctx, data) {
       if(!data.bill) return
       const jsonData = JSON.stringify(data.bill)
-      const res = await fetch(`http://localhost:3000/bills/${data.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

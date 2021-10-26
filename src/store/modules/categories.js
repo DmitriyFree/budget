@@ -21,7 +21,7 @@ export default {
   },
   actions: {
     async getCategoriesData(ctx) {
-      const res = await fetch('http://localhost:3000/categories');
+      const res = await fetch('https://mybudgetproject.herokuapp.com/categories');
       if (!res.ok) {
 
       }
@@ -30,7 +30,7 @@ export default {
     }
     ,
     async addCategory(ctx, category) {
-      const res = await fetch('http://localhost:3000/categories', {
+      const res = await fetch('https://mybudgetproject.herokuapp.com/categories', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -40,7 +40,7 @@ export default {
       await ctx.dispatch('getCategoriesData');
     },
     async removeCategoryById(ctx, id) {
-      const res = await fetch(`http://localhost:3000/categories/${id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/categories/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
@@ -51,7 +51,7 @@ export default {
     async putCategoryById(ctx, data) {
       if(!data.category) return
       const jsonData = JSON.stringify(data.category)
-      const res = await fetch(`http://localhost:3000/categories/${data.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/categories/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

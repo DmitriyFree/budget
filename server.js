@@ -4,7 +4,7 @@ const router = jsonServer.router('./server.json');
 const middlewares = jsonServer.defaults({
   static: './dist'
 });
-const PORT = process.env.PORT || 'https://foodmyproject.herokuapp.com/app';
+const PORT = process.env.PORT || 'https://mybudgetproject.herokuapp.com/app';
 server.use(middlewares);
 server.use(jsonServer.rewriter({
   '/api/*': '/$1',

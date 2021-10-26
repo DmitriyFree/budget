@@ -57,7 +57,7 @@ export default {
       await ctx.dispatch('getCurrencyData');
     },
     async removeCurrencyById(ctx, id) {
-      const res = await fetch(`http://localhost:3000/currency/${id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/currency/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
@@ -68,7 +68,7 @@ export default {
     async putCurrencyById(ctx, data) {
       if(!data.currency) return
       const jsonData = JSON.stringify(data.currency)
-      const res = await fetch(`http://localhost:3000/currency/${data.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/currency/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
@@ -81,7 +81,7 @@ export default {
       let mainCurrency = await ctx.getters.getMainCurrency;
       mainCurrency.main = false;
       const json = JSON.stringify(mainCurrency);
-      const res = await fetch(`http://localhost:3000/currency/${mainCurrency.id}`, {
+      const res = await fetch(`https://mybudgetproject.herokuapp.com/${mainCurrency.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'
