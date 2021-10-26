@@ -40,14 +40,14 @@ export default {
   actions: {
     async getCurrencyData(ctx) {
 
-      const res = await fetch('http://localhost:3000/currency');
+      const res = await fetch('https://mybudgetproject.herokuapp.com/currency');
       const data = await res.json();
       ctx.commit('updateCurrency', data);
     },
     async addCurrency(ctx, data) {
       if(!data) return
       const json = JSON.stringify(data);
-      const res = await fetch('http://localhost:3000/currency', {
+      const res = await fetch('https://mybudgetproject.herokuapp.com/currency', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
