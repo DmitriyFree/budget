@@ -128,6 +128,11 @@
       "name": "Развленения",
       "type": "Расход",
       "id": 7
+    },
+    {
+      "name": "ddd",
+      "type": "Расход",
+      "id": 8
     }
   ],
   "currency": [
@@ -141,7 +146,7 @@
     {
       "title": "Американский Долар",
       "short": "USD",
-      "main": true,
+      "main": false,
       "rate": 1,
       "id": 2
     },
@@ -151,6 +156,13 @@
       "main": false,
       "rate": 0.87,
       "id": 3
+    },
+    {
+      "title": "FFF",
+      "short": "FFF",
+      "main": true,
+      "rate": "8",
+      "id": 4
     }
   ]
 }

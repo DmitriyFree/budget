@@ -17,11 +17,14 @@ export default {
   mutations: {
     updateCategories(state, categories) {
       state.categories = categories;
+    },
+    addNewCategory(state, category) {
+      state.categories.push(category);
     }
   },
   actions: {
     async getCategoriesData(ctx) {
-      const res = await fetch('https://mybudgetproject.herokuapp.com/categories');
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
       if (!res.ok) {
 
       }
@@ -30,17 +33,24 @@ export default {
     }
     ,
     async addCategory(ctx, category) {
-      const res = await fetch('https://mybudgetproject.herokuapp.com/categories', {
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
         },
         body: category
       });
-      await ctx.dispatch('getCategoriesData');
+
+      if (!res.ok) {
+        console.log('Error');
+        return
+      }
+      console.dir(category);
+      ctx.commit('addNewCategory', JSON.parse(category));
+      //await ctx.dispatch('getCategoriesData');
     },
     async removeCategoryById(ctx, id) {
-      const res = await fetch(`https://mybudgetproject.herokuapp.com/categories/${id}`, {
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
@@ -51,7 +61,7 @@ export default {
     async putCategoryById(ctx, data) {
       if(!data.category) return
       const jsonData = JSON.stringify(data.category)
-      const res = await fetch(`https://mybudgetproject.herokuapp.com/categories/${data.id}`, {
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

@@ -1,5 +1,6 @@
 <template>
   <div class="handler statistic">
+    <loader/>
     <div class="handler__header">
       <div class="title">Баланс по Счетам</div>
     </div>
@@ -33,11 +34,24 @@
 <script>
 import StatisticCategory from './StatisticCategory.vue'
 import {mapGetters, mapActions} from "vuex"
+import Loader from './Loader.vue'
 export default {
-  components: { StatisticCategory },
+  components: { StatisticCategory, Loader },
   name: 'BalanceHandler',
   computed: {
     ...mapGetters(['getStatisticAllBills', 'getMainCurrency'])
+  },
+    async mounted() {
+    try {
+      await this.toggleLoader(true);
+      await this.getBills();
+      await this.getRecordsData();
+      await this.getCurrencyData();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await this.toggleLoader(false);
+    }
   },
   data() {
     return {
@@ -45,17 +59,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBills', 'getRecordsData', 'getCurrencyData']),
+    ...mapActions(['getBills', 'getRecordsData', 'getCurrencyData', 'toggleLoader']),
     test(data) {
       console.log(data);
     }
-  },
-  async mounted() {
-    await this.getBills();
-    await this.getRecordsData();
-    await this.getCurrencyData();
   }
-
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" @click="clickListener">
+  <div class="modal" @click="clickListener" v-bind:class="{show: active}">
     <div class="modal__content">
       <div class="modal-close__btn">x</div>
       <slot></slot>
@@ -56,15 +56,24 @@ export default {
     width: 100vw;
     height: 100vh;
     background: rgba(20, 20, 20, 0.7);
+    display: flex;
+    justify-content: center;
     &__content {
       position: relative;
       max-width: 270px;
-      // height: 300px;
-      left: 50%;
+      height: 300px;
+      // left: 50%;
       top: 200px;
-      transform: translateX(-50%);
+      // transform: translateX(-50%);
       background: white;
     }
+  }
+  .modal.show {
+    background: rgba(116, 116, 116, 0.425);
+    & .modal__content{
+      animation: showModal .5s;
+    }
+
   }
   .modal-close__btn {
     position: absolute;
@@ -77,5 +86,14 @@ export default {
     background: #11aaf3;
     padding: 8px 8px 10px 10px;
     cursor: pointer;
+  }
+  @keyframes showModal {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+
   }
 </style>

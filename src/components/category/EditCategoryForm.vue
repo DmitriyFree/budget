@@ -73,7 +73,7 @@ export default {
   },
   watch: {
     category() {
-      console.log(this.category);
+      // console.log(this.category);
       this.id = this.category.id;
       this.name = this.category.name;
       this.type = this.category.type;

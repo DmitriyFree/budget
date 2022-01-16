@@ -1,5 +1,6 @@
 <template>
   <div class="handler">
+    <loader/>
     <div class="handler__header">
       <div class="title">Категории</div>
       <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
@@ -15,9 +16,10 @@
 </template>
 <script>
 import CategoriesList from '../category/CategoriesList.vue'
+import Loader from '../Loader.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
 export default {
-  components: { CreateCategoryForm, CategoriesList },
+  components: { CreateCategoryForm, CategoriesList, Loader},
   name: 'CategoryHandler',
     data() {
     return {

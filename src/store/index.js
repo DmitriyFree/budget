@@ -5,9 +5,11 @@ import categories from './modules/categories'
 import currency from './modules/currency'
 import modal from './modules/modal'
 import record from './modules/record'
+import loader from './modules/loader'
 
 Vue.use(Vuex)
 
+// https://mybudgetproject.herokuapp.com
 
 export default new Vuex.Store({
   // state: {
@@ -54,6 +56,7 @@ export default new Vuex.Store({
     categories,
     currency,
     modal,
-    record
+    record,
+    loader
   }
 })

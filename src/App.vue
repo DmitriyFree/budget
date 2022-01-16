@@ -31,6 +31,10 @@ input {
 }
   .handler {
     padding: 10px 20px;
+    // & .loader-wrapper {
+    //   padding: 0;
+    //   background: forestgreen;
+    // }
     &__header {
       padding: 10px 0;
       border-bottom: 1px solid #aaa;
@@ -118,7 +122,7 @@ table {
     cursor: pointer;
     }
     .remove__btn {
-    background: #e90909;
+    background: #b60b0b;
     margin-left: 15px;
     padding: 5px 10px;
     text-align: center;

@@ -27,6 +27,9 @@
     <modal v-show="getModalActive">
       <edit-currency-form v-bind:currency="elem"/>
     </modal>
+    <!-- <modal>
+      <edit-currency-form v-bind:currency="elem"/>
+    </modal> -->
   </div>
 </template>
 
