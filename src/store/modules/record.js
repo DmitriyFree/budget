@@ -84,6 +84,18 @@ export default {
       const data = await res.json();
       ctx.commit('updateRecords', data);
     },
+    removeRecordsByBill: {
+      async handler({getters, dispatch}, data) {
+        const records = await getters.getAllRecords;
+        const newArr = records.filter((item) => {
+          return item.bill === data;
+        });
+        newArr.forEach(async (elem) => {
+          await dispatch('removeRecordById', elem.id)
+        });
+      },
+      root: true
+    },
     async addRecord(ctx, data) {
       if(!data) return
       const json = JSON.stringify(data);

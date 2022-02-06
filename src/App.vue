@@ -37,7 +37,7 @@ input {
     // }
     &__header {
       padding: 10px 0;
-      border-bottom: 1px solid #aaa;
+      // border-bottom: 1px solid #aaa;
       display: flex;
       .title {
         font-size: 20px;
@@ -187,9 +187,10 @@ table {
     }
   }
   .create-form {
-    position: relative;
-    padding: 20px 0 20px;
-    border-bottom: 1px solid #aaa;
+    // position: relative;
+    padding: 20px 20px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    // border-bottom: 1px solid #aaa;
   }
   .edit-form {
     padding: 25px 20px;

@@ -21,7 +21,7 @@ export default {
   components: { Modal, EditRecordForm },
   name: 'RecordStatisticItem',
   props: ['item', 'selectedBill'],
-  computed: mapGetters(['getModalActive']),
+  computed: mapGetters(['isPopupForm']),
   data() {
     return {
       elem: ''
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     ...mapActions(['removeRecordById']),
-    ...mapMutations(['changeModalActive', 'setFormData']),
+    ...mapMutations(['changePopupForm', 'setFormData']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
@@ -38,7 +38,7 @@ export default {
     },
     editRecord(record) {
       this.setFormData(record);
-      this.changeModalActive(true);
+      this.changePopupForm(true);
     }
   }
 }

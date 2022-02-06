@@ -1,6 +1,6 @@
 <template>
   <div class="list-header">
-    <div class="list-header__title">Список валют</div>
+    <!-- <div class="list-header__title">Список валют</div> -->
     <table>
       <thead>
         <tr>
@@ -24,7 +24,7 @@
         </tr>
       </tbody>
     </table>
-    <modal v-show="getModalActive">
+    <modal v-show="isPopupForm">
       <edit-currency-form v-bind:currency="elem"/>
     </modal>
     <!-- <modal>
@@ -45,10 +45,10 @@ export default {
       elem: 1
     }
   },
-  computed: mapGetters(['getAllCurrencies', 'getModalActive', 'getCurrencyById']),
+  computed: mapGetters(['getAllCurrencies', 'isPopupForm', 'getCurrencyById']),
   methods: {
     ...mapActions(['getCurrencyData', 'removeCurrencyById']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
@@ -56,7 +56,7 @@ export default {
       }
     },
     edit(id) {
-      this.changeModalActive(true);
+      this.changePopupForm(true);
       this.elem = this.getCurrencyById(id);
     }
   },

@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions, mapMutations} from 'vuex';
 export default {
   name: 'CreateCategoryForm',
   data() {
@@ -40,6 +40,7 @@ export default {
   },
   methods: {
     ...mapActions(['addCategory']),
+    ...mapMutations(['changeCreateForm']),
     formHandler() {
       if (this.checkFormData()) {
         const newCategory = {
@@ -48,6 +49,7 @@ export default {
         }
         this.addCategory(JSON.stringify(newCategory));
         this.resetForm();
+        this.changeCreateForm(false);
       }
     },
     checkFormData() {

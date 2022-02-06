@@ -44,31 +44,49 @@ export default {
         body: data
       });
       await ctx.dispatch('getBills');
+
     },
-    async putBillById(ctx, data) {
-      console.log(data);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: data.bill
+    // async putBillById(ctx, data) {
+    //   console.log(data);
+    //   const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-type': 'application/json'
+    //     },
+    //     body: data.bill
+    //   });
+    //   await ctx.dispatch('getBills');
+    // },
+    async removeBillById({dispatch, getters}, id) {
+      const bills = getters.getAllBills;
+      const selected = bills.filter((item) => {
+        return item.id === id;
       });
-      await ctx.dispatch('getBills');
-    },
-    async removeBillById(ctx, id) {
+      await dispatch('removeRecordsByBill', selected[0].name);
       const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
         },
       });
-      await ctx.dispatch('getBills');
+      await dispatch('getBills');
+    },
+    removeBillsByCurrency: {
+      async handler({getters, dispatch}, currencyName) {
+        const bills = await getters.getAllBills;
+        const newArr = bills.filter((item) => {
+          return item.currency === currencyName;
+        });
+        newArr.forEach(async (elem) => {
+          await dispatch('removeBillById', elem.id)
+        });
+      },
+      root: true
     },
     async putBillById(ctx, data) {
       if(!data.bill) return
       const jsonData = JSON.stringify(data.bill)
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/${data.id}`, {
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
         method: 'PUT',
         headers: {
           'Content-type': 'application/json'

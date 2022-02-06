@@ -31,7 +31,7 @@
       </div>
     </div>
    </div>
-   <modal v-show="getModalActive">
+   <modal v-show="isPopupForm">
      <edit-record-form/>
    </modal>
  </div>
@@ -58,7 +58,7 @@ export default {
       billName: ''
     }
   },
-  computed: mapGetters(['getAllBills', 'getAllRecords', 'getModalActive', 'getIncomeRecords', 'getOutcomeRecords', 'getStatisticOneBill']),
+  computed: mapGetters(['getAllBills', 'getAllRecords', 'isPopupForm', 'getIncomeRecords', 'getOutcomeRecords', 'getStatisticOneBill']),
   methods: {
     ...mapActions(['getBills', 'getRecordsData']),
     selectHandler(e) {

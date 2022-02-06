@@ -2,12 +2,19 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Валюты</div>
-      <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
+      <!-- <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}"> -->
+        <div class="btn" @click="createForm">
       </div>
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
+        <!-- <create-currency-form/> -->
+        <!-- <modal v-show="isPopupForm">
+          <create-currency-form/>
+        </modal> -->
+      <create-modal v-show="isCreateForm">
         <create-currency-form/>
+      </create-modal>
       </div>
       <currency-list/>
       <main-currency-handler/>
@@ -18,13 +25,14 @@
 <script>
 import CreateCurrencyForm from './CreateCurrencyForm.vue'
 import CurrencyList from './CurrencyList.vue'
-import {mapGetters, mapActions} from "vuex"
+import {mapGetters, mapActions, mapMutations} from "vuex"
 import MainCurrencyHandler from './MainCurrencyHandler.vue'
+import CreateModal from '../modal/CreateModal.vue'
 export default {
-  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler },
+  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler, CreateModal },
   name: 'CurrencyHandler',
   computed: {
-    ...mapGetters(['getMainCurrency'])
+    ...mapGetters(['getMainCurrency', 'isCreateForm'])
   },
   data() {
     return {
@@ -32,7 +40,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getCurrencyData'])
+    ...mapActions(['getCurrencyData']),
+    ...mapMutations(['changeCreateForm']),
+    createForm(){
+      this.changeCreateForm(true);
+    }
   },
   async mounted() {
     this.getCurrencyData();

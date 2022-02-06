@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     ...mapActions(['putCategoryById']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     async formHandler() {
       if (!this.checkFormData()) return
       const data = {
@@ -51,7 +51,7 @@ export default {
         }
       }
       await this.putCategoryById(data);
-      this.changeModalActive(false);
+      this.changePopupForm(false);
 
     },
     checkFormData() {

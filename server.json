@@ -1,101 +1,27 @@
 {
   "bills": [
     {
-      "id": 1,
       "name": "Наличные",
       "currency": "UAH",
-      "startBalance": 0
-    },
-    {
-      "name": "Карта",
-      "currency": "UAH",
-      "startBalance": 0,
-      "id": 2
-    },
-    {
-      "name": "Долар",
-      "currency": "USD",
       "startBalance": "",
-      "id": 3
+      "records": [],
+      "id": 1
     }
   ],
   "records": [
     {
-      "bill": "Наличные",
+      "bill": "hhh",
       "type": "Доход",
-      "category": "Зарплата",
-      "date": "2021-09-24",
-      "sum": "9000",
+      "category": "Депозит",
+      "date": "2022-02-05",
+      "sum": "400",
       "description": "",
-      "id": 1
-    },
-    {
-      "bill": "Наличные",
-      "type": "Расход",
-      "category": "Дом",
-      "date": "2021-09-24",
-      "sum": "3000",
-      "description": "",
-      "id": 2
-    },
-    {
-      "bill": "Наличные",
-      "type": "Расход",
-      "category": "Еда",
-      "date": "2021-09-24",
-      "sum": "1000",
-      "description": "food",
-      "id": 3
-    },
-    {
-      "bill": "Наличные",
-      "type": "Доход",
-      "category": "Зарплата",
-      "date": "2021-10-02",
-      "sum": "7000",
-      "description": "Зарплата",
-      "id": 4
-    },
-    {
-      "bill": "Наличные",
-      "type": "Расход",
-      "category": "Машына",
-      "date": "2021-10-05",
-      "sum": "500",
-      "description": "",
-      "id": 6
-    },
-    {
-      "bill": "Наличные",
-      "type": "Расход",
-      "category": "Машына",
-      "date": "2021-10-05",
-      "sum": "500",
-      "description": "",
-      "id": 5
-    },
-    {
-      "bill": "Наличные",
-      "type": "Доход",
-      "category": "Зарплата",
-      "date": "2021-10-15",
-      "sum": "4000",
-      "description": "",
-      "id": 7
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Другое",
-      "date": "2021-10-16",
-      "sum": "500",
-      "description": "",
-      "id": 8
+      "id": 11
     }
   ],
   "categories": [
     {
-      "name": "Зарплата",
+      "name": "Зарплат",
       "type": "Доход",
       "id": 1
     },
@@ -128,11 +54,6 @@
       "name": "Развленения",
       "type": "Расход",
       "id": 7
-    },
-    {
-      "name": "ddd",
-      "type": "Расход",
-      "id": 8
     }
   ],
   "currency": [
@@ -146,7 +67,7 @@
     {
       "title": "Американский Долар",
       "short": "USD",
-      "main": false,
+      "main": true,
       "rate": 1,
       "id": 2
     },
@@ -156,13 +77,6 @@
       "main": false,
       "rate": 0.87,
       "id": 3
-    },
-    {
-      "title": "FFF",
-      "short": "FFF",
-      "main": true,
-      "rate": "8",
-      "id": 4
     }
   ]
 }

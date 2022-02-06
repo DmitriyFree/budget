@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     ...mapActions(['getBills', 'putRecordById']),
     formHandler() {
       if (!this.checkFormData()) return;
@@ -82,7 +82,7 @@ export default {
         }
       }
       this.putRecordById(data);
-      this.changeModalActive(false);
+      this.changePopupForm(false);
     },
     checkFormData() {
       if (!this.bill || !this.type || !this.category) return false;

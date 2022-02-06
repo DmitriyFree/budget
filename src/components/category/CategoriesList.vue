@@ -25,7 +25,7 @@
         </tr>
       </tbody>
     </table>
-    <modal v-show="getModalActive">
+    <modal v-show="isPopupForm">
       <edit-category-form v-bind:category="element"/>
     </modal>
   </div>
@@ -38,7 +38,7 @@ import EditCategoryForm from './EditCategoryForm.vue';
 export default {
   components: { Modal, EditCategoryForm },
   name: 'CategoriesList',
-  computed: mapGetters(['getAllCategories', 'getModalActive', 'getCategoryById']),
+  computed: mapGetters(['getAllCategories', 'isPopupForm', 'getCategoryById']),
   data() {
     return {
       element: ''
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     ...mapActions(['getCategoriesData', 'removeCategoryById']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
@@ -54,7 +54,7 @@ export default {
       }
     },
     editCategory(id) {
-      this.changeModalActive(true);
+      this.changePopupForm(true);
       this.element = this.getCategoryById(id);
     }
   },

@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="modal" @click="clickListener" v-bind:class="{show: active}">
     <div class="modal__content">
       <div class="modal-close__btn">x</div>
@@ -9,17 +9,17 @@
 <script>
 import {mapMutations} from 'vuex';
 export default {
-  name: 'Modal',
+  name: 'EditForm',
   computed: {
     // ...mapGetters(['getModalActive']),
     active() {
-       return this.$store.getters.isPopupForm;
+       return this.$store.getters.isCreateForm;
     }
   },
   methods: {
-    ...mapMutations(['changePopupForm']),
+    ...mapMutations(['changeCreateForm']),
     closeModal() {
-      this.changePopupForm(false);
+      this.changeCreateForm(false);
     },
     clickListener(e) {
       const target = e.target;
@@ -66,13 +66,13 @@ export default {
       // left: 50%;
       // top: 200px;
       // transform: translateX(-50%);
-      background: rgb(255, 253, 253);
+      background: white;
     }
   }
   .modal.show {
-    background: rgba(70, 70, 70, 0.7);
+    background: rgba(116, 116, 116, 0.425);
     & .modal__content{
-      animation: showModal .5s;
+      animation: showModalF .5s;
     }
 
   }
@@ -88,7 +88,7 @@ export default {
     padding: 8px 8px 10px 10px;
     cursor: pointer;
   }
-  @keyframes showModal {
+  @keyframes showModalF {
     0% {
       transform: scale(0);
     }

@@ -28,7 +28,7 @@
           <label>Курс к {{getMainCurrency.short}}</label>
           <span class="error show"></span>
         </div>
-        <input type="text" required v-model="rate">
+        <input type="text" required v-model="rate" :disabled="main">
       </div>
       <button type="submit" class="row btn" @input="resetRateError">
         ДОБАВИТЬ
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 export default {
   name: 'CreateCurrencyForm',
   computed: {
@@ -58,6 +58,7 @@ export default {
   methods: {
     ...mapActions(['addCurrency', 'resetMainCurrency']),
     ...mapGetters(['getAllCurrencies']),
+    ...mapMutations(['changeCreateForm']),
     async formHandler() {
       if (this.checkFormData()) {
         if (this.main) this.resetMainCurrency();
@@ -70,6 +71,7 @@ export default {
         }
         await this.addCurrency(data);
         this.resetForm();
+        this.changeCreateForm(false);
       } else {
       }
 
@@ -121,11 +123,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .create-form {
-    position: relative;
-    padding: 20px 0 20px;
-    border-bottom: 1px solid #aaa;
-  }
+  // .create-form {
+  //   position: relative;
+  //   padding: 20px 0 20px;
+  //   border-bottom: 1px solid #aaa;
+  // }
   .checkbox {
     // display: flex;
     // align-items: flex-end;

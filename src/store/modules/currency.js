@@ -57,14 +57,20 @@ export default {
       });
       await ctx.dispatch('getCurrencyData');
     },
-    async removeCurrencyById(ctx, id) {
+    async removeCurrencyById({getters, dispatch}, id) {
+      const currencies = getters.getAllCurrencies;
+      const selected = currencies.filter((item) => {
+        return item.id === id;
+      });
+      await dispatch('removeBillsByCurrency', selected[0].short);
       const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${id}`, {
+
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
         },
       });
-      await ctx.dispatch('getCurrencyData');
+      await dispatch('getCurrencyData');
     },
     async putCurrencyById(ctx, data) {
       if(!data.currency) return

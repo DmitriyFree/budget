@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapActions(['putBillById']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     async formHandler() {
       if (!this.checkFormData()) return
       const data = {
@@ -61,7 +61,7 @@ export default {
         }
       }
       this.putBillById(data);
-      this.changeModalActive(false);
+      this.changePopupForm(false);
     },
     checkFormData() {
       if (!this.name) return false;

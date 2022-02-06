@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex';
 export default {
   name: 'CreateBillForm',
   data() {
@@ -49,6 +49,7 @@ export default {
   computed: mapGetters(['getAllCurrencies']),
   methods: {
     ...mapActions(['getCurrencyData', 'addBill']),
+    ...mapMutations(['changeCreateForm']),
     formHandler() {
       if (this.checkFormData()) {
         const newBill = {
@@ -60,6 +61,7 @@ export default {
 
         this.addBill(newBill);
         this.resetForm();
+        this.changeCreateForm(false);
       }
     },
     checkFormData() {

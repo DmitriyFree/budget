@@ -27,7 +27,7 @@
           <label>Курс к {{getMainCurrency.short}}</label>
           <span class="error show"></span>
         </div>
-        <input type="text" required v-model="rate">
+        <input type="text" required v-model="rate" :disabled="main">
       </div>
       <button type="submit" class="row btn">
         Изменить
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     ...mapActions(['putCurrencyById', 'resetMainCurrency']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     ...mapGetters(['getAllCurrencies']),
     async formHandler() {
       if (!this.checkFormData()) return
@@ -72,7 +72,7 @@ export default {
 
       }
       await this.putCurrencyById(data);
-      this.changeModalActive(false);
+      this.changePopupForm(false);
     },
     checkFormData() {
       if (!this.title && !this.short) return false;

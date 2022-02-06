@@ -45,9 +45,9 @@ export default {
         console.log('Error');
         return
       }
-      console.dir(category);
-      ctx.commit('addNewCategory', JSON.parse(category));
-      //await ctx.dispatch('getCategoriesData');
+      // console.dir(category);
+      // ctx.commit('addNewCategory', JSON.parse(category));
+      await ctx.dispatch('getCategoriesData');
     },
     async removeCategoryById(ctx, id) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {

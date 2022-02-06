@@ -1,19 +1,26 @@
 export default {
   state: {
     formData: {},
-    modalShow: false
+    popupForm: false,
+    createForm: false
   },
   getters: {
-    getModalActive(state) {
-      return state.modalShow;
+    isPopupForm(state) {
+      return state.popupForm;
+    },
+    isCreateForm(state) {
+      return state.createForm;
     },
     getFormData(state) {
       return state.formData;
     }
   },
   mutations: {
-    changeModalActive(state, active) {
-      state.modalShow = active;
+    changePopupForm(state, active) {
+      state.popupForm = active;
+    },
+    changeCreateForm(state, active) {
+      state.createForm = active;
     },
     setFormData(state, data) {
       state.formData = data;

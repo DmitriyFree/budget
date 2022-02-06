@@ -24,7 +24,7 @@
         </tr>
       </tbody>
     </table>
-    <modal v-show="getModalActive">
+    <modal v-show="isPopupForm">
       <edit-bill-form v-bind:bill="elem"/>
     </modal>
   </div>
@@ -37,7 +37,7 @@ import EditBillForm from './EditBillForm.vue';
 export default {
   components: { Modal, EditBillForm },
   name: 'BillList',
-  computed: mapGetters(['getAllBills', 'getBillById', 'getModalActive']),
+  computed: mapGetters(['getAllBills', 'getBillById', 'isPopupForm']),
   data() {
     return {
       elem: ''
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     ...mapActions(['getBills', 'removeBillById']),
-    ...mapMutations(['changeModalActive']),
+    ...mapMutations(['changePopupForm']),
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
@@ -53,7 +53,7 @@ export default {
       }
     },
     editBill(id) {
-      this.changeModalActive(true);
+      this.changePopupForm(true);
       this.elem = this.getBillById(id);
     }
   },
