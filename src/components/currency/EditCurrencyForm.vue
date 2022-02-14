@@ -41,7 +41,7 @@ export default {
   name: "EditCurrencyForm",
   props: ['currency'],
   computed: {
-    ...mapGetters(['getMainCurrency'])
+    ...mapGetters(['getMainCurrency']),
   },
   data() {
     return {
@@ -56,11 +56,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['putCurrencyById', 'resetMainCurrency']),
+    ...mapActions(['putCurrencyById', 'changeMainCurrency']),
     ...mapMutations(['changePopupForm']),
     ...mapGetters(['getAllCurrencies']),
     async formHandler() {
       if (!this.checkFormData()) return
+      if (this.main) {
+        await this.changeMainCurrency(this.id);
+        this.rate = 1;
+      }
       const data = {
         id: this.id,
         currency: {
@@ -76,7 +80,6 @@ export default {
     },
     checkFormData() {
       if (!this.title && !this.short) return false;
-      if (this.main) this.resetMainCurrency();
       if (this.title.length < 3) this.titleError = 'минимум 3 символа';
       if (this.title.length > 20) this.titleError = 'максимум 20 символов';
       if (this.isCurrencyCode(this.short)) this.shortError = 'не уникальный код';

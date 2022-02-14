@@ -1,11 +1,39 @@
 <template>
-  <div>
+  <div class="create-form">
     <div class="choice">
       <div class="choice__income" @click="clickIncome">ДОХОД</div>
       <div class="choice__outcome" @click="clickOutcome">РАСХОД</div>
     </div>
 
-    <form class="record-form" @submit.prevent="formHandler" v-show="income === true">
+
+  <!-- <div class="create-form">
+    <form @submit.prevent="formHandler">
+      <div class="title">Добавить Категорию</div>
+      <div class="row">
+        <div class="label">
+          <label>Название</label>
+          <span class="error">{{nameError}}</span>
+        </div>
+        <input type="text" required v-model="name" @input="resetNameError">
+      </div>
+       <div class="row">
+        <div class="label">
+          <label>Валюта</label>
+          <span class="error">{{typeError}}</span>
+        </div>
+        <select class="category-form__type form-row" required v-model="type" @input="resetTypeError">
+          <option selected value="Доход">Доход</option>
+          <option value="Расход">Расход</option>
+        </select>
+      </div>
+      <button type="submit" class="row btn">
+        ДОБАВИТЬ
+      </button>
+     </form>
+  </div> -->
+
+    <div  v-show="income === true">
+    <form class="record-form" @submit.prevent="formHandler">
       <div class="record-form__title">Новый доход</div>
       <div class="row">
         <div class="label">
@@ -52,8 +80,10 @@
         ДОБАВИТЬ
       </button>
     </form>
+    </div>
 
-    <form class="record-form" @submit.prevent="formHandler" v-show="income === false">
+    <div v-show="income === false">
+    <form class="record-form" @submit.prevent="formHandler">
       <div class="record-form__title">Новый расход</div>
       <div class="row">
         <div class="label">
@@ -100,6 +130,7 @@
         ДОБАВИТЬ
       </button>
     </form>
+    </div>
   </div>
 </template>
 
@@ -192,49 +223,49 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .record-form {
-    border-bottom: 1px solid #aaa;
-    padding: 10px 0 20px;
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-    }
-    &__name {
-      height: 30px;
-    }
-    &__type {
-      padding: 5px;
-    }
-    &__btn {
-      font-weight: 700;
-      color: #000;
-      background: #00aacc80;
-      padding: 10px 25px;
-      border: none;
-      cursor: pointer;
-    }
-  }
-  .form-row {
-    margin-top: 10px;
-    display: block;
-    outline: none;
-  }
-  .choice {
-    display: flex;
-    padding-top: 15px;
-    div {
-      font-weight: 700;
-      font-size: 14px;
-      line-height: 16px;
-      padding: 8px 20px;
-      cursor: pointer;
-    }
-    &__income {
-      background: #17e417;
-    }
-    &__outcome {
-      background: #ff270a;
-      margin-left: 10px;
-    }
-  }
+  // .record-form {
+  //   border-bottom: 1px solid #aaa;
+  //   padding: 10px 0 20px;
+  //   &__title {
+  //     font-size: 18px;
+  //     font-weight: 700;
+  //   }
+  //   &__name {
+  //     height: 30px;
+  //   }
+  //   &__type {
+  //     padding: 5px;
+  //   }
+  //   &__btn {
+  //     font-weight: 700;
+  //     color: #000;
+  //     background: #00aacc80;
+  //     padding: 10px 25px;
+  //     border: none;
+  //     cursor: pointer;
+  //   }
+  // }
+  // .form-row {
+  //   margin-top: 10px;
+  //   display: block;
+  //   outline: none;
+  // }
+  // .choice {
+  //   display: flex;
+  //   padding-top: 15px;
+  //   div {
+  //     font-weight: 700;
+  //     font-size: 14px;
+  //     line-height: 16px;
+  //     padding: 8px 20px;
+  //     cursor: pointer;
+  //   }
+  //   &__income {
+  //     background: #17e417;
+  //   }
+  //   &__outcome {
+  //     background: #ff270a;
+  //     margin-left: 10px;
+  //   }
+  // }
 </style>

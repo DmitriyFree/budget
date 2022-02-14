@@ -1,5 +1,6 @@
 <template>
   <div class="edit-form">
+    ggg{{record}}
     <form @submit.prevent="formHandler">
       <div class="row">
         <div class="label">
@@ -50,6 +51,7 @@
 import {mapMutations, mapGetters, mapActions} from 'vuex';
 export default {
   name: 'EditRecordForm',
+  props: ['record'],
   computed: mapGetters(['getAllBills', 'getFormData']),
   data() {
     return {
@@ -106,14 +108,14 @@ export default {
     },
   },
   watch: {
-    getFormData() {
-      this.id = this.getFormData.id;
-      this.bill = this.getFormData.bill;
-      this.type = this.getFormData.type;
-      this.category = this.getFormData.category;
-      this.date = this.getFormData.date;
-      this.sum = this.getFormData.sum;
-      this.description = this.getFormData.description;
+    record() {
+      this.id = this.record.id;
+      this.bill = this.record.bill;
+      this.type = this.record.type;
+      this.category = this.record.category;
+      this.date = this.record.date;
+      this.sum = this.record.sum;
+      this.description = this.record.description;
     }
   },
   async mounted() {

@@ -38,20 +38,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['resetMainCurrency', 'putCurrencyById']),
+    ...mapActions(['resetMainCurrency', 'putCurrencyById', 'changeMainCurrency']),
     formHandler() {
-      this.resetMainCurrency();
-      const data = {
-        id: this.currency.id,
-        currency: {
-          title: this.currency.title,
-          short: this.currency.short,
-          main: true,
-          rate: this.currency.rate
-        }
+      this.changeMainCurrency(this.currency.id);
+      // this.resetMainCurrency();
+      // const data = {
+      //   id: this.currency.id,
+      //   currency: {
+      //     title: this.currency.title,
+      //     short: this.currency.short,
+      //     main: true,
+      //     rate: this.currency.rate
+      //   }
 
-      }
-      this.putCurrencyById(data);
+      // }
+      // this.putCurrencyById(data);
 
     }
   },

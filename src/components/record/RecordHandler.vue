@@ -2,27 +2,43 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Новая запись</div>
-      <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
+      <!-- <div class="btn" @click="btnActive = !btnActive" v-bind:class="{active: btnActive}">
+      </div> -->
+      <div class="btn" @click="createForm">
       </div>
     </div>
+
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
-        <create-record-form/>
+        <create-modal v-show="isCreateForm">
+          <create-record-form />
+        </create-modal>
       </div>
-      <statistic/>
+      <records/>
     </div>
   </div>
 </template>
 
 <script>
 import CreateRecordForm from './CreateRecordForm.vue'
-import Statistic from './Statistic.vue'
+import Records from './Records.vue'
+import CreateModal from '../modal/CreateModal.vue'
+import {mapGetters, mapMutations} from 'vuex';
 export default {
-  components: { CreateRecordForm, Statistic },
+  components: { CreateRecordForm, Records, CreateModal },
   name: 'RecordHandler',
+  computed: {
+      ...mapGetters(['isCreateForm']),
+  },
   data() {
     return {
       btnActive: false
+    }
+  },
+  methods: {
+    ...mapMutations(['changeCreateForm']),
+    createForm() {
+      this.changeCreateForm(true);
     }
   }
 }

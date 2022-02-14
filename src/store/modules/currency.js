@@ -72,7 +72,7 @@ export default {
       });
       await dispatch('getCurrencyData');
     },
-    async putCurrencyById(ctx, data) {
+    async putCurrencyById({dispatch}, data) {
       if(!data.currency) return
       const jsonData = JSON.stringify(data.currency)
       const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${data.id}`, {
@@ -82,7 +82,7 @@ export default {
         },
         body: jsonData
       });
-      await ctx.dispatch('getCurrencyData');
+      await dispatch('getCurrencyData');
     },
     async resetMainCurrency(ctx) {
       let mainCurrency = await ctx.getters.getMainCurrency;
@@ -97,6 +97,39 @@ export default {
       });
       await ctx.dispatch('getCurrencyData');
 
+    },
+    async changeMainCurrency({getters, dispatch}, id) {
+      if(isNaN(id)) {
+        return
+      }
+      const currencyList = await getters.getAllCurrencies;
+
+      const newMainCurremcy = currencyList.filter(item => {
+        return item.id === id;
+      });
+      if (newMainCurremcy.length === 0) {
+        return;
+      }
+      const ra = newMainCurremcy[0].rate;
+      const newCurrencyList = currencyList.map(item => {
+        let main = false;
+        if(item.id === id) main = true;
+        const newRate = (+(item.rate) / +(ra)).toFixed(5);
+        return {
+          id: item.id,
+          rate: newRate,
+          main: main,
+          short: item.short,
+          title: item.title
+        }
+      })
+      await newCurrencyList.forEach(item => {
+        const data = {
+          id: item.id,
+          currency: item
+        }
+        dispatch('putCurrencyById', data);
+      });
     }
 
   },
