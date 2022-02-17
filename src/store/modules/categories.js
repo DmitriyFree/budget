@@ -58,8 +58,20 @@ export default {
       });
       await ctx.dispatch('getCategoriesData');
     },
-    async putCategoryById(ctx, data) {
-      if(!data.category) return
+    async putCategoryById({getters, dispatch}, data) {
+      if(!data.category) return;
+      const categoriesList = getters.getAllCategories;
+      const selected = categoriesList.filter(item => {
+        return item.id == data.id
+      });
+      if(selected.length == 0) {
+        return
+      }
+      const exportData = {
+        oldName: selected[0].name,
+        newName: data.category.name
+      }
+      await dispatch('changeCategoryName', exportData);
       const jsonData = JSON.stringify(data.category)
       const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${data.id}`, {
         method: 'PUT',
@@ -68,7 +80,7 @@ export default {
         },
         body: jsonData
       });
-      await ctx.dispatch('getCategoriesData');
+      await dispatch('getCategoriesData');
     }
   },
 }

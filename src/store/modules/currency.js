@@ -72,8 +72,25 @@ export default {
       });
       await dispatch('getCurrencyData');
     },
-    async putCurrencyById({dispatch}, data) {
+    async putCurrencyById({getters, dispatch}, data) {
       if(!data.currency) return
+      // changeCurrencyCode
+      const currencyList = getters.getAllCurrencies;
+      const selected = currencyList.filter(item => {
+        return item.id == data.id
+      });
+      if(selected.length == 0) {
+        return
+      }
+      const exportData = {
+        oldName: selected[0].short,
+        newName: data.currency.short
+      }
+      if (exportData.newName == exportData.oldName) {
+        return
+      } else {
+        await dispatch('changeCurrencyCode', exportData)
+      }
       const jsonData = JSON.stringify(data.currency)
       const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${data.id}`, {
         method: 'PUT',

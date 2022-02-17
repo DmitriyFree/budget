@@ -4,93 +4,37 @@
       "name": "Наличные",
       "currency": "UAH",
       "startBalance": "",
-      "records": [],
       "id": 1
     },
     {
       "name": "Карта",
       "currency": "UAH",
-      "records": [],
       "id": 2
     }
   ],
   "records": [
     {
       "bill": "Наличные",
+      "category": "Зарплатa",
       "type": "Доход",
-      "category": "Депозит",
-      "date": "2022-02-06",
-      "sum": "5000",
+      "date": "2022-02-16",
+      "sum": "2875",
       "description": "",
-      "id": 12
+      "id": 1
     },
     {
       "bill": "Наличные",
       "type": "Расход",
       "category": "Еда",
-      "date": "2022-02-06",
-      "sum": "400",
+      "date": "2022-02-16",
+      "sum": "188",
       "description": "",
-      "id": 13
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Зарплат",
-      "date": "2022-02-06",
-      "sum": "500",
-      "description": "",
-      "id": 14
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Зарплат",
-      "date": "2022-02-07",
-      "sum": "700",
-      "description": "",
-      "id": 15
-    },
-    {
-      "bill": "Наличные",
-      "type": "Доход",
-      "category": "Другое",
-      "date": "2022-02-07",
-      "sum": "7",
-      "description": "",
-      "id": 16
-    },
-    {
-      "bill": "Наличные",
-      "type": "Доход",
-      "category": "Депозит",
-      "date": "2022-02-13",
-      "sum": "500",
-      "description": "",
-      "id": 17
-    },
-    {
-      "bill": "Карта",
-      "type": "Расход",
-      "category": "Еда",
-      "date": "2022-02-13",
-      "sum": "27",
-      "description": "",
-      "id": 18
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Другое",
-      "date": "2022-02-13",
-      "sum": "400",
-      "description": "",
-      "id": 19
+      "id": 2
     }
   ],
   "categories": [
     {
-      "name": "Зарплат",
+      "name": "Зарплатa",
       "type": "Доход",
       "id": 1
     },
@@ -127,11 +71,11 @@
   ],
   "currency": [
     {
-      "id": 1,
-      "rate": "28.53568",
-      "main": false,
+      "title": "Гривня",
       "short": "UAH",
-      "title": "Гривня"
+      "main": false,
+      "rate": "28.53568",
+      "id": 1
     },
     {
       "title": "Американский Долар",

@@ -1,15 +1,8 @@
 <template>
   <tr class="inner" v-bind:class="{income: item.type === 'Доход'}">
-          <!-- "bill": "hhh",
-      "type": "Доход",
-      "category": "Депозит",
-      "date": "2022-02-05",
-      "sum": "400",
-      "description": "",
-      "id": 11 -->
-
     <td>{{item.id}}</td>
     <td>{{item.bill}}</td>
+    <td>{{item.category}}</td>
     <td>{{item.type}}</td>
     <td>{{item.date}}</td>
     <td>{{item.description}}</td>
@@ -20,25 +13,6 @@
             <div class="remove__btn" @click="remove(item.id)">Remove</div>
         </div>
       </td>
-
-    <!-- <create-modal v-show="isCreateForm">
-      <create-currency-form/>
-    </create-modal> -->
-    <modal v-show="isPopupForm">
-      <!-- <edit-currency-form v-bind:currency="elem"/> -->
-      <edit-record-form v-bind:record="elem"/>
-    </modal>
-    <!-- <div>{{item.date}}</div>
-    <div>{{item.description}}</div>
-    <div>{{item.sum}}</div> -->
-    <!-- <div class="action">
-      <div class="edit__btn" @click="editRecord(item)">Edit</div>
-      <div class="remove__btn" @click="remove(item.id)">Remove</div>
-    </div> -->
-    <!-- <modal v-show="getModalActive"> -->
-      <!-- <edit-category-form v-bind:category="element"/> -->
-      <!-- <edit-record-form v-bind:record="elem"/>
-    </modal> -->
   </tr>
 </template>
 <script>
@@ -58,6 +32,7 @@ export default {
   methods: {
     ...mapActions(['removeRecordById']),
     ...mapMutations(['changePopupForm', 'setFormData']),
+
     remove(id) {
       const result = confirm('Вы уверенны?');
       if(result) {
@@ -65,11 +40,8 @@ export default {
       }
     },
     editRecord(record) {
-      // this.setFormData(record);
-      this.changePopupForm(true);
-      console.log(this.item);
       this.elem = this.item;
-      console.log(this.elem);
+      this.$emit('edit', this.elem);
     }
   }
 }

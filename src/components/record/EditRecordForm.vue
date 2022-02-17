@@ -1,6 +1,12 @@
 <template>
   <div class="edit-form">
-    ggg{{record}}
+          <!-- "bill": "Наличные",
+      "category": "Зарплатa",
+      "type": "Доход",
+      "date": "2022-02-16",
+      "sum": "2875",
+      "description": "",
+      "id": 1 -->
     <form @submit.prevent="formHandler">
       <div class="row">
         <div class="label">
@@ -11,12 +17,15 @@
           <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
         </select>
       </div>
-      <!-- <div class="row">
+      <div class="row">
+        <div class="label">
         <label>Категория</label>
+          <span class="error"></span>
+        </div>
         <select v-model="category">
-          <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
+          <option v-for="item in getAllCategories" :key="item.id">{{item.name}}</option>
         </select>
-      </div> -->
+      </div>
       <div class="row">
         <div class="label">
         <label>Сумма</label>
@@ -52,7 +61,7 @@ import {mapMutations, mapGetters, mapActions} from 'vuex';
 export default {
   name: 'EditRecordForm',
   props: ['record'],
-  computed: mapGetters(['getAllBills', 'getFormData']),
+  computed: mapGetters(['getAllBills', 'getAllCategories', 'getFormData']),
   data() {
     return {
       id: 0,

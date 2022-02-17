@@ -30,6 +30,56 @@ export default {
       },
       root: true
     },
+    changeCategoryName: {
+      async handler({getters, dispatch}, data) {
+        const records = await getters.getAllRecords;
+        const newArr = records.filter((item) => {
+          return item.category == data.oldName;
+        });
+        newArr.forEach(async (elem) => {
+
+          const record = {
+            bill: elem.bill,
+            category: data.newName,
+            type: elem.type,
+            date: elem.date,
+            sum: elem.sum,
+            description: elem.description
+          }
+          const exportData ={
+            id: elem.id,
+            record: record
+          }
+          await dispatch('putRecordById', exportData);
+        });
+      },
+      root: true
+    },
+    changeBillName: {
+      async handler({getters, dispatch}, data) {
+        const records = await getters.getAllRecords;
+        const newArr = records.filter((item) => {
+          return item.bill == data.oldName;
+        });
+        newArr.forEach(async (elem) => {
+
+          const record = {
+            bill: data.newName,
+            category: elem.category,
+            type: elem.type,
+            date: elem.date,
+            sum: elem.sum,
+            description: elem.description
+          }
+          const exportData ={
+            id: elem.id,
+            record: record
+          }
+          await dispatch('putRecordById', exportData);
+        });
+      },
+      root: true
+    },
     async addRecord(ctx, data) {
       if(!data) return
       const json = JSON.stringify(data);

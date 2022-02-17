@@ -83,8 +83,50 @@ export default {
       },
       root: true
     },
-    async putBillById(ctx, data) {
+    changeCurrencyCode: {
+      async handler({getters, dispatch}, data) {
+
+        // "name": "Наличные",
+        // "currency": "UAH",
+        // "startBalance": "",
+        // "id": 1
+        const billList = await getters.getAllBills;
+        const newArr = billList.filter((item) => {
+          return item.currency == data.oldName;
+        });
+        newArr.forEach(async (elem) => {
+
+          const bill = {
+            name: elem.name,
+            currency: data.newName,
+            startBalance: elem.startBalance
+          }
+          const exportData ={
+            id: elem.id,
+            bill: bill
+          }
+          await dispatch('putBillById', exportData);
+        });
+      },
+      root: true
+    },
+    async putBillById({getters, dispatch}, data) {
       if(!data.bill) return
+
+      const billList = getters.getAllBills;
+      const selected = billList.filter(item => {
+        return item.id == data.id
+      });
+      if(selected.length == 0) {
+        return
+      }
+      const exportData = {
+        oldName: selected[0].name,
+        newName: data.bill.name
+      }
+      await dispatch('changeBillName', exportData);
+
+
       const jsonData = JSON.stringify(data.bill)
       const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
         method: 'PUT',
@@ -93,7 +135,7 @@ export default {
         },
         body: jsonData
       });
-      await ctx.dispatch('getBills');
+      await dispatch('getBills');
     }
   },
 }

@@ -19,6 +19,7 @@
         <tr>
          <th>№</th>
          <th>СЧЕТ</th>
+         <th>КАТЕГОРИЯ</th>
          <th>ТИП</th>
          <th>ДАТА</th>
          <th>ОПИСАНИЕ</th>
@@ -27,18 +28,18 @@
        </tr>
       </thead>
       <tbody>
-        <recor-item v-for="item in a" :key="item.id" v-bind:item="item"/>
+        <recor-item v-for="item in selectHandlerr" :key="item.id" v-bind:item="item" @edit="editForm"/>
       </tbody>
     </table>
   </div>
    <modal v-show="isPopupForm">
-     <edit-record-form/>
+     <edit-record-form v-bind:record="selectedRecord"/>
    </modal>
  </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditRecordForm from './EditRecordForm.vue';
 import RecorItem from './RecorItem.vue';
@@ -54,12 +55,13 @@ export default {
       id: 0,
       billName: "Все",
       records: [],
-      typeCome: "Все"
+      typeCome: "Все",
+      selectedRecord: {}
     }
   },
   computed: {
     ...mapGetters(['getAllBills', 'getAllRecords', 'isPopupForm']),
-    test: function() {
+    billSelectHandler: function() {
 
       let result = [];
       const records = this.getAllRecords;
@@ -72,10 +74,10 @@ export default {
       }
       return result;
     },
-    a: function() {
+    selectHandlerr: function() {
 
       let result = [];
-      const records = this.test;
+      const records = this.billSelectHandler;
       if (this.typeCome === "Все") {
         result = records;
       } else {
@@ -88,6 +90,13 @@ export default {
   },
   methods: {
     ...mapActions(['getBills', 'getRecordsData', 'getRecordsData']),
+    ...mapMutations(['changePopupForm', 'setFormData']),
+    editForm(data) {
+      this.setFormData(data);
+      this.changePopupForm(true);
+      this.selectedRecord = data;
+
+    },
     selectHandler(e) {}
   },
   async mounted() {
