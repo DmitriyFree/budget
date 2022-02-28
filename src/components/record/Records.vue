@@ -1,19 +1,24 @@
 <template>
  <div>
-   <select class="bills-select" @change="selectHandler" v-model="billName">
-     <option>Все</option>
-     <option v-for="item in getAllBills" :key="item.id">{{item.name}}</option>
-   </select>
-   <p>По типу</p>
-   <input type="radio" id="all" name="r-type" value="Все" v-model="typeCome">
-   <label for="all">Все</label><br>
-   <input type="radio" id="income" name="r-type" value="Доход" v-model="typeCome">
-   <label for="income">Доходы</label><br>
-   <input type="radio" id="outcome" name="r-type" value="Расход" v-model="typeCome">
-   <label for="outcome">Расходы</label>
 
-      <div class="list-header">
-    <div class="list-header__title">Список категорий</div>
+  <div class="pick">
+    <div class="pick__title">Сортировать</div>
+    <div class="pick__bill">
+      <select class="" v-model="billName">
+        <option>Все</option>
+        <option v-for="item in getAllBills" :key="item.id">{{item.name}}</option>
+      </select>
+    </div>
+    <div class="pick__type" @click="selectTypeHandler">
+      <div class="pick__type-item active" data-type-record="Все">Все</div>
+      <div class="pick__type-item" data-type-record="Доход">Доход</div>
+      <div class="pick__type-item" data-type-record="Расход">Расход</div>
+    </div>
+  </div>
+
+
+
+  <div class="list-header">
     <table>
       <thead>
         <tr>
@@ -89,7 +94,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBills', 'getRecordsData', 'getRecordsData']),
+    ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData']),
     ...mapMutations(['changePopupForm', 'setFormData']),
     editForm(data) {
       this.setFormData(data);
@@ -97,10 +102,18 @@ export default {
       this.selectedRecord = data;
 
     },
-    selectHandler(e) {}
+    selectTypeHandler(e) {
+      const target = e.target;
+      const elems = document.querySelectorAll('.pick__type-item');
+      elems.forEach(elem => {
+        elem.classList.remove('active');
+      });
+      target.classList.add('active');
+      this.typeCome = target.dataset.typeRecord
+    }
   },
   async mounted() {
-    await this.getBills();
+    await this.getBillsData();
     await this.getRecordsData();
     this.records = await this.getAllRecords;
     this.bills = await this.getAllBills;
@@ -109,66 +122,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.statistic {
-    &__header {
-      padding: 10px 0;
-      border-bottom: 1px solid #aaa;
-      display: flex;
-      &-title {
-        font-size: 20px;
-        font-weight: 700;
-      }
-      &-result {
-        font-size: 20px;
-        margin-left: 10px;
-
-      }
-    }
-    &__total {
-      padding: 10px 0;
-      border-bottom: 1px solid #aaa;
-    }
-  }
-  .top, .bottom {
+  .pick {
+    margin-bottom: 10px;
     display: flex;
-    padding: 10px 5px;
-    font-size: 18px;
-    line-height: 20px;
-    background: #11aaf3;
-    cursor: pointer;
-    border-bottom: 1px solid #fff;
-    &-title {
+    align-items: center;
+    &__title {
       font-weight: 700;
     }
-    &-result {
-      margin-left: 15px;
+    &__bill {
+      margin-left: 10px;
+      select {
+        display: block;
+        outline: none;
+        padding: 6px 10px;
+        border: 1px solid #11aaf3;
+        background: transparent;
+
+      }
     }
-    &-btn {
-      margin-left: 25px;
-      &.active {
-         transform: rotate(90deg);
+    &__type{
+      display: flex;
+      margin-left: 10px;
+      &-item {
+        padding: 5px 10px;
+        background: rgba(17, 170, 243, 0.4);
+        transition: all 0.5s;
+        cursor: pointer;
+        &:hover {
+          background: rgba(17, 170, 243, 0.6);;
         }
+        &.active {
+          background: #11aaf3;;
+          // color: #59f311;
+        }
+      }
     }
   }
-  .bills-select {
-    display: block;
-    outline: none;
-    padding: 5px 10px;
-    margin-top: 15px;
-  }
-  .bottom {
-    margin-top: 10px;
-  }
-  .bottom-list {
-    transition: 1s;
-  }
-  .done {
-    height: 0;
-    overflow: hidden;
-  }
-  // ul {
-  //   margin-top: 20px;
-  // }
+
 
 </style>

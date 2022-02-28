@@ -56,10 +56,6 @@ input {
         background: #ff4081;
         cursor: pointer;
         transition: all .5s;
-        &.active {
-          // background: #2196f3;
-          background: #11aaf3;
-        }
         &::before {
           content: "+";
           position: absolute;
@@ -72,9 +68,6 @@ input {
           font-weight: 400;
           color: #fff;
           transition: all .5s;
-        }
-        &.active::before {
-          transform: rotate(315deg);
         }
       }
     }
@@ -99,8 +92,7 @@ table {
     border-collapse: collapse;
   }
   thead {
-    // background: #00aacc;
-    background: #11aaf3;
+    background: #11aaf3;;
     tr th {
       padding: 10px 15px;
     }
@@ -184,7 +176,63 @@ table {
         max-width: 200px;
         overflow: hidden;
       }
+      &.checkbox {
+        input {
+         width: 25px;
+         height: 25px;
+         border: none;
     }
+  }
+
+    }
+  }
+  .modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(20, 20, 20, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__content {
+      position: relative;
+      max-width: 270px;
+      // height: 100%;
+      // left: 50%;
+      // top: 200px;
+      // transform: translateX(-50%);
+      background: rgb(255, 253, 253);
+    }
+  }
+  .modal.show {
+    background: rgba(70, 70, 70, 0.7);
+    & .modal__content{
+      animation: showModal .5s;
+    }
+
+  }
+  .modal-close__btn {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 700;
+    color: #fff;
+    background: #11aaf3;
+    padding: 8px 8px 10px 10px;
+    cursor: pointer;
+  }
+  @keyframes showModal {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+
   }
   .create-form {
     // position: relative;
@@ -195,5 +243,12 @@ table {
   .edit-form {
     padding: 25px 20px;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
+  }
+  .checkbox {
+        input {
+         width: 25px;
+         height: 25px;
+         border: none;
+    }
   }
 </style>

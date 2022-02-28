@@ -1,14 +1,13 @@
 <template>
 
    <div class="list-header">
-    <div class="list-header__title">Список категорий</div>
     <table>
       <thead>
         <tr>
          <th>№</th>
-         <th>NAME</th>
-         <th>TYPE</th>
-         <th>ACTION</th>
+         <th>Название</th>
+         <th>Тип</th>
+         <th>Действие</th>
        </tr>
       </thead>
       <tbody>
@@ -19,7 +18,7 @@
           <td>
             <div class="td-btn">
               <div class="edit__btn" @click.prevent="editCategory(item.id)">Edit</div>
-              <div class="remove__btn" @click="remove(item.id)">Remove</div>
+              <div class="remove__btn" @click="confirm(item.id)">Remove</div>
             </div>
           </td>
         </tr>
@@ -28,6 +27,7 @@
     <modal v-show="isPopupForm">
       <edit-category-form v-bind:category="element"/>
     </modal>
+    <confirm-modal v-bind:text="message" @result="deleteCategory"/>
   </div>
 </template>
 
@@ -35,23 +35,31 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditCategoryForm from './EditCategoryForm.vue';
+import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { Modal, EditCategoryForm },
+  components: { Modal, EditCategoryForm, ConfirmModal},
   name: 'CategoriesList',
   computed: mapGetters(['getAllCategories', 'isPopupForm', 'getCategoryById']),
   data() {
     return {
-      element: ''
+      element: '',
+      message: '',
+      id: 0
     }
   },
   methods: {
     ...mapActions(['getCategoriesData', 'removeCategoryById']),
     ...mapMutations(['changePopupForm']),
-    remove(id) {
-      const result = confirm('Вы уверенны?');
-      if(result) {
-        this.removeCategoryById(id);
+    confirm(id) {
+      this.message = 'Вы уверены? Будут удалены все связанные записи';
+      this.id = id;
+    },
+    deleteCategory(result){
+      if (result) {
+        this.removeCategoryById(this.id);
       }
+      this.message = '';
+      this.id = 0;
     },
     editCategory(id) {
       this.changePopupForm(true);
@@ -65,4 +73,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

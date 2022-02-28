@@ -11,7 +11,7 @@
       </div>
        <div class="row">
         <div class="label">
-          <label>Валюта</label>
+          <label>Тип</label>
           <span class="error">{{typeError}}</span>
         </div>
         <select class="category-form__type form-row" required v-model="type" @input="resetTypeError">

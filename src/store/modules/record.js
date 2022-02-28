@@ -13,10 +13,10 @@ export default {
     }
   },
   actions: {
-    async getRecordsData(ctx) {
+    async getRecordsData({commit}) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/records`);
       const data = await res.json();
-      ctx.commit('updateRecords', data);
+      commit('updateRecords', data);
     },
     removeRecordsByBill: {
       async handler({getters, dispatch}, data) {
@@ -80,7 +80,7 @@ export default {
       },
       root: true
     },
-    async addRecord(ctx, data) {
+    async addRecord({dispatch}, data) {
       if(!data) return
       const json = JSON.stringify(data);
       const res = await fetch(`${process.env.VUE_APP_API_URL}/records`, {
@@ -90,18 +90,18 @@ export default {
         },
         body: json
       });
-      await ctx.dispatch('getRecordsData');
+      await dispatch('getRecordsData');
     },
-    async removeRecordById(ctx, id) {
+    async removeRecordById({dispatch}, id) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/records/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-type': 'application/json'
         },
       });
-      await ctx.dispatch('getRecordsData');
+      await dispatch('getRecordsData');
     },
-    async putRecordById(ctx, data) {
+    async putRecordById({dispatch}, data) {
       if(!data.record) return
       const jsonData = JSON.stringify(data.record)
       const res = await fetch(`${process.env.VUE_APP_API_URL}/records/${data.id}`, {
@@ -111,7 +111,7 @@ export default {
         },
         body: jsonData
       });
-      await ctx.dispatch('getRecordsData');
+      await dispatch('getRecordsData');
     }
   }
 }

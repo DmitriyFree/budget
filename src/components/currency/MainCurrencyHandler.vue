@@ -7,7 +7,7 @@
         <img v-bind:class="{active: !formActive}" src="@/assets/images/triangle.svg" alt="">
       </div>
     </div>
-    <form class="" @submit.prevent="formHandler" v-bind:class="{done: formActive}">
+    <form class="" @submit.prevent="formHandler" v-bind:class="{done: !formActive}">
       <div class="row">
         <div class="label">
           <label>Выберете валюту</label>
@@ -41,19 +41,6 @@ export default {
     ...mapActions(['resetMainCurrency', 'putCurrencyById', 'changeMainCurrency']),
     formHandler() {
       this.changeMainCurrency(this.currency.id);
-      // this.resetMainCurrency();
-      // const data = {
-      //   id: this.currency.id,
-      //   currency: {
-      //     title: this.currency.title,
-      //     short: this.currency.short,
-      //     main: true,
-      //     rate: this.currency.rate
-      //   }
-
-      // }
-      // this.putCurrencyById(data);
-
     }
   },
   async mounted() {
@@ -78,6 +65,7 @@ export default {
       padding: 8px 20px;
       max-width: 140px;
       margin-bottom: 15px;
+      cursor: pointer;
       & img {
         margin-left: 10px;
       }

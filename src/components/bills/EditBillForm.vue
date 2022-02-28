@@ -91,8 +91,8 @@ export default {
       this.name = this.bill.name;
       this.currency = this.bill.currency;
       this.startBalance = this.bill.startBalance;
-  }
-},
+    }
+  },
 }
 </script>
 <style lang="scss" scoped></style>

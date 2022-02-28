@@ -9,6 +9,7 @@
     {
       "name": "Карта",
       "currency": "UAH",
+      "startBalance": "0",
       "id": 2
     }
   ],
@@ -24,12 +25,48 @@
     },
     {
       "bill": "Наличные",
-      "type": "Расход",
       "category": "Еда",
+      "type": "Расход",
       "date": "2022-02-16",
       "sum": "188",
       "description": "",
       "id": 2
+    },
+    {
+      "bill": "Наличные",
+      "category": "Зарплатa",
+      "type": "Доход",
+      "date": "2022-02-21",
+      "sum": "7245",
+      "description": "",
+      "id": 3
+    },
+    {
+      "bill": "Наличные",
+      "category": "Зарплатa",
+      "type": "Доход",
+      "date": "2022-02-21",
+      "sum": "400",
+      "description": "",
+      "id": 4
+    },
+    {
+      "bill": "Карта",
+      "category": "Дом",
+      "type": "Расход",
+      "date": "2022-02-21",
+      "sum": "148",
+      "description": "",
+      "id": 5
+    },
+    {
+      "bill": "Карта",
+      "category": "Зарплатa",
+      "type": "Доход",
+      "date": "2022-02-21",
+      "sum": "500",
+      "description": "",
+      "id": 6
     }
   ],
   "categories": [
@@ -37,11 +74,6 @@
       "name": "Зарплатa",
       "type": "Доход",
       "id": 1
-    },
-    {
-      "name": "Депозит",
-      "type": "Доход",
-      "id": 2
     },
     {
       "name": "Другое",
@@ -62,31 +94,26 @@
       "name": "Машына",
       "type": "Расход",
       "id": 6
-    },
-    {
-      "name": "Развленения",
-      "type": "Расход",
-      "id": 7
     }
   ],
   "currency": [
     {
-      "title": "Гривня",
-      "short": "UAH",
+      "id": 1,
+      "rate": "28.90005",
       "main": false,
-      "rate": "28.53568",
-      "id": 1
+      "short": "UAH",
+      "title": "Гривня"
     },
     {
-      "title": "Американский Долар",
-      "short": "USD",
+      "id": 2,
+      "rate": "1.00000",
       "main": true,
-      "rate": 1,
-      "id": 2
+      "short": "USD",
+      "title": "Американский Долар"
     },
     {
       "id": 3,
-      "rate": "0.86085",
+      "rate": "0.86000",
       "main": false,
       "short": "EUR",
       "title": "Евро"

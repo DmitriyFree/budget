@@ -32,11 +32,10 @@
 </template>
 
 <script>
-import StatisticCategory from './StatisticCategory.vue'
 import {mapGetters, mapActions} from "vuex"
-import Loader from './Loader.vue'
+import Loader from '../Loader.vue'
 export default {
-  components: { StatisticCategory, Loader },
+  components: {Loader },
   name: 'BalanceHandler',
   computed: {
     ...mapGetters(['getStatisticAllBills', 'getMainCurrency'])
@@ -44,7 +43,7 @@ export default {
     async mounted() {
     try {
       await this.toggleLoader(true);
-      await this.getBills();
+      await this.getBillsData();
       await this.getRecordsData();
       await this.getCurrencyData();
     } catch (err) {
@@ -59,7 +58,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBills', 'getRecordsData', 'getCurrencyData', 'toggleLoader']),
+    ...mapActions(['getBillsData', 'getRecordsData', 'getCurrencyData', 'toggleLoader']),
     test(data) {
       console.log(data);
     }
@@ -68,7 +67,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .statistic .handler__header {
-    border: none;
-  }
 </style>

@@ -12,8 +12,6 @@ Vue.use(Vuex)
 // https://mybudgetproject.herokuapp.com
 
 export default new Vuex.Store({
-  // state: {
-  // },
   getters: {
     getStatisticAllBills(state, getters) {
         const arr = [];
@@ -47,10 +45,6 @@ export default new Vuex.Store({
       // }
     },
   },
-  // mutations: {
-  // },
-  // actions: {
-  // },
   modules: {
     bill,
     categories,

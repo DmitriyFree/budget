@@ -84,8 +84,6 @@ export default {
 </script>
 <style lang="scss">
 .header {
-  // background: #00aacc;
-  // background: #2196f3;
   background: #11aaf3;
   padding: 10px 25px;
   display: flex;

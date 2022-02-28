@@ -19,13 +19,17 @@ export default {
     }
   },
   actions: {
-    async getBills(ctx) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`);
-      if (!res.ok) {
+    async getBillsData({commit}) {
 
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`);
+          if (!res.ok) {
+        }
+        const bills =  await res.json();
+        commit('updateBills', bills);
+      } catch (e) {
+        console.log(e);
       }
-      const bills =  await res.json();
-      ctx.commit('updateBills', bills);
     },
     async getBillById(ctx, id) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`);
@@ -34,7 +38,7 @@ export default {
       }
       return await res.json();
     },
-    async addBill(ctx, bill) {
+    async addBill({dispatch}, bill) {
       const data = JSON.stringify(bill);
       const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`, {
         method: 'POST',
@@ -43,20 +47,9 @@ export default {
         },
         body: data
       });
-      await ctx.dispatch('getBills');
+      await dispatch('getBillsData');
 
     },
-    // async putBillById(ctx, data) {
-    //   console.log(data);
-    //   const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //       'Content-type': 'application/json'
-    //     },
-    //     body: data.bill
-    //   });
-    //   await ctx.dispatch('getBills');
-    // },
     async removeBillById({dispatch, getters}, id) {
       const bills = getters.getAllBills;
       const selected = bills.filter((item) => {
@@ -69,7 +62,7 @@ export default {
           'Content-type': 'application/json'
         },
       });
-      await dispatch('getBills');
+      await dispatch('getBillsData');
     },
     removeBillsByCurrency: {
       async handler({getters, dispatch}, currencyName) {
@@ -85,11 +78,6 @@ export default {
     },
     changeCurrencyCode: {
       async handler({getters, dispatch}, data) {
-
-        // "name": "Наличные",
-        // "currency": "UAH",
-        // "startBalance": "",
-        // "id": 1
         const billList = await getters.getAllBills;
         const newArr = billList.filter((item) => {
           return item.currency == data.oldName;
@@ -135,7 +123,7 @@ export default {
         },
         body: jsonData
       });
-      await dispatch('getBills');
+      await dispatch('getBillsData');
     }
   },
 }

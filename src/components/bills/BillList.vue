@@ -1,13 +1,12 @@
 <template>
   <div class="list-header">
-    <div class="list-header__title">Список счетов</div>
     <table>
       <thead>
         <tr>
          <th>№</th>
-         <th>NAME</th>
-         <th>CURRENCY</th>
-         <th>ACTION</th>
+         <th>Название</th>
+         <th>Валюта</th>
+         <th>Действие</th>
        </tr>
       </thead>
       <tbody>
@@ -18,7 +17,7 @@
           <td>
             <div class="td-btn">
               <div class="edit__btn" @click="editBill(item.id)">Edit</div>
-              <div class="remove__btn" @click="remove(item.id)">Remove</div>
+              <div class="remove__btn" @click="confirm(item.id)">Remove</div>
             </div>
           </td>
         </tr>
@@ -27,6 +26,7 @@
     <modal v-show="isPopupForm">
       <edit-bill-form v-bind:bill="elem"/>
     </modal>
+    <confirm-modal v-bind:text="message" @result="deleteBill"/>
   </div>
 </template>
 
@@ -34,23 +34,31 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditBillForm from './EditBillForm.vue';
+import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { Modal, EditBillForm },
+  components: { Modal, EditBillForm, ConfirmModal },
   name: 'BillList',
   computed: mapGetters(['getAllBills', 'getBillById', 'isPopupForm']),
   data() {
     return {
-      elem: ''
+      elem: '',
+      message: '',
+      id: 0
     }
   },
   methods: {
-    ...mapActions(['getBills', 'removeBillById']),
+    ...mapActions(['getBillsData', 'removeBillById']),
     ...mapMutations(['changePopupForm']),
-    remove(id) {
-      const result = confirm('Вы уверенны?');
-      if(result) {
-        this.removeBillById(id);
+    confirm(id) {
+      this.message = 'Вы уверены? Будут удалены все связанные записи';
+      this.id = id;
+    },
+    deleteBill(result){
+      if (result) {
+        this.removeBillById(this.id);
       }
+      this.message = '';
+      this.id = 0;
     },
     editBill(id) {
       this.changePopupForm(true);
@@ -58,7 +66,7 @@ export default {
     }
   },
   async mounted() {
-    this.getBills();
+    this.getBillsData();
   }
 
 }

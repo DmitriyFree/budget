@@ -123,20 +123,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  // .create-form {
-  //   position: relative;
-  //   padding: 20px 0 20px;
-  //   border-bottom: 1px solid #aaa;
-  // }
-  .checkbox {
-    // display: flex;
-    // align-items: flex-end;
-    // line-height: 16px;
-    // max-width: 300px;
-    input {
-      width: 25px;
-      height: 25px;
-      border: none;
-    }
-  }
+
 </style>

@@ -23,16 +23,15 @@ export default {
     }
   },
   actions: {
-    async getCategoriesData(ctx) {
+    async getCategoriesData({commit}) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
       if (!res.ok) {
-
       }
       const data =  await res.json();
-      ctx.commit('updateCategories', data);
+      commit('updateCategories', data);
     }
     ,
-    async addCategory(ctx, category) {
+    async addCategory({dispatch}, category) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
         method: 'POST',
         headers: {
@@ -45,9 +44,7 @@ export default {
         console.log('Error');
         return
       }
-      // console.dir(category);
-      // ctx.commit('addNewCategory', JSON.parse(category));
-      await ctx.dispatch('getCategoriesData');
+      await dispatch('getCategoriesData');
     },
     async removeCategoryById(ctx, id) {
       const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {

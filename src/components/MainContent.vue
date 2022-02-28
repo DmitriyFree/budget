@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import BalanceHandler from "./BalanceHandler.vue";
+import BalanceHandler from "./balance/BalanceHandler.vue";
 import BillHandler from './bills/BillHandler.vue';
 import CategoryHandler from "./category/CategoryHandler.vue";
 import CurrencyHandler from './currency/CurrencyHandler.vue';

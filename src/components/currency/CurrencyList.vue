@@ -1,13 +1,13 @@
 <template>
   <div class="list-header">
-    <!-- <div class="list-header__title">Список валют</div> -->
     <table>
       <thead>
         <tr>
          <th>№</th>
-         <th>TITLE</th>
-         <th>SHORT</th>
-         <th>ACTION</th>
+         <th>Название</th>
+         <th>Код</th>
+         <th>Курс к {{getMainCurrency.short}}</th>
+         <th>Действие</th>
        </tr>
       </thead>
       <tbody>
@@ -15,10 +15,11 @@
           <td>{{item.id}}</td>
           <td>{{item.title}}</td>
           <td>{{item.short}}</td>
+          <td>{{item.rate}}</td>
           <td>
             <div class="td-btn">
               <div class="edit__btn" @click="edit(item.id)">Edit</div>
-              <div class="remove__btn" @click="remove(item.id)">Remove</div>
+              <div class="remove__btn" @click="confirm(item.id)">Remove</div>
             </div>
           </td>
         </tr>
@@ -27,9 +28,7 @@
     <modal v-show="isPopupForm">
       <edit-currency-form v-bind:currency="elem"/>
     </modal>
-    <!-- <modal>
-      <edit-currency-form v-bind:currency="elem"/>
-    </modal> -->
+    <confirm-modal v-bind:text="message" @result="deleteCurrency"/>
   </div>
 </template>
 
@@ -37,23 +36,31 @@
 import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditCurrencyForm from './EditCurrencyForm.vue';
+import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { Modal, EditCurrencyForm },
+  components: { Modal, EditCurrencyForm, ConfirmModal},
   name: 'CurrencyList',
   data() {
     return {
-      elem: 1
+      elem: 1,
+      message: '',
+      id: 0
     }
   },
-  computed: mapGetters(['getAllCurrencies', 'isPopupForm', 'getCurrencyById']),
+  computed: mapGetters(['getAllCurrencies', 'isPopupForm', 'getCurrencyById', 'getMainCurrency']),
   methods: {
     ...mapActions(['getCurrencyData', 'removeCurrencyById']),
     ...mapMutations(['changePopupForm']),
-    remove(id) {
-      const result = confirm('Вы уверенны?');
-      if(result) {
-        this.removeCurrencyById(id);
+    confirm(id) {
+      this.message = 'Вы уверены? Будут удалены все связанные записи';
+      this.id = id;
+    },
+    deleteCurrency(result){
+      if (result) {
+        this.removeCurrencyById(this.id);
       }
+      this.message = '';
+      this.id = 0;
     },
     edit(id) {
       this.changePopupForm(true);
@@ -67,14 +74,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .currencies {
-    &__title {
-      font-size: 18px;
-      font-weight: 700;
-      padding: 20px 0 10px;
-    }
-    &-list {
-      list-style: none;
-    }
-  }
 </style>

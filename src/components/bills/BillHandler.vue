@@ -7,7 +7,6 @@
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
-         <!-- <create-bill-form/> -->
          <create-modal v-show="isCreateForm">
            <create-bill-form/>
          </create-modal>

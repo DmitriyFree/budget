@@ -43,13 +43,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .category {
-    padding: 10px 20px;
-    &__title {
-      padding: 10px 0;
-      font-size: 20px;
-      font-weight: 700;
-      border-bottom: 1px solid #aaa;
-    }
-  }
 </style>

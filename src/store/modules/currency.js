@@ -45,7 +45,7 @@ export default {
       const test = process.env.VUE_APP_API_URL;
       ctx.commit('updateCurrency', data);
     },
-    async addCurrency(ctx, data) {
+    async addCurrency({dispatch}, data) {
       if(!data) return
       const json = JSON.stringify(data);
       const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`, {
@@ -55,7 +55,7 @@ export default {
         },
         body: json
       });
-      await ctx.dispatch('getCurrencyData');
+      await dispatch('getCurrencyData');
     },
     async removeCurrencyById({getters, dispatch}, id) {
       const currencies = getters.getAllCurrencies;
@@ -74,7 +74,6 @@ export default {
     },
     async putCurrencyById({getters, dispatch}, data) {
       if(!data.currency) return
-      // changeCurrencyCode
       const currencyList = getters.getAllCurrencies;
       const selected = currencyList.filter(item => {
         return item.id == data.id
@@ -86,9 +85,7 @@ export default {
         oldName: selected[0].short,
         newName: data.currency.short
       }
-      if (exportData.newName == exportData.oldName) {
-        return
-      } else {
+      if (exportData.newName != exportData.oldName) {
         await dispatch('changeCurrencyCode', exportData)
       }
       const jsonData = JSON.stringify(data.currency)
@@ -101,7 +98,7 @@ export default {
       });
       await dispatch('getCurrencyData');
     },
-    async resetMainCurrency(ctx) {
+    async resetMainCurrency({dispatch}) {
       let mainCurrency = await ctx.getters.getMainCurrency;
       mainCurrency.main = false;
       const json = JSON.stringify(mainCurrency);
@@ -112,7 +109,7 @@ export default {
         },
         body: json
       });
-      await ctx.dispatch('getCurrencyData');
+      await dispatch('getCurrencyData');
 
     },
     async changeMainCurrency({getters, dispatch}, id) {
@@ -121,17 +118,19 @@ export default {
       }
       const currencyList = await getters.getAllCurrencies;
 
-      const newMainCurremcy = currencyList.filter(item => {
+      const selected = currencyList.filter(item => {
         return item.id === id;
       });
-      if (newMainCurremcy.length === 0) {
+      if (selected.length === 0) {
         return;
       }
-      const ra = newMainCurremcy[0].rate;
+      const oldRate = selected[0].rate;
       const newCurrencyList = currencyList.map(item => {
         let main = false;
         if(item.id === id) main = true;
-        const newRate = (+(item.rate) / +(ra)).toFixed(5);
+        const firstParam = +(item.rate) * 100000;
+        const secondPatam = +(oldRate) * 100000;
+        const newRate = (firstParam / secondPatam).toFixed(5);
         return {
           id: item.id,
           rate: newRate,

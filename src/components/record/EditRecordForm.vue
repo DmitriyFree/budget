@@ -1,12 +1,5 @@
 <template>
   <div class="edit-form">
-          <!-- "bill": "Наличные",
-      "category": "Зарплатa",
-      "type": "Доход",
-      "date": "2022-02-16",
-      "sum": "2875",
-      "description": "",
-      "id": 1 -->
     <form @submit.prevent="formHandler">
       <div class="row">
         <div class="label">
@@ -78,7 +71,7 @@ export default {
   },
   methods: {
     ...mapMutations(['changePopupForm']),
-    ...mapActions(['getBills', 'putRecordById']),
+    ...mapActions(['getBillsData', 'putRecordById']),
     formHandler() {
       if (!this.checkFormData()) return;
       const data = {
@@ -128,7 +121,7 @@ export default {
     }
   },
   async mounted() {
-    this.getBills();
+    this.getBillsData();
    }
 }
 </script>
