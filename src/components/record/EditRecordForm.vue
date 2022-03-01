@@ -12,11 +12,21 @@
       </div>
       <div class="row">
         <div class="label">
+        <label>Тип</label>
+          <span class="error"></span>
+        </div>
+        <select v-model="type">
+          <option>Доход</option>
+          <option>Расход</option>
+        </select>
+      </div>
+      <div class="row">
+        <div class="label">
         <label>Категория</label>
           <span class="error"></span>
         </div>
         <select v-model="category">
-          <option v-for="item in getAllCategories" :key="item.id">{{item.name}}</option>
+          <option v-for="item in availableCategories" :key="item.id">{{item.name}}</option>
         </select>
       </div>
       <div class="row">
@@ -54,7 +64,12 @@ import {mapMutations, mapGetters, mapActions} from 'vuex';
 export default {
   name: 'EditRecordForm',
   props: ['record'],
-  computed: mapGetters(['getAllBills', 'getAllCategories', 'getFormData']),
+  computed: {
+    ...mapGetters(['getAllBills', 'getAllCategories', 'getFormData']),
+    availableCategories() {
+      return this.getAllCategories.filter(item => item.type == this.type);
+    },
+  },
   data() {
     return {
       id: 0,

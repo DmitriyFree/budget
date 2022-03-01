@@ -58,19 +58,10 @@
     },
     {
       "bill": "Карта",
-      "category": "Дом",
-      "type": "Расход",
-      "date": "2022-02-21",
-      "sum": "148",
-      "description": "",
-      "id": 5
-    },
-    {
-      "bill": "Карта",
-      "category": "Зарплатa",
       "type": "Доход",
+      "category": "Зарплатa",
       "date": "2022-02-21",
-      "sum": "500",
+      "sum": "2520",
       "description": "",
       "id": 6
     },
@@ -84,13 +75,22 @@
       "id": 7
     },
     {
-      "bill": "Карта в USD",
+      "bill": "Карта",
       "type": "Доход",
       "category": "Другое",
-      "date": "2022-03-01",
-      "sum": "500",
+      "date": "2022-02-27",
+      "sum": "785",
       "description": "",
-      "id": 8
+      "id": 9
+    },
+    {
+      "bill": "Карта",
+      "type": "Расход",
+      "category": "Еда",
+      "date": "2022-02-28",
+      "sum": "144",
+      "description": "",
+      "id": 10
     }
   ],
   "categories": [
