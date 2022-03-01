@@ -14,11 +14,12 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   getters: {
     getStatisticAllBills(state, getters) {
+      try {
         const arr = [];
         const bills = getters.getAllBills;
         bills.forEach(item => {
           if (!item.name) return
-            const data = {
+          const data = {
             id: item.id,
             name: item.name,
             currency: item.currency,
@@ -26,23 +27,25 @@ export default new Vuex.Store({
             income: 0,
             outcome: 0,
             inMain: 0
+          }
+          const records = getters.getAllRecords;
+          records.forEach(record => {
+            if (record.bill == item.name) {
+              if (record.type == 'Доход') data.income += +record.sum;
+              else data.outcome += +record.sum;
             }
-            const records = getters.getAllRecords;
-            records.forEach(record => {
-              if (record.bill == item.name) {
-                if(record.type == 'Доход') data.income+= +record.sum;
-                else data.outcome+= +record.sum;
-              }
-            });
-            data.total = data.income - data.outcome;
-            const currency = getters.getCurrencyByShort(item.currency);
-            if(currency) {
-              data.inMain = (data.total/currency.rate).toFixed(2);
-            }
-            arr.push(data);
+          });
+          data.total = data.income - data.outcome;
+          const currency = getters.getCurrencyByShort(item.currency);
+          if (currency) {
+            data.inMain = (data.total / currency.rate).toFixed(2);
+          }
+          arr.push(data);
         });
         return arr;
-      // }
+      } catch (e) {
+        console.log(e);
+      }
     },
   },
   modules: {

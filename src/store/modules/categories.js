@@ -1,4 +1,3 @@
-
 export default {
   state: {
     categories: []
@@ -22,62 +21,97 @@ export default {
       state.categories.push(category);
     }
   },
-  actions: {
-    async getCategoriesData({commit}) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
-      if (!res.ok) {
-      }
-      const data =  await res.json();
-      commit('updateCategories', data);
-    }
-    ,
-    async addCategory({dispatch}, category) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: category
-      });
 
-      if (!res.ok) {
-        console.log('Error');
-        return
+  actions: {
+    async getCategoriesData({
+      commit
+    }) {
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
+        if (res.ok) {
+          const data = await res.json();
+          commit('updateCategories', data);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+
+      } catch (e) {
+        console.log(e);
       }
-      await dispatch('getCategoriesData');
+
+    },
+    async addCategory({dispatch}, category) {
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: category
+        });
+
+        if (res.ok) {
+          await dispatch('getCategoriesData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
+
     },
     async removeCategoryById(ctx, id) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json'
-        },
-      });
-      await ctx.dispatch('getCategoriesData');
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json'
+          },
+        });
+        if (res.ok) {
+          await dispatch('getCategoriesData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
     },
     async putCategoryById({getters, dispatch}, data) {
-      if(!data.category) return;
-      const categoriesList = getters.getAllCategories;
-      const selected = categoriesList.filter(item => {
-        return item.id == data.id
-      });
-      if(selected.length == 0) {
-        return
+      try {
+        if (!data.category) return;
+        const categoriesList = getters.getAllCategories;
+        const selected = categoriesList.filter(item => {
+          return item.id == data.id
+        });
+        if (selected.length == 0) {
+          return
+        }
+        const exportData = {
+          oldName: selected[0].name,
+          newName: data.category.name
+        }
+
+        const jsonData = JSON.stringify(data.category)
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${data.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: jsonData
+        });
+        if (res.ok) {
+          await dispatch('changeCategoryName', exportData);
+          await dispatch('getCategoriesData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
       }
-      const exportData = {
-        oldName: selected[0].name,
-        newName: data.category.name
-      }
-      await dispatch('changeCategoryName', exportData);
-      const jsonData = JSON.stringify(data.category)
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: jsonData
-      });
-      await dispatch('getCategoriesData');
+
     }
   },
 }

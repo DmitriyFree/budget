@@ -19,111 +19,171 @@ export default {
     }
   },
   actions: {
-    async getBillsData({commit}) {
+    async getBillsData({
+      commit
+    }) {
 
       try {
         const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`);
-          if (!res.ok) {
+        if (res.ok) {
+          const bills = await res.json();
+          commit('updateBills', bills);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
         }
-        const bills =  await res.json();
-        commit('updateBills', bills);
       } catch (e) {
         console.log(e);
       }
     },
     async getBillById(ctx, id) {
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`);
-      if (!res.ok) {
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`);
+        if (res.ok) {
+          return await res.json();
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
+        }
 
+      } catch (e) {
+        console.log(e);
       }
-      return await res.json();
+
     },
     async addBill({dispatch}, bill) {
-      const data = JSON.stringify(bill);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: data
-      });
-      await dispatch('getBillsData');
+      try {
+        const data = JSON.stringify(bill);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: data
+        });
+        if (res.ok) {
+          await dispatch('getBillsData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
+          console.log(`data in JSON: ${jsonData}`);
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
+
 
     },
     async removeBillById({dispatch, getters}, id) {
-      const bills = getters.getAllBills;
-      const selected = bills.filter((item) => {
-        return item.id === id;
-      });
-      await dispatch('removeRecordsByBill', selected[0].name);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json'
-        },
-      });
-      await dispatch('getBillsData');
+      try {
+        const bills = getters.getAllBills;
+        const selected = bills.filter((item) => {
+          return item.id === id;
+        });
+
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json'
+          },
+        });
+        if (res.ok) {
+          await dispatch('removeRecordsByBill', selected[0].name);
+          await dispatch('getBillsData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
+          console.log(`data in JSON: ${jsonData}`);
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
     },
     removeBillsByCurrency: {
       async handler({getters, dispatch}, currencyName) {
-        const bills = await getters.getAllBills;
-        const newArr = bills.filter((item) => {
-          return item.currency === currencyName;
-        });
-        newArr.forEach(async (elem) => {
-          await dispatch('removeBillById', elem.id)
-        });
+
+        try {
+          const bills = await getters.getAllBills;
+          const newArr = bills.filter((item) => {
+            return item.currency === currencyName;
+          });
+          newArr.forEach(async (elem) => {
+            await dispatch('removeBillById', elem.id)
+          });
+        } catch (e) {
+          console.log(e);
+        }
+
+
       },
       root: true
     },
     changeCurrencyCode: {
       async handler({getters, dispatch}, data) {
-        const billList = await getters.getAllBills;
-        const newArr = billList.filter((item) => {
-          return item.currency == data.oldName;
-        });
-        newArr.forEach(async (elem) => {
 
-          const bill = {
-            name: elem.name,
-            currency: data.newName,
-            startBalance: elem.startBalance
+        try {
+          if(!data.oldName || !data.newName) {
+            return
           }
-          const exportData ={
-            id: elem.id,
-            bill: bill
-          }
-          await dispatch('putBillById', exportData);
-        });
+          const billList = await getters.getAllBills;
+          const newArr = billList.filter((item) => {
+            return item.currency == data.oldName;
+          });
+          newArr.forEach(async (elem) => {
+
+            const bill = {
+              name: elem.name,
+              currency: data.newName,
+              startBalance: elem.startBalance
+            }
+            const exportData = {
+              id: elem.id,
+              bill: bill
+            }
+            await dispatch('putBillById', exportData);
+          });
+
+        } catch (e) {
+          console.log(e);
+        }
+
       },
       root: true
     },
     async putBillById({getters, dispatch}, data) {
-      if(!data.bill) return
+      try {
+        if (!data.bill) return
 
-      const billList = getters.getAllBills;
-      const selected = billList.filter(item => {
-        return item.id == data.id
-      });
-      if(selected.length == 0) {
-        return
+        const billList = getters.getAllBills;
+        const selected = billList.filter(item => {
+          return item.id == data.id
+        });
+        if (selected.length == 0) {
+          return
+        }
+        const exportData = {
+          oldName: selected[0].name,
+          newName: data.bill.name
+        }
+
+        const jsonData = JSON.stringify(data.bill)
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: jsonData
+        });
+        if (res.ok) {
+          await dispatch('changeBillName', exportData);
+          await dispatch('getBillsData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
+          console.log(`data in JSON: ${jsonData}`);
+        }
+
+      } catch (e) {
+        console.log(e);
       }
-      const exportData = {
-        oldName: selected[0].name,
-        newName: data.bill.name
-      }
-      await dispatch('changeBillName', exportData);
 
-
-      const jsonData = JSON.stringify(data.bill)
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: jsonData
-      });
-      await dispatch('getBillsData');
     }
   },
 }

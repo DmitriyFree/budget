@@ -38,114 +38,163 @@ export default {
     }
   },
   actions: {
-    async getCurrencyData(ctx) {
+    async getCurrencyData({commit}) {
+      try {
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`);
+        if (res.ok) {
+          const data = await res.json();
+          commit('updateCurrency', data);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
 
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`);
-      const data = await res.json();
-      const test = process.env.VUE_APP_API_URL;
-      ctx.commit('updateCurrency', data);
     },
     async addCurrency({dispatch}, data) {
-      if(!data) return
-      const json = JSON.stringify(data);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: json
-      });
-      await dispatch('getCurrencyData');
+      try {
+        if (!data) return
+        const json = JSON.stringify(data);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: json
+        });
+        if (res.ok) {
+          await dispatch('getCurrencyData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
     },
     async removeCurrencyById({getters, dispatch}, id) {
-      const currencies = getters.getAllCurrencies;
-      const selected = currencies.filter((item) => {
-        return item.id === id;
-      });
-      await dispatch('removeBillsByCurrency', selected[0].short);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${id}`, {
+      try {
+        const currencies = getters.getAllCurrencies;
+        const selected = currencies.filter((item) => {
+          return item.id === id;
+        });
 
-        method: 'DELETE',
-        headers: {
-          'Content-type': 'application/json'
-        },
-      });
-      await dispatch('getCurrencyData');
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${id}`, {
+
+          method: 'DELETE',
+          headers: {
+            'Content-type': 'application/json'
+          },
+        });
+        if (res.ok) {
+          await dispatch('removeBillsByCurrency', selected[0].short);
+          await dispatch('getCurrencyData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
     },
     async putCurrencyById({getters, dispatch}, data) {
-      if(!data.currency) return
-      const currencyList = getters.getAllCurrencies;
-      const selected = currencyList.filter(item => {
-        return item.id == data.id
-      });
-      if(selected.length == 0) {
-        return
+      try {
+        if (!data.currency) return
+        const currencyList = getters.getAllCurrencies;
+        const selected = currencyList.filter(item => {
+          return item.id == data.id
+        });
+        if (selected.length == 0) {
+          return
+        }
+        const exportData = {
+          oldName: selected[0].short,
+          newName: data.currency.short
+        }
+        const jsonData = JSON.stringify(data.currency)
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${data.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: jsonData
+        });
+        if (res.ok) {
+          if (exportData.newName != exportData.oldName) {
+            await dispatch('changeCurrencyCode', exportData)
+          }
+          await dispatch('getCurrencyData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
       }
-      const exportData = {
-        oldName: selected[0].short,
-        newName: data.currency.short
-      }
-      if (exportData.newName != exportData.oldName) {
-        await dispatch('changeCurrencyCode', exportData)
-      }
-      const jsonData = JSON.stringify(data.currency)
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: jsonData
-      });
-      await dispatch('getCurrencyData');
+
     },
     async resetMainCurrency({dispatch}) {
-      let mainCurrency = await ctx.getters.getMainCurrency;
-      mainCurrency.main = false;
-      const json = JSON.stringify(mainCurrency);
-      const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${mainCurrency.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: json
-      });
-      await dispatch('getCurrencyData');
+      try {
+        let mainCurrency = await ctx.getters.getMainCurrency;
+        mainCurrency.main = false;
+        const json = JSON.stringify(mainCurrency);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${mainCurrency.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: json
+        });
+        if (res.ok) {
+          await dispatch('getCurrencyData');
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
 
     },
     async changeMainCurrency({getters, dispatch}, id) {
-      if(isNaN(id)) {
-        return
-      }
-      const currencyList = await getters.getAllCurrencies;
+      try {
+        if (isNaN(id)) {
+          return
+        }
+        const currencyList = await getters.getAllCurrencies;
 
-      const selected = currencyList.filter(item => {
-        return item.id === id;
-      });
-      if (selected.length === 0) {
-        return;
+        const selected = currencyList.filter(item => {
+          return item.id === id;
+        });
+        if (selected.length === 0) {
+          return;
+        }
+        const oldRate = selected[0].rate;
+        const newCurrencyList = currencyList.map(item => {
+          let main = false;
+          if (item.id === id) main = true;
+          const firstParam = +(item.rate) * 100000;
+          const secondPatam = +(oldRate) * 100000;
+          const newRate = (firstParam / secondPatam).toFixed(5);
+          return {
+            id: item.id,
+            rate: newRate,
+            main: main,
+            short: item.short,
+            title: item.title
+          }
+        })
+        await newCurrencyList.forEach(item => {
+          const data = {
+            id: item.id,
+            currency: item
+          }
+          dispatch('putCurrencyById', data);
+        });
+      } catch (e) {
+        console.log(e);
       }
-      const oldRate = selected[0].rate;
-      const newCurrencyList = currencyList.map(item => {
-        let main = false;
-        if(item.id === id) main = true;
-        const firstParam = +(item.rate) * 100000;
-        const secondPatam = +(oldRate) * 100000;
-        const newRate = (firstParam / secondPatam).toFixed(5);
-        return {
-          id: item.id,
-          rate: newRate,
-          main: main,
-          short: item.short,
-          title: item.title
-        }
-      })
-      await newCurrencyList.forEach(item => {
-        const data = {
-          id: item.id,
-          currency: item
-        }
-        dispatch('putCurrencyById', data);
-      });
+
     }
 
   },

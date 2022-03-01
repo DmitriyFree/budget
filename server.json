@@ -11,6 +11,12 @@
       "currency": "UAH",
       "startBalance": "0",
       "id": 2
+    },
+    {
+      "name": "Карта в USD",
+      "currency": "USD",
+      "startBalance": "0",
+      "id": 3
     }
   ],
   "records": [
@@ -67,6 +73,24 @@
       "sum": "500",
       "description": "",
       "id": 6
+    },
+    {
+      "bill": "Карта в USD",
+      "type": "Доход",
+      "category": "Другое",
+      "date": "2022-03-01",
+      "sum": "500",
+      "description": "",
+      "id": 7
+    },
+    {
+      "bill": "Карта в USD",
+      "type": "Доход",
+      "category": "Другое",
+      "date": "2022-03-01",
+      "sum": "500",
+      "description": "",
+      "id": 8
     }
   ],
   "categories": [
@@ -112,11 +136,11 @@
       "title": "Американский Долар"
     },
     {
-      "id": 3,
-      "rate": "0.86000",
-      "main": false,
+      "title": "Евро",
       "short": "EUR",
-      "title": "Евро"
+      "main": false,
+      "rate": "0.86000",
+      "id": 3
     }
   ]
 }
