@@ -2,8 +2,7 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Записи</div>
-      <div class="btn" @click="createForm">
-      </div>
+      <create-button class="btn" @clickButton="createForm"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
@@ -21,8 +20,9 @@ import CreateRecordForm from './CreateRecordForm.vue'
 import Records from './Records.vue'
 import CreateModal from '../modal/CreateModal.vue'
 import {mapGetters, mapMutations} from 'vuex';
+import CreateButton from '../ui/CreateButton.vue';
 export default {
-  components: { CreateRecordForm, Records, CreateModal },
+  components: { CreateRecordForm, Records, CreateModal, CreateButton },
   name: 'RecordHandler',
   computed: {
       ...mapGetters(['isCreateForm']),

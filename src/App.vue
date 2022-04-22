@@ -31,13 +31,8 @@ input {
 }
   .handler {
     padding: 10px 20px;
-    // & .loader-wrapper {
-    //   padding: 0;
-    //   background: forestgreen;
-    // }
     &__header {
       padding: 10px 0;
-      // border-bottom: 1px solid #aaa;
       display: flex;
       .title {
         font-size: 20px;
@@ -45,30 +40,8 @@ input {
         font-weight: 700;
       }
       .btn {
-        position: relative;
-        width: 30px;
-        height: 30px;
         margin-left: 20px;
-        border-radius: 3px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        background: #ff4081;
-        cursor: pointer;
-        transition: all .5s;
-        &::before {
-          content: "+";
-          position: absolute;
-          width: 30px;
-          height: 30px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          font-size: 2em;
-          font-weight: 400;
-          color: #fff;
-          transition: all .5s;
-        }
+        transform: translateY(3px);
       }
     }
     &__content-form {
@@ -92,9 +65,12 @@ table {
     border-collapse: collapse;
   }
   thead {
-    background: #11aaf3;;
+
+    // background: #11aaf3;
     tr th {
-      padding: 10px 15px;
+      padding:  10px 15px;
+      // padding: 10px 15px;
+      text-align: start;
     }
   }
   tbody {
@@ -103,22 +79,15 @@ table {
     }
   }
   td, th {
-      border: 1px solid #777;
+      // border: 1px solid #777;
+    border-bottom: 1px solid rgba(35, 35, 35, 0.5);
+    line-height: 28px;
+    // width: 100%;
   }
   .td-btn {
     display: flex;
-    .edit__btn {
-    background: #17ac17;
-    padding: 5px 10px;
-    text-align: center;
-    cursor: pointer;
-    }
     .remove__btn {
-    background: #b60b0b;
-    margin-left: 15px;
-    padding: 5px 10px;
-    text-align: center;
-    cursor: pointer;
+       margin-left: 10px;
     }
   }
   form {

@@ -2,8 +2,7 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Валюты</div>
-        <div class="btn" @click="createForm">
-      </div>
+      <create-button class="btn" @clickButton="createForm"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
@@ -23,8 +22,9 @@ import CurrencyList from './CurrencyList.vue'
 import {mapGetters, mapActions, mapMutations} from "vuex"
 import MainCurrencyHandler from './MainCurrencyHandler.vue'
 import CreateModal from '../modal/CreateModal.vue'
+import CreateButton from '../ui/CreateButton.vue'
 export default {
-  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler, CreateModal },
+  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler, CreateModal, CreateButton },
   name: 'CurrencyHandler',
   computed: {
     ...mapGetters(['getMainCurrency', 'isCreateForm'])

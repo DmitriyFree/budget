@@ -82,15 +82,6 @@
       "sum": "785",
       "description": "",
       "id": 9
-    },
-    {
-      "bill": "Карта",
-      "type": "Расход",
-      "category": "Еда",
-      "date": "2022-02-28",
-      "sum": "144",
-      "description": "",
-      "id": 10
     }
   ],
   "categories": [

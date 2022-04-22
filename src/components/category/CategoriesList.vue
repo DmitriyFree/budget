@@ -1,13 +1,13 @@
 <template>
 
    <div class="list-header">
-    <table>
+    <table class="cate">
       <thead>
         <tr>
          <th>№</th>
          <th>Название</th>
          <th>Тип</th>
-         <th>Действие</th>
+         <th class="dd">Действие</th>
        </tr>
       </thead>
       <tbody>
@@ -15,10 +15,10 @@
           <td>{{item.id}}</td>
           <td>{{item.name}}</td>
           <td>{{item.type}}</td>
-          <td>
+          <td class="action">
             <div class="td-btn">
-              <div class="edit__btn" @click.prevent="editCategory(item.id)">Edit</div>
-              <div class="remove__btn" @click="confirm(item.id)">Remove</div>
+              <edit-button class="edit__btn" @clickButton="editCategory(item.id)"></edit-button>
+              <delete-button class="remove__btn" @clickButton="confirm(item.id)"></delete-button>
             </div>
           </td>
         </tr>
@@ -36,8 +36,10 @@ import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditCategoryForm from './EditCategoryForm.vue';
 import ConfirmModal from '../modal/ConfirmModal.vue';
+import DeleteButton from '../ui/DeleteButton.vue';
+import EditButton from '../ui/EditButton.vue';
 export default {
-  components: { Modal, EditCategoryForm, ConfirmModal},
+  components: { Modal, EditCategoryForm, ConfirmModal, DeleteButton, EditButton},
   name: 'CategoriesList',
   computed: mapGetters(['getAllCategories', 'isPopupForm', 'getCategoryById']),
   data() {
@@ -64,7 +66,7 @@ export default {
     editCategory(id) {
       this.changePopupForm(true);
       this.element = this.getCategoryById(id);
-    }
+    },
   },
   async mounted() {
     this.getCategoriesData();

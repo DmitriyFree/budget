@@ -2,8 +2,7 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Счета</div>
-      <div class="btn" @click="createForm">
-      </div>
+      <create-button class="btn" @clickButton="createForm"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
@@ -20,8 +19,9 @@ import CreateModal from '../modal/CreateModal.vue'
 import BillList from './BillList.vue'
 import CreateBillForm from './CreateBillForm.vue'
 import {mapGetters, mapMutations} from "vuex"
+import CreateButton from '../ui/CreateButton.vue'
 export default {
-  components: { BillList, CreateBillForm, CreateModal },
+  components: { BillList, CreateBillForm, CreateModal, CreateButton },
   name: 'BillHandler',
   computed: {
     ...mapGetters(['isCreateForm']),

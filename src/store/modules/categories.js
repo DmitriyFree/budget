@@ -61,7 +61,7 @@ export default {
       }
 
     },
-    async removeCategoryById(ctx, id) {
+    async removeCategoryById({dispatch}, id) {
       try {
         const res = await fetch(`${process.env.VUE_APP_API_URL}/categories/${id}`, {
           method: 'DELETE',

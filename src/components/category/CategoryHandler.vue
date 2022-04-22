@@ -3,8 +3,7 @@
     <loader/>
     <div class="handler__header">
       <div class="title">Категории</div>
-      <div class="btn" @click="createForm">
-      </div>
+      <create-button class="btn" @clickButton="createForm"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form" v-bind:class="{done: !btnActive}">
@@ -22,8 +21,10 @@ import Loader from '../Loader.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
 import {mapGetters, mapMutations} from "vuex"
 import CreateModal from '../modal/CreateModal.vue'
+import EditButton from '../ui/EditButton.vue'
+import CreateButton from '../ui/CreateButton.vue'
 export default {
-  components: { CreateCategoryForm, CategoriesList, Loader, CreateModal},
+  components: { CreateCategoryForm, CategoriesList, Loader, CreateModal, EditButton, CreateButton},
   name: 'CategoryHandler',
     computed: {
       ...mapGetters(['isCreateForm']),

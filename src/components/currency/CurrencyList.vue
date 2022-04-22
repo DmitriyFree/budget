@@ -18,8 +18,10 @@
           <td>{{item.rate}}</td>
           <td>
             <div class="td-btn">
-              <div class="edit__btn" @click="edit(item.id)">Edit</div>
-              <div class="remove__btn" @click="confirm(item.id)">Remove</div>
+              <!-- <div class="edit__btn" @click="edit(item.id)">Edit</div> -->
+              <edit-button class="edit__btn" @clickButton="edit(item.id)"></edit-button>
+              <!-- <div class="remove__btn" @click="confirm(item.id)">Remove</div> -->
+              <delete-button class="remove__btn" @clickButton="confirm(item.id)"></delete-button>
             </div>
           </td>
         </tr>
@@ -37,8 +39,10 @@ import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Modal from '../modal/Modal.vue';
 import EditCurrencyForm from './EditCurrencyForm.vue';
 import ConfirmModal from '../modal/ConfirmModal.vue';
+import DeleteButton from '../ui/DeleteButton.vue';
+import EditButton from '../ui/EditButton.vue';
 export default {
-  components: { Modal, EditCurrencyForm, ConfirmModal},
+  components: { Modal, EditCurrencyForm, ConfirmModal, DeleteButton, EditButton},
   name: 'CurrencyList',
   data() {
     return {

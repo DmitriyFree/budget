@@ -67,10 +67,11 @@ export default {
   height: 100vh;
   display: flex;
   &__left {
-    width: 200px;
+    width: 220px;
     height: 100%;
     border-right: 1px solid #aaa;
-    // background: #22222240;
+    // background: #000;
+    // background: #343434;
   }
   &__right {
     width: 100%;
@@ -79,16 +80,24 @@ export default {
 }
 .menu {
   &__item {
+    line-height: 28px;
     padding: 10px 25px;
     cursor: pointer;
     transition: 0.7s;
+    // color: #fff;
+    color: #000;
+    // background: rgba(0, 0, 0, 0.1);
     &:hover {
       // background: #00aacc40;
       background: #11aaf340;
+      // background: rgba(255, 255, 255, 0.2);
+      // background: rgba(0, 0, 0, 0.2);
     }
     &.active {
       // background: #00aacc80;
       background: #11aaf380;
+      // background: rgba(255, 255, 255, 0.3);
+      // background: #000;
     }
   }
 }
