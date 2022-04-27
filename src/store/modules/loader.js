@@ -1,6 +1,6 @@
 export default {
   state: {
-    isShowLoader: false
+    isShowLoader:  false
   },
   getters: {
     isShowLoader: ({isShowLoader}) => isShowLoader

@@ -1,8 +1,8 @@
 <template>
   <div class="create-form">
     <div class="choice">
-      <div class="choice__income" @click="clickIncome">ДОХОД</div>
-      <div class="choice__outcome" @click="clickOutcome">РАСХОД</div>
+      <div class="choice__income" @click="clickIncome">Доход</div>
+      <div class="choice__outcome" @click="clickOutcome">Расход</div>
     </div>
 
     <div  v-show="income === true">
@@ -206,17 +206,21 @@ export default {
   .create-form {
     & .choice {
       display: flex;
+      margin-top: 10px;
       & div {
-        margin-right: 10px;
         cursor: pointer;
         padding: 5px 10px;
       }
       &__income {
-        background: #17ac17;
+        background: #73eb73;
       }
       &__outcome {
-        background: #b60b0b;
+        margin-left: 20px;
+        background: #ff426e;
       }
+    }
+    div .record-form {
+      margin-top: 15px;
     }
   }
 </style>

@@ -30,12 +30,13 @@ input {
   -moz-osx-font-smoothing: grayscale;
 }
   .handler {
-    padding: 10px 20px;
+    padding: 0 20px;
     &__header {
-      padding: 10px 0;
+      margin-top: 30px;
+      padding: 5px 0;
       display: flex;
       .title {
-        font-size: 20px;
+        font-size: 24px;
         line-height: 30px;
         font-weight: 700;
       }
@@ -52,6 +53,7 @@ input {
     }
   }
 .list-header {
+  padding-top: 10px;
     &__title {
       font-size: 18px;
       font-weight: 700;
@@ -66,10 +68,8 @@ table {
   }
   thead {
 
-    // background: #11aaf3;
     tr th {
       padding:  10px 15px;
-      // padding: 10px 15px;
       text-align: start;
     }
   }
@@ -79,10 +79,8 @@ table {
     }
   }
   td, th {
-      // border: 1px solid #777;
     border-bottom: 1px solid rgba(35, 35, 35, 0.5);
     line-height: 28px;
-    // width: 100%;
   }
   .td-btn {
     display: flex;
@@ -104,14 +102,12 @@ table {
         label {
           display: inline-block;
           font-size: 14px;
-          color: #11aaf3;
-        // color: #000;
+          color: rgba(35, 35, 35, 0.5);;
         }
         .error {
           color: #e90909;
           font-size: 12px;
           margin-left: 15px;
-          // display: none;
         }
       }
 
@@ -119,17 +115,16 @@ table {
         height: 32px;
         width: 220px;
         padding: 0 10px;
-        border: 1px solid #11aaf3;
-        // border: 1px solid #000;
+        border: 1px solid rgba(35, 35, 35, 0.5);
         font-size: 16px;
         line-height: 17px;
-        color: #232323;
+        color: #000;
       }
       select {
         display: block;
         outline: none;
         padding: 6px 10px;
-        border: 1px solid #11aaf3;
+        border: 1px solid rgba(35, 35, 35, 0.5);
         background: transparent;
       }
       &.btn {
@@ -137,9 +132,9 @@ table {
         font-size: 14px;
         font-weight: 700;
         color: #fff;
-        background: #11aaf3;;
+        background: #1e5f7e;
         padding: 10px 25px;
-        margin-top: 22px;
+        margin-top: 27px;
         border: none;
         cursor: pointer;
         max-width: 200px;
@@ -168,10 +163,6 @@ table {
     &__content {
       position: relative;
       max-width: 270px;
-      // height: 100%;
-      // left: 50%;
-      // top: 200px;
-      // transform: translateX(-50%);
       background: rgb(255, 253, 253);
     }
   }
@@ -191,7 +182,8 @@ table {
     font-weight: 700;
     color: #fff;
     background: #11aaf3;
-    padding: 8px 8px 10px 10px;
+    background: #1e5f7e;
+    padding: 7px 7px 8px 8px;
     cursor: pointer;
   }
   @keyframes showModal {
@@ -204,20 +196,18 @@ table {
 
   }
   .create-form {
-    // position: relative;
-    padding: 20px 20px;
+    padding: 25px 25px 40px;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
-    // border-bottom: 1px solid #aaa;
   }
   .edit-form {
-    padding: 25px 20px;
+    padding: 25px 25px 30px;
     box-shadow: 0 0 8px rgba(0,0,0,0.1);
   }
   .checkbox {
-        input {
-         width: 25px;
-         height: 25px;
-         border: none;
+    input {
+      width: 25px;
+      height: 25px;
+      border: none;
     }
   }
 </style>

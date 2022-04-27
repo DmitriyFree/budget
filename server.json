@@ -31,11 +31,11 @@
     },
     {
       "bill": "Наличные",
-      "category": "Еда",
       "type": "Расход",
+      "category": "Еда",
       "date": "2022-02-16",
       "sum": "188",
-      "description": "",
+      "description": "вввввввввр",
       "id": 2
     },
     {

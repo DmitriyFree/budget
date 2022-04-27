@@ -3,7 +3,7 @@
     <div class="inner">
       <div class="message">{{text}}</div>
       <div class="buttons">
-        <div class="buttons__item-ok">Ок</div>
+        <div class="buttons__item-ok">Да</div>
         <div class="buttons__item-cansel">Отменить</div>
       </div>
     </div>
@@ -57,23 +57,24 @@ export default {
       position: relative;
       display: inline-block;
       min-width: 300px;
-      padding: 10px 0;
+      padding: 20px 0;
       background: white;
-
-      // max-width: 320px;
       & .message {
         text-align: center;
         max-width: 320px;
       }
       & .buttons {
-        margin-top: 10px;
+        margin-top: 20px;
         display: flex;
         justify-content: center;
         & div {
-          background: #11aaf3;
+          background: #1e5f7e;
+          color: #fff;
           cursor: pointer;
           margin: 0 10px;
           padding: 5px 10px;
+          min-width: 70px;
+          text-align: center;
         }
 
       }

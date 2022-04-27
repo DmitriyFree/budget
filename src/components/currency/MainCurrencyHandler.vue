@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="main-currency">
-      <div class="main-currency__title">Основная валюта {{getMainCurrency.title}} ({{getMainCurrency.short}})</div>
+      <div class="main-currency__title">Основная валюта:    {{getMainCurrency.title}} ({{getMainCurrency.short}})</div>
       <div class="main-currency__btn" @click="formActive = !formActive">
         <span>Изменить</span>
-        <img v-bind:class="{active: !formActive}" src="@/assets/images/triangle.svg" alt="">
+        <img v-bind:class="{active: formActive}" src="@/assets/images/triangle.svg" alt="">
       </div>
     </div>
     <form class="" @submit.prevent="formHandler" v-bind:class="{done: !formActive}">
@@ -50,22 +50,28 @@ export default {
 </script>
 <style lang="scss" scoped>
   .main-currency {
-    margin-top: 10px;
+    margin-top: 20px;
     &__title {
       font-weight: 700;
       line-height: 30px;
     }
     &__btn {
       display: flex;
+      margin-top: 10px;
       line-height: 20px;
       font-size: 14px;
       font-weight: 700;
       color: #fff;
-      background: #11aaf3;
-      padding: 8px 20px;
+      background: #1e5f7e;
+      padding: 8px 15px 8px 20px;
       max-width: 140px;
       margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
       cursor: pointer;
+      & span {
+        display: inline-block;
+      }
       & img {
         margin-left: 10px;
       }

@@ -1,6 +1,27 @@
 <template>
   <div class="loader-wrapper" v-if="isShowLoader">
-    <div class="loader"></div>
+    <div class="loader">
+      <div class="loader__blocks" style="--i:1;"></div>
+      <div class="loader__blocks" style="--i:2;"></div>
+      <div class="loader__blocks" style="--i:3;"></div>
+      <div class="loader__blocks" style="--i:4;"></div>
+      <div class="loader__blocks" style="--i:5;"></div>
+      <div class="loader__blocks" style="--i:6;"></div>
+      <div class="loader__blocks" style="--i:7;"></div>
+      <div class="loader__blocks" style="--i:8;"></div>
+      <div class="loader__blocks" style="--i:9;"></div>
+      <div class="loader__blocks" style="--i:10;"></div>
+      <div class="loader__blocks" style="--i:11;"></div>
+      <div class="loader__blocks" style="--i:12;"></div>
+      <div class="loader__blocks" style="--i:13;"></div>
+      <div class="loader__blocks" style="--i:14;"></div>
+      <div class="loader__blocks" style="--i:15;"></div>
+      <div class="loader__blocks" style="--i:16;"></div>
+      <div class="loader__blocks" style="--i:17;"></div>
+      <div class="loader__blocks" style="--i:18;"></div>
+      <div class="loader__blocks" style="--i:19;"></div>
+      <div class="loader__blocks" style="--i:20;"></div>
+    </div>
   </div>
 </template>
 
@@ -16,85 +37,50 @@ export default {
 
 <style lang="scss" scoped>
 .loader-wrapper {
-  position: fixed;
-  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #797a7a;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
   }
 
 .loader  {
-  position: absolute;
-  height: 50px;
-  width: 50px;
-  top: 150px;
-  left: 250px;
-  animation: rotate 1s infinite;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  .loader__blocks {
+    position: absolute;
+    width: 6px;
+    height: 15px;
+    left: 50%;
+    background: #050c09;
+    border-radius: 3px;
+    transform: rotate(calc(18deg * var(--i)));
+    transform-origin: 0 50px;
+    animation: animate 1.4s ease-in-out infinite;
+    animation-delay: calc(0.07s * var(--i));
+  }
 }
+@keyframes animate {
+  0%,1% {
+    background: #2a302e;
+    box-shadow: none;
+  }1% {
+    background: #0f0;
+    box-shadow: 0 0 5px #0f0,
+                0 0 15px #0f0,
+                0 0 30px #0f0,
+                0 0 60px #0f0;
+  }
+  95%, 100% {
+    background: #050c09;
+    box-shadow: none;
+  }
 
-.loader:before,
-.loader:after {
-  border-radius: 50%;
-  content: '';
-  display: block;
-  height: 20px;
-  width: 20px;
-}
-.loader:before {
-  animation: ball1 1s infinite;
-  background-color: #cb2025;
-  box-shadow: 30px 0 0 #f8b334;
-  margin-bottom: 10px;
-}
-.loader:after {
-  animation: ball2 1s infinite;
-  background-color: #00a096;
-  box-shadow: 30px 0 0 #97bf0d;
-}
-
-@keyframes rotate {
-  0% {
-    -webkit-transform: rotate(0deg) scale(0.8);
-    -moz-transform: rotate(0deg) scale(0.8);
-  }
-  50% {
-    -webkit-transform: rotate(360deg) scale(1.2);
-    -moz-transform: rotate(360deg) scale(1.2);
-  }
-  100% {
-    -webkit-transform: rotate(720deg) scale(0.8);
-    -moz-transform: rotate(720deg) scale(0.8);
-  }
-}
-
-@keyframes ball1 {
-  0% {
-    box-shadow: 30px 0 0 #f8b334;
-  }
-  50% {
-    box-shadow: 0 0 0 #f8b334;
-    margin-bottom: 0;
-    -webkit-transform: translate(15px,15px);
-    -moz-transform: translate(15px, 15px);
-  }
-  100% {
-    box-shadow: 30px 0 0 #f8b334;
-    margin-bottom: 10px;
-  }
-}
-
-@keyframes ball2 {
-  0% {
-    box-shadow: 30px 0 0 #97bf0d;
-  }
-  50% {
-    box-shadow: 0 0 0 #97bf0d;
-    margin-top: -20px;
-    -webkit-transform: translate(15px,15px);
-    -moz-transform: translate(15px, 15px);
-  }
-  100% {
-    box-shadow: 30px 0 0 #97bf0d;
-    margin-top: 0;
-  }
 }
 </style>

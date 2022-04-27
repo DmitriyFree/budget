@@ -4,8 +4,10 @@
     <div class="handler__header">
       <div class="title">Баланс по Счетам</div>
     </div>
-    <table>
-      <thead>
+    <div class="handler__content">
+      <div class="list-header">
+      <table>
+        <thead>
         <tr>
          <th>№</th>
          <th>Название</th>
@@ -28,6 +30,10 @@
         </tr>
       </tbody>
     </table>
+      </div>
+
+    </div>
+
   </div>
 </template>
 

@@ -10,26 +10,24 @@
       </select>
     </div>
     <div class="pick__type" @click="selectTypeHandler">
-      <div class="pick__type-item active" data-type-record="Все">Все</div>
+      <div class="pick__type-item left  active" data-type-record="Все">Все</div>
       <div class="pick__type-item" data-type-record="Доход">Доход</div>
-      <div class="pick__type-item" data-type-record="Расход">Расход</div>
+      <div class="pick__type-item right" data-type-record="Расход">Расход</div>
     </div>
   </div>
-
-
 
   <div class="list-header">
     <table>
       <thead>
         <tr>
          <th>№</th>
-         <th>СЧЕТ</th>
-         <th>КАТЕГОРИЯ</th>
-         <th>ТИП</th>
-         <th>ДАТА</th>
-         <th>ОПИСАНИЕ</th>
-         <th>СУММА</th>
-         <th>ДЕЙСТВИЯ</th>
+         <th>Счет</th>
+         <th>Категория</th>
+         <th>Тип</th>
+         <th>Дата</th>
+         <th>Описание</th>
+         <th>Сумма</th>
+         <th>Действие</th>
        </tr>
       </thead>
       <tbody>
@@ -123,7 +121,7 @@ export default {
 
 <style lang="scss" scoped>
   .pick {
-    margin-bottom: 10px;
+    margin: 20px 0 10px;
     display: flex;
     align-items: center;
     &__title {
@@ -132,28 +130,44 @@ export default {
     &__bill {
       margin-left: 10px;
       select {
+        appearance: none;
         display: block;
         outline: none;
-        padding: 6px 10px;
-        border: 1px solid #11aaf3;
+        padding: 5px 10px;
+        border: 1px solid rgba(35, 35, 35, 0.5);
         background: transparent;
+        line-height: 20px;
+        cursor: pointer;
+        option {
+          font-size: 18px;
+        }
 
       }
     }
     &__type{
       display: flex;
-      margin-left: 10px;
+      margin-left: 15px;
+      border: 1px solid rgba(35, 35, 35, 0.5);
+      border-radius: 15px;
+      overflow: hidden;
       &-item {
         padding: 5px 10px;
         background: rgba(17, 170, 243, 0.4);
+        background: transparent;
+        line-height: 20px;
         transition: all 0.5s;
         cursor: pointer;
-        &:hover {
-          background: rgba(17, 170, 243, 0.6);;
-        }
         &.active {
-          background: #11aaf3;;
-          // color: #59f311;
+          background: #1e5f7e;
+          color: #fff;
+        }
+        &.left {
+          padding-left: 20px;
+          border-right: 1px solid rgba(35, 35, 35, 0.5);
+        }
+        &.right {
+          padding-right: 20px;
+          border-left: 1px solid rgba(35, 35, 35, 0.5);
         }
       }
     }
