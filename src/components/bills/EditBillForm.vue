@@ -6,15 +6,15 @@
           <label>Название</label>
           <span class="error show">{{nameError}}</span>
         </div>
-        <input type="text" required v-model="name" @input="resetNameError">
+        <input type="text" required v-model="candidate.name" @input="resetNameError">
       </div>
        <div class="row">
         <div class="label">
           <label>Валюта</label>
           <span class="error show">{{currencyError}}</span>
         </div>
-        <select v-model="currency" required @input="resetCurrencyError">
-          <option v-for="item in getAllCurrencies" :key="item.id" >{{item.short}}</option>
+        <select v-model="candidate.currency" required @input="resetCurrencyError">
+          <option v-for="item in getAllCurrencies" :key="item.id" >{{item.symbol}}</option>
         </select>
       </div>
       <div class="row">
@@ -22,7 +22,7 @@
           <label>Начальный баланс</label>
           <span class="error">{{startBalanceError}}</span>
         </div>
-        <input type="text" v-model="startBalance" @input="resetStartBalanceError">
+        <input type="text" v-model="candidate.startBalance" @input="resetStartBalanceError">
       </div>
       <button type="submit" class="row btn">
         Изменить
@@ -34,14 +34,17 @@
 import {mapActions, mapMutations, mapGetters} from 'vuex'
 export default {
   name: 'EditBillForm',
-  props: ['bill'],
-  computed: mapGetters(['getAllCurrencies']),
+  computed: {
+    ...mapGetters(['getSelectedBill', 'getAllCurrencies'])
+  },
   data() {
     return {
-      id: 1,
-      name: '',
-      currency: '',
-      startBalance: 0,
+      candidate: {
+        id: 1,
+        name: '',
+        currency: '',
+        startBalance: 0,
+      },
       nameError: '',
       currencyError: '',
       startBalanceError: ''
@@ -53,22 +56,22 @@ export default {
     async formHandler() {
       if (!this.checkFormData()) return
       const data = {
-        id: this.id,
+        id: this.candidate.id,
         bill: {
-          name: this.name,
-          currency: this.currency,
-          startBalance: this.startBalance
+          name: this.candidate.name,
+          currency: this.candidate.currency,
+          startBalance: this.candidate.startBalance
         }
       }
       this.putBillById(data);
       this.changePopupForm(false);
     },
     checkFormData() {
-      if (!this.name) return false;
-      if (this.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.currency) this.currencyError = 'выбирете тип';
-      if (isNaN(this.startBalance)) this.startBalanceError = 'только число';
+      if (!this.candidate.name) return false;
+      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
+      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
+      if (!this.candidate.currency) this.currencyError = 'выбирете тип';
+      if (isNaN(this.candidate.startBalance)) this.startBalanceError = 'только число';
 
 
       if(this.nameError || this.currencyError || this.startBalanceError) return false;
@@ -86,11 +89,8 @@ export default {
     },
   },
   watch: {
-    bill() {
-      this.id = this.bill.id;
-      this.name = this.bill.name;
-      this.currency = this.bill.currency;
-      this.startBalance = this.bill.startBalance;
+    getSelectedBill() {
+      this.candidate =  {...this.getSelectedBill}
     }
   },
 }

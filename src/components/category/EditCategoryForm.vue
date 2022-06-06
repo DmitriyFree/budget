@@ -6,14 +6,14 @@
           <label>Название</label>
           <span class="error">{{nameError}}</span>
         </div>
-        <input type="text" required v-model="name" @input="resetNameError">
+        <input type="text" required v-model="candidate.name" @input="resetNameError">
       </div>
        <div class="row">
         <div class="label">
           <label>Тип</label>
           <span class="error">{{typeError}}</span>
         </div>
-        <select v-model="type" required @input="resetTypeError">
+        <select v-model="candidate.type" required @input="resetTypeError">
           <option>Доход</option>
           <option>Расход</option>
         </select>
@@ -25,15 +25,19 @@
   </div>
 </template>
 <script>
-import {mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 export default {
   name: 'EditCategoryForm',
-  props: ['category'],
+  computed: {
+    ...mapGetters(['getSelectedCategory'])
+  },
   data() {
     return {
-      id: 0,
-      name: '',
-      type: '',
+      candidate: {
+        id: 0,
+        name: '',
+        type: '',
+      },
       nameError: '',
       typeError: ''
     }
@@ -44,10 +48,10 @@ export default {
     async formHandler() {
       if (!this.checkFormData()) return
       const data = {
-        id: this.id,
+        id: this.candidate.id,
         category: {
-          name: this.name,
-          type: this.type
+          name: this.candidate.name,
+          type: this.candidate.type
         }
       }
       await this.putCategoryById(data);
@@ -55,10 +59,10 @@ export default {
 
     },
     checkFormData() {
-      if (!this.name) return false;
-      if (this.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.type) this.typeError = 'выбирете тип';
+      if (!this.candidate.name) return false;
+      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
+      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
+      if (!this.candidate.type) this.typeError = 'выбирете тип';
 
       if(this.nameError || this.typeError) return false;
       return true;
@@ -72,11 +76,8 @@ export default {
     },
   },
   watch: {
-    category() {
-      // console.log(this.category);
-      this.id = this.category.id;
-      this.name = this.category.name;
-      this.type = this.category.type;
+    getSelectedCategory() {
+      this.candidate = {...this.getSelectedCategory}
     }
   }
 }

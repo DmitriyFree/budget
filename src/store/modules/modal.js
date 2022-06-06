@@ -2,7 +2,8 @@ export default {
   state: {
     formData: {},
     popupForm: false,
-    createForm: false
+    createForm: false,
+    confirmModalText: ""
   },
   getters: {
     isPopupForm(state) {
@@ -13,7 +14,11 @@ export default {
     },
     getFormData(state) {
       return state.formData;
+    },
+    getConfirmModalText(state) {
+      return state.confirmModalText;
     }
+
   },
   mutations: {
     changePopupForm(state, active) {
@@ -24,7 +29,10 @@ export default {
     },
     setFormData(state, data) {
       state.formData = data;
-   }
+    },
+    setConfirmModalText(state, text) {
+      state.confirmModalText = text;
+    }
   },
   actions: {
   }

@@ -1,16 +1,32 @@
 export default {
   state: {
-    records: []
+    records: [],
+    selectedRecord: {
+      bill: "",
+      type: "Доход",
+      category: "",
+      date: "2020-01-01",
+      sum: 0,
+      description: "",
+      id: 1
+    }
   },
   getters: {
     getAllRecords(state) {
       return state.records;
     },
+    getSelectedRecord(state) {
+      return state.selectedRecord;
+    }
   },
   mutations: {
     updateRecords(state, records) {
       state.records = records;
+    },
+    setSelectedRecord(state, record) {
+      state.selectedRecord = record;
     }
+
   },
 
   actions: {

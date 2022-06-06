@@ -1,137 +1,52 @@
 {
   "bills": [
     {
-      "name": "Наличные",
-      "currency": "UAH",
-      "startBalance": "",
-      "id": 1
-    },
-    {
-      "name": "Карта",
-      "currency": "UAH",
-      "startBalance": "0",
-      "id": 2
-    },
-    {
-      "name": "Карта в USD",
+      "name": "sdf",
       "currency": "USD",
-      "startBalance": "0",
-      "id": 3
+      "startBalance": 0,
+      "id": 1
     }
   ],
   "records": [
     {
-      "bill": "Наличные",
-      "category": "Зарплатa",
+      "bill": "sdf",
       "type": "Доход",
-      "date": "2022-02-16",
-      "sum": "2875",
+      "category": "Зарплата",
+      "date": "2022-06-07",
+      "sum": "777",
       "description": "",
       "id": 1
-    },
-    {
-      "bill": "Наличные",
-      "type": "Расход",
-      "category": "Еда",
-      "date": "2022-02-16",
-      "sum": "188",
-      "description": "вввввввввр",
-      "id": 2
-    },
-    {
-      "bill": "Наличные",
-      "category": "Зарплатa",
-      "type": "Доход",
-      "date": "2022-02-21",
-      "sum": "7245",
-      "description": "",
-      "id": 3
-    },
-    {
-      "bill": "Наличные",
-      "category": "Зарплатa",
-      "type": "Доход",
-      "date": "2022-02-21",
-      "sum": "400",
-      "description": "",
-      "id": 4
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Зарплатa",
-      "date": "2022-02-21",
-      "sum": "2520",
-      "description": "",
-      "id": 6
-    },
-    {
-      "bill": "Карта в USD",
-      "type": "Доход",
-      "category": "Другое",
-      "date": "2022-03-01",
-      "sum": "500",
-      "description": "",
-      "id": 7
-    },
-    {
-      "bill": "Карта",
-      "type": "Доход",
-      "category": "Другое",
-      "date": "2022-02-27",
-      "sum": "785",
-      "description": "",
-      "id": 9
     }
   ],
   "categories": [
     {
-      "name": "Зарплатa",
+      "name": "Зарплата",
       "type": "Доход",
       "id": 1
     },
     {
-      "name": "Другое",
-      "type": "Доход",
-      "id": 3
-    },
-    {
       "name": "Еда",
       "type": "Расход",
-      "id": 4
+      "id": 2
     },
     {
       "name": "Дом",
       "type": "Расход",
-      "id": 5
-    },
-    {
-      "name": "Машына",
-      "type": "Расход",
-      "id": 6
+      "id": 3
     }
   ],
   "currency": [
     {
-      "id": 1,
-      "rate": "28.90005",
-      "main": false,
-      "short": "UAH",
-      "title": "Гривня"
+      "title": "Американский долар",
+      "symbol": "USD",
+      "price": "1.0000",
+      "id": 1
     },
     {
-      "id": 2,
-      "rate": "1.00000",
-      "main": true,
-      "short": "USD",
-      "title": "Американский Долар"
-    },
-    {
-      "title": "Евро",
-      "short": "EUR",
-      "main": false,
-      "rate": "0.86000",
-      "id": 3
+      "title": "Украинская гривна",
+      "symbol": "UAH",
+      "price": "29.5265",
+      "id": 2
     }
   ]
 }

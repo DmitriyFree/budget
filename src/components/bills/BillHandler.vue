@@ -12,19 +12,26 @@
       </div>
       <bill-list/>
     </div>
+    <modal v-show="isPopupForm">
+      <edit-bill-form />
+    </modal>
+    <confirm-modal @result="removeBill" />
   </div>
 </template>
 <script>
 import CreateModal from '../modal/CreateModal.vue'
 import BillList from './BillList.vue'
 import CreateBillForm from './CreateBillForm.vue'
-import {mapGetters, mapMutations} from "vuex"
+import {mapGetters, mapActions ,mapMutations} from "vuex"
 import CreateButton from '../ui/CreateButton.vue'
+import Modal from '../modal/Modal.vue';
+import EditBillForm from './EditBillForm.vue';
+import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { BillList, CreateBillForm, CreateModal, CreateButton },
+  components: { BillList, CreateBillForm, CreateModal, CreateButton, Modal, EditBillForm, ConfirmModal },
   name: 'BillHandler',
   computed: {
-    ...mapGetters(['isCreateForm']),
+    ...mapGetters(['isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedBill']),
   },
   data() {
     return {
@@ -32,11 +39,18 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeCreateForm']),
+    ...mapMutations(['changeCreateForm', 'setConfirmResult']),
+    ...mapActions(['removeBillById']),
     createForm(){
       this.changeCreateForm(true);
+    },
+    removeBill(reuslt) {
+      if (reuslt) {
+        const id = this.getSelectedBill.id;
+        this.removeBillById(id);
+      }
     }
-  }
+  },
 }
 </script>
 

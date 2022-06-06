@@ -12,6 +12,7 @@
       </div>
       <records/>
     </div>
+    <confirm-modal @result="removeRecord" />
   </div>
 </template>
 
@@ -19,13 +20,15 @@
 import CreateRecordForm from './CreateRecordForm.vue'
 import Records from './Records.vue'
 import CreateModal from '../modal/CreateModal.vue'
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 import CreateButton from '../ui/CreateButton.vue';
+import Modal from '../modal/Modal.vue';
+import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { CreateRecordForm, Records, CreateModal, CreateButton },
+  components: { CreateRecordForm, Records, CreateModal, CreateButton, Modal, ConfirmModal},
   name: 'RecordHandler',
   computed: {
-      ...mapGetters(['isCreateForm']),
+      ...mapGetters(['isCreateForm', 'getSelectedRecord']),
   },
   data() {
     return {
@@ -34,8 +37,15 @@ export default {
   },
   methods: {
     ...mapMutations(['changeCreateForm']),
+    ...mapActions(['removeRecordById']),
     createForm() {
       this.changeCreateForm(true);
+    },
+    removeRecord(result){
+      if (result) {
+        const id = this.getSelectedRecord.id;
+        this.removeRecordById(id);
+      }
     }
   }
 }

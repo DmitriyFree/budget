@@ -6,7 +6,7 @@
     </div>
     <div class="handler__content">
       <div class="list-header">
-      <table>
+      <table v-if="!isEmptyList">
         <thead>
         <tr>
          <th>№</th>
@@ -30,6 +30,7 @@
         </tr>
       </tbody>
     </table>
+     <div v-else class="empty-list">Данных пока нет</div>
       </div>
 
     </div>
@@ -44,7 +45,11 @@ export default {
   components: {Loader },
   name: 'BalanceHandler',
   computed: {
-    ...mapGetters(['getStatisticAllBills', 'getMainCurrency'])
+    ...mapGetters(['getStatisticAllBills', 'getMainCurrency']),
+    isEmptyList() {
+      if (this.getStatisticAllBills.length === 0) return true;
+      else return false;
+    }
   },
     async mounted() {
     try {

@@ -16,8 +16,8 @@
     </div>
   </div>
 
-  <div class="list-header">
-    <table>
+  <div  class="list-header">
+    <table v-if="!isEmptyList">
       <thead>
         <tr>
          <th>№</th>
@@ -31,23 +31,24 @@
        </tr>
       </thead>
       <tbody>
-        <recor-item v-for="item in selectHandlerr" :key="item.id" v-bind:item="item" @edit="editForm"/>
+        <record-item v-for="item in selectHandlerr" :key="item.id" v-bind:record="item" @edit="editForm"/>
       </tbody>
     </table>
+    <div v-else class="empty-list">Список записей пуст</div>
   </div>
-   <modal v-show="isPopupForm">
+   <!-- <modal v-show="isPopupForm">
      <edit-record-form v-bind:record="selectedRecord"/>
-   </modal>
+   </modal> -->
  </div>
 </template>
 
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Modal from '../modal/Modal.vue';
-import EditRecordForm from './EditRecordForm.vue';
-import RecorItem from './RecorItem.vue';
+// import Modal from '../modal/Modal.vue';
+// import EditRecordForm from './EditRecordForm.vue';
+import RecordItem from './RecordItem.vue';
 export default {
-  components: {Modal, EditRecordForm, RecorItem },
+  components: { RecordItem },
   name: 'Records',
   data() {
     return {
@@ -89,12 +90,18 @@ export default {
         });
       }
       return result;
+    },
+    isEmptyList() {
+      if (this.selectHandlerr.length === 0) return true;
+      else return false
+
     }
   },
   methods: {
     ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData']),
     ...mapMutations(['changePopupForm', 'setFormData']),
-    editForm(data) {
+    editForm() {
+      console.log(data);
       this.setFormData(data);
       this.changePopupForm(true);
       this.selectedRecord = data;

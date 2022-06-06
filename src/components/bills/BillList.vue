@@ -1,6 +1,6 @@
 <template>
   <div class="list-header">
-    <table>
+    <table v-if="!isEmptyList">
       <thead>
         <tr>
          <th>№</th>
@@ -10,62 +10,27 @@
        </tr>
       </thead>
       <tbody>
-        <tr v-for="item of getAllBills" :key="item.id">
-          <td>{{item.id}}</td>
-          <td>{{item.name}}</td>
-          <td>{{item.currency}}</td>
-          <td>
-            <div class="td-btn">
-              <edit-button class="edit__btn" @clickButton="editBill(item.id)"></edit-button>
-              <delete-button class="remove__btn" @clickButton="confirm(item.id)"></delete-button>
-            </div>
-          </td>
-        </tr>
+        <bill-item v-for="item of getAllBills" :key="item.id" v-bind:bill="item"></bill-item>
       </tbody>
     </table>
-    <modal v-show="isPopupForm">
-      <edit-bill-form v-bind:bill="elem"/>
-    </modal>
-    <confirm-modal v-bind:text="message" @result="deleteBill"/>
+    <div v-else class="empty-list">Список счетов пуст</div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Modal from '../modal/Modal.vue';
-import EditBillForm from './EditBillForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
-import DeleteButton from '../ui/DeleteButton.vue';
-import EditButton from '../ui/EditButton.vue';
+import {mapGetters, mapActions} from 'vuex';
+import BillItem from './BillItem.vue';
 export default {
-  components: { Modal, EditBillForm, ConfirmModal, DeleteButton, EditButton },
-  name: 'BillList',
-  computed: mapGetters(['getAllBills', 'getBillById', 'isPopupForm']),
-  data() {
-    return {
-      elem: '',
-      message: '',
-      id: 0
+  components: { BillItem },
+  computed:  {
+    ...mapGetters(['getAllBills']),
+    isEmptyList() {
+      if (this.getAllBills.length === 0) return true;
+      else return false;
     }
   },
   methods: {
-    ...mapActions(['getBillsData', 'removeBillById']),
-    ...mapMutations(['changePopupForm']),
-    confirm(id) {
-      this.message = 'Вы уверены? Будут удалены все связанные записи';
-      this.id = id;
-    },
-    deleteBill(result){
-      if (result) {
-        this.removeBillById(this.id);
-      }
-      this.message = '';
-      this.id = 0;
-    },
-    editBill(id) {
-      this.changePopupForm(true);
-      this.elem = this.getBillById(id);
-    }
+    ...mapActions(['getBillsData']),
   },
   async mounted() {
     this.getBillsData();

@@ -1,6 +1,11 @@
 export default {
   state: {
-    categories: []
+    categories: [],
+    selectedCategory: {
+      "name": "",
+      "type": "",
+      "id": 1
+    },
   },
   getters: {
     getAllCategories(state) {
@@ -11,6 +16,9 @@ export default {
         const arr = state.categories.filter(item => item.id === id);
         return arr[0];
       }
+    },
+    getSelectedCategory(state) {
+      return state.selectedCategory;
     }
   },
   mutations: {
@@ -19,6 +27,9 @@ export default {
     },
     addNewCategory(state, category) {
       state.categories.push(category);
+    },
+    setSelectedCategory(state, category) {
+      state.selectedCategory = category;
     }
   },
 

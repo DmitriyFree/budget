@@ -3,31 +3,31 @@
      <form @submit.prevent="formHandler">
       <div class="row">
         <div class="label">
-          <label>Название</label>
-          <span class="error show">{{titleError}}</span>
+          <label>Код</label>
+          <span class="error show">{{shortError}}</span>
         </div>
-        <input type="text" required v-model="title" @input="resetTitleError">
+        <input type="text" disabled required v-model="candidate.symbol" @input="resetShortError">
       </div>
       <div class="row">
         <div class="label">
           <label>Название</label>
-          <span class="error show">{{shortError}}</span>
+          <span class="error show">{{titleError}}</span>
         </div>
-        <input type="text" required v-model="short" @input="resetShortError">
+        <input type="text" required v-model="candidate.title" @input="resetTitleError">
       </div>
-      <div class="row checkbox">
+      <!-- <div class="row checkbox">
         <div class="label">
           <label>Зделать основной?</label>
           <span class="error show"></span>
         </div>
         <input type="checkbox" v-model="main">
-      </div>
+      </div> -->
       <div class="row">
         <div class="label">
           <label>Курс к {{getMainCurrency.short}}</label>
           <span class="error show"></span>
         </div>
-        <input type="text" required v-model="rate" :disabled="main">
+        <input type="text" :disabled="isMainCurrency" required v-model="candidate.price">
       </div>
       <button type="submit" class="row btn">
         Изменить
@@ -41,15 +41,22 @@ export default {
   name: "EditCurrencyForm",
   props: ['currency'],
   computed: {
-    ...mapGetters(['getMainCurrency']),
+    ...mapGetters(['getMainCurrency', 'getSelectedCurrency']),
+    isMainCurrency() {
+      if (this.candidate.symbol === 'USD') {
+       this.candidate.price = 1;
+       return true;
+      } else false;
+    },
   },
   data() {
     return {
-      id: 1,
-      title: '',
-      short: '',
-      main: false,
-      rate: 1,
+      candidate: {
+        id: 1,
+        title: '',
+        symbol: '',
+        price: 1
+      },
       titleError: '',
       shortError: '',
       rateError: ''
@@ -66,12 +73,11 @@ export default {
         this.rate = 1;
       }
       const data = {
-        id: this.id,
+        id: this.candidate.id,
         currency: {
-          title: this.title,
-          short: this.short,
-          main: this.main,
-          rate: this.rate
+          title: this.candidate.title,
+          symbol: this.candidate.symbol,
+          price: this.candidate.price,
         }
 
       }
@@ -79,11 +85,11 @@ export default {
       this.changePopupForm(false);
     },
     checkFormData() {
-      if (!this.title && !this.short) return false;
-      if (this.title.length < 3) this.titleError = 'минимум 3 символа';
-      if (this.title.length > 20) this.titleError = 'максимум 20 символов';
-      if (this.isCurrencyCode(this.short)) this.shortError = 'не уникальный код';
-      if (this.short.length != 3) this.shortError = 'длина 3 символа';
+      if (!this.candidate.title && !this.candidate.symbol) return false;
+      if (this.candidate.title.length < 3) this.titleError = 'минимум 3 символа';
+      if (this.candidate.title.length > 20) this.titleError = 'максимум 20 символов';
+      if (this.isCurrencyCode(this.candidate.symbol)) this.shortError = 'не уникальный код';
+      if (this.candidate.symbol.length != 3) this.shortError = 'длина 3 символа';
 
 
 
@@ -92,11 +98,11 @@ export default {
 
     },
     isCurrencyCode(code) {
-      if (code == this.currency.short) return false;
+      // if (code == this.currency) return false;
       let result = false;
       const currencies = this.getAllCurrencies();
       currencies.forEach(item => {
-        if (item.short == code) result = true;
+        if (item.price == code) result = true;
       });
       return result;
 
@@ -112,12 +118,8 @@ export default {
     },
   },
   watch: {
-    currency() {
-      this.id = this.currency.id;
-      this.title = this.currency.title;
-      this.short = this.currency.short;
-      this.main = this.currency.main;
-      this.rate = this.currency.rate;
+    getSelectedCurrency() {
+      this.candidate = {...this.getSelectedCurrency}
   }
 },
 };

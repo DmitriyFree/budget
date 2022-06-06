@@ -1,6 +1,12 @@
 export default {
   state: {
-    bills: []
+    bills: [],
+    selectedBill: {
+      name: "",
+      currency: "",
+      records: [],
+      id: 1
+    },
   },
   getters: {
     getAllBills(state) {
@@ -11,11 +17,17 @@ export default {
         const arr = state.bills.filter(item => item.id === id);
         return arr[0];
       }
+    },
+    getSelectedBill(state) {
+      return state.selectedBill;
     }
   },
   mutations: {
     updateBills(state, bills) {
       state.bills = bills;
+    },
+    setSelectedBill(state, bill) {
+      state.selectedBill = bill;
     }
   },
   actions: {

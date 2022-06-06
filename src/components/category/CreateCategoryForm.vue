@@ -7,14 +7,14 @@
           <label>Название</label>
           <span class="error">{{nameError}}</span>
         </div>
-        <input type="text" required v-model="name" @input="resetNameError">
+        <input type="text" required v-model="candidate.name" @input="resetNameError">
       </div>
        <div class="row">
         <div class="label">
           <label>Тип</label>
           <span class="error">{{typeError}}</span>
         </div>
-        <select class="category-form__type form-row" required v-model="type" @input="resetTypeError">
+        <select class="category-form__type form-row" required v-model="candidate.type" @input="resetTypeError">
           <option selected value="Доход">Доход</option>
           <option value="Расход">Расход</option>
         </select>
@@ -32,8 +32,10 @@ export default {
   name: 'CreateCategoryForm',
   data() {
     return {
-      name: '',
-      type: '',
+      candidate: {
+        name: '',
+        type: ''
+      },
       nameError: '',
       typeError: ''
     }
@@ -43,20 +45,16 @@ export default {
     ...mapMutations(['changeCreateForm']),
     formHandler() {
       if (this.checkFormData()) {
-        const newCategory = {
-          name: this.name,
-          type: this.type
-        }
-        this.addCategory(JSON.stringify(newCategory));
+        this.addCategory(JSON.stringify(this.candidate));
         this.resetForm();
         this.changeCreateForm(false);
       }
     },
     checkFormData() {
-      if (!this.name) return false;
-      if (this.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.type) this.typeError = 'выбирете тип';
+      if (!this.candidate.name) return false;
+      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
+      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
+      if (!this.candidate.type) this.typeError = 'выбирете тип';
 
       if(this.nameError || this.typeError) return false;
       return true;
@@ -69,8 +67,8 @@ export default {
       this.typeError = '';
     },
     resetForm() {
-      this.name = '';
-      this.type = '';
+      this.candidate.name = '';
+      this.candidate.type = '';
     }
   }
 }
