@@ -1,6 +1,7 @@
 export default {
   state: {
     records: [],
+    recordsOnePage: [],
     selectedRecord: {
       bill: "",
       type: "Доход",
@@ -9,33 +10,73 @@ export default {
       sum: 0,
       description: "",
       id: 1
-    }
+    },
+    currentPageRecord: 1,
+    maxPageRecord: 1
   },
+
   getters: {
     getAllRecords(state) {
       return state.records;
     },
+    getRecordsOnePage(state) {
+      return state.recordsOnePage
+    },
     getSelectedRecord(state) {
       return state.selectedRecord;
+    },
+    getCurrentPageRecord(state) {
+      return state.currentPageRecord;
+    },
+    getMaxPageRecord(state) {
+      return state.maxPageRecord;
     }
   },
   mutations: {
     updateRecords(state, records) {
       state.records = records;
     },
+    setRecordsOnePage(state, records) {
+      state.recordsOnePage = records;
+    },
     setSelectedRecord(state, record) {
       state.selectedRecord = record;
+    },
+    setCurrentPageRecord(state, page) {
+      state.currentPageRecord = page;
+    },
+    setMaxPageRecord(state, value) {
+      state.maxPageRecord;
     }
 
   },
 
   actions: {
-    async getRecordsData({commit}) {
+    async getRecordsData({getters, commit}) {
       try {
         const res = await fetch(`${process.env.VUE_APP_API_URL}/records`);
         if (res.ok) {
           const data = await res.json();
           commit('updateRecords', data);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async refreshRecordsOnePage({getters, commit}) {
+      try {
+        const page = getters.getCurrentPageRecord;
+        const pageItems = getters.getMaxPageItems;
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/records?_page=${page}&_limit=${pageItems}`);
+        if (res.ok) {
+          const data = await res.json();
+          const limit = res.headers.get('X-Total-Count')
+          const maxPage = Math.ceil(limit / pageItems);
+          commit('setMaxPageRecord', maxPage);
+          commit('setRecordsOnePage', data);
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }

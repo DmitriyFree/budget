@@ -3,6 +3,7 @@
     <td>{{bill.id}}</td>
     <td>{{bill.name}}</td>
     <td>{{bill.currency}}</td>
+    <td>{{bill.startBalance}}</td>
     <td>
       <div class="td-btn">
         <edit-button class="edit__btn" @clickButton="editBill"></edit-button>

@@ -210,4 +210,29 @@ table {
       border: none;
     }
   }
+.row-refresh {
+  margin-top: 5px;
+  & .error {
+    display: block;
+    color: #e90909;
+    font-size: 12px;
+    line-height: 15px;
+    min-height: 15px;
+  }
+  & .wrap {
+    display: flex;
+    & .btn {
+      padding: 5px 10px;
+      color: #fff;
+      background: #1e5f7e;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+  }
+  & .img {
+    margin-left: 10px;
+  }
+  }
+
+}
 </style>

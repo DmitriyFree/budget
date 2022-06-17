@@ -17,7 +17,8 @@
   </div>
 
   <div  class="list-header">
-    <table v-if="!isEmptyList">
+    <div v-if="!isEmptyList">
+      <table >
       <thead>
         <tr>
          <th>№</th>
@@ -31,27 +32,26 @@
        </tr>
       </thead>
       <tbody>
-        <record-item v-for="item in selectHandlerr" :key="item.id" v-bind:record="item" @edit="editForm"/>
+        <record-item v-for="item in pageList" :key="item.id" v-bind:record="item"/>
       </tbody>
-    </table>
+     </table>
+      <pagination :pagesAmount="pageCount" :page="currentPage" @currentPage="updateList" />
+    </div>
     <div v-else class="empty-list">Список записей пуст</div>
   </div>
-   <!-- <modal v-show="isPopupForm">
-     <edit-record-form v-bind:record="selectedRecord"/>
-   </modal> -->
  </div>
 </template>
 
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex';
-// import Modal from '../modal/Modal.vue';
-// import EditRecordForm from './EditRecordForm.vue';
+import Pagination from '../ui/Pagination.vue';
 import RecordItem from './RecordItem.vue';
 export default {
-  components: { RecordItem },
+  components: { RecordItem, Pagination },
   name: 'Records',
   data() {
     return {
+      currentPage: 1,
       bills: [],
       selectedBill: 0,
       topActive: true,
@@ -64,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getAllBills', 'getAllRecords', 'isPopupForm']),
+    ...mapGetters(['getAllBills', 'getAllRecords', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
     billSelectHandler: function() {
 
       let result = [];
@@ -78,7 +78,7 @@ export default {
       }
       return result;
     },
-    selectHandlerr: function() {
+    selectByType: function() {
 
       let result = [];
       const records = this.billSelectHandler;
@@ -92,20 +92,30 @@ export default {
       return result;
     },
     isEmptyList() {
-      if (this.selectHandlerr.length === 0) return true;
+      if (this.selectByType.length === 0) return true;
       else return false
+    },
+    pageCount() {
+      const selectedList = this.selectByType;
+       this.currentPage = 1
+      return Math.ceil(selectedList.length / this.getMaxPageItems);
 
+    },
+    pageList() {
+      const list = []
+      const end = this.currentPage * 5;
+      const start = end - 5;
+      this.selectByType.forEach((item, index )=> {
+        if (start <= index && index < end) list.push(item);
+      });
+      return list;
     }
   },
   methods: {
     ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData']),
-    ...mapMutations(['changePopupForm', 'setFormData']),
-    editForm() {
-      console.log(data);
-      this.setFormData(data);
-      this.changePopupForm(true);
-      this.selectedRecord = data;
-
+    ...mapMutations(['changePopupForm', 'setFormData', 'setCurrentPageRecord']),
+    async updateList(currentPage) {
+      this.currentPage = currentPage;
     },
     selectTypeHandler(e) {
       const target = e.target;

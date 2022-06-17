@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="main-currency">
-      <div class="main-currency__title">Основная валюта:    {{getMainCurrency.title}} ({{getMainCurrency.short}})</div>
+      <div class="main-currency__title">В качестве основной валюты выбран {{mainCurrency.symbol}}</div>
       <div class="main-currency__btn" @click="formActive = !formActive">
-        <span>Изменить</span>
+        <span>{{buttonText}}</span>
         <img v-bind:class="{active: formActive}" src="@/assets/images/triangle.svg" alt="">
       </div>
     </div>
@@ -13,7 +13,7 @@
           <label>Выберете валюту</label>
           <span class="error show"></span>
         </div>
-        <select v-model="currency">
+        <select v-model="selectedOption">
         <option v-for="item of getAllCurrencies" :key="item.id" :value="item">{{item.title}}</option>
       </select>
       </div>
@@ -29,23 +29,32 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
   name: 'MainCurrencyHandler',
   computed: {
-    ...mapGetters(['getMainCurrency', 'getAllCurrencies'])
+    ...mapGetters(['getAllCurrencies']),
+    buttonText() {
+      if (this.formActive) return 'Скрыть'
+      else return 'Изменить'
+    }
   },
   data() {
     return {
-      currency: null,
+      mainCurrency: {
+        symbol: 'USD'
+      },
+      selectedOption: {},
       formActive: false
     }
   },
   methods: {
-    ...mapActions(['resetMainCurrency', 'putCurrencyById', 'changeMainCurrency']),
+    ...mapActions(['putCurrencyById']),
     formHandler() {
-      this.changeMainCurrency(this.currency.id);
+      this.mainCurrency = this.selectedOption;
+      this.$emit('changeCurrency', this.mainCurrency.symbol);
+      this.formActive = false;
     }
   },
-  async mounted() {
-    this.currency = await this.getMainCurrency;
-  }
+  // async mounted() {
+  //   this.currency = await this.getMainCurrency;
+  // }
 }
 </script>
 <style lang="scss" scoped>

@@ -1,6 +1,7 @@
 export default {
   state: {
     currency: [],
+    currencyOnePage: [],
     selectedCurrency: {
       "title": "",
       "symbol": "",
@@ -25,11 +26,16 @@ export default {
       {name: 'Японская иена', symbol: 'JPY', price: 1},
       {name: 'Китайский юань', symbol: 'CNY', price: 1},
       {name: 'Индийская рупия', symbol: 'INR', price: 1},
-      {name: 'Турецкая лира', symbol: 'TRY', price: 1},]
+      {name: 'Турецкая лира', symbol: 'TRY', price: 1},],
+    currentPageCurrency: 1,
+    maxPageCurrency: 1
   },
   getters: {
     getAllCurrencies(state) {
       return state.currency;
+    },
+    getCurrencyOnePage(state) {
+      return state.currencyOnePage;
     },
     getSelectedCurrency(state) {
       return state.selectedCurrency;
@@ -43,32 +49,28 @@ export default {
         return arr[0];
       }
     },
-    getCurrencyByShort(state) {
-      return (short) => {
-        const arr = state.currency.filter(item => item.short === short);
+    getCurrencyBySymbol(state) {
+      return (symbol) => {
+        const arr = state.currency.filter(item => item.symbol === symbol);
         return arr[0];
       }
-    },
-    getMainCurrency(state) {
-      let main = {};
-      const arr = state.currency;
-      arr.forEach(item => {
-        if (item.main == true) main = item;
-      });
-      return main
     },
     getAvailableCurrenceis(state) {
       return state.availableCurrencyList;
     },
-    checkOriginalCode(state) {
-      return (code) => {
-        return false;
-      }
+    getCurrentPageCurrency(state) {
+      return state.currentPageCurrency;
+    },
+    getMaxPageCurrency(state) {
+      return state.maxPageCurrency;
     }
   },
   mutations: {
     updateCurrency(state, currencies) {
       state.currency = currencies;
+    },
+    setCurrencyOnePage(state, currencies) {
+      state.currencyOnePage = currencies;
     },
     setSelectedCurrency(state, currency) {
       state.selectedCurrency = currency;
@@ -78,6 +80,12 @@ export default {
     },
     refreshAvailable(state, list) {
       state.vailableCurrencyList = list;
+    },
+    setCurrentPageCurrency(state, page) {
+      state.currentPageCurrency = page;
+    },
+    setMaxPageCurrency(state, val) {
+      state.maxPageCurrency = val;
     }
   },
   actions: {
@@ -87,6 +95,25 @@ export default {
         if (res.ok) {
           const data = await res.json();
           commit('updateCurrency', data);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}`);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+    },
+    async refreshCurrencyOnePage({getters, commit}) {
+      try {
+        const page = getters.getCurrentPageCurrency;
+        const pageItems = getters.getMaxPageItems;
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency?_page=${page}&_limit=${pageItems}`);
+        if (res.ok) {
+          const data = await res.json();
+          const limit = res.headers.get('X-Total-Count')
+          const maxPage = Math.ceil(limit / pageItems);
+          commit('setMaxPageCurrency', maxPage);
+          commit('setCurrencyOnePage', data);
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -136,6 +163,7 @@ export default {
         });
         if (res.ok) {
           await dispatch('getCurrencyData');
+          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -144,7 +172,7 @@ export default {
       }
 
     },
-    async removeCurrencyById({getters, dispatch}, id) {
+    async removeCurrencyById({getters, commit, dispatch}, id) {
       try {
         const currencies = getters.getAllCurrencies;
         const selected = currencies.filter((item) => {
@@ -161,6 +189,11 @@ export default {
         if (res.ok) {
           await dispatch('removeBillsByCurrency', selected[0].symbol);
           await dispatch('getCurrencyData');
+          if ((currencies.length % getters.getMaxPageItems) == 1 &&
+          getters.getCurrentPageCurrency == getters.getMaxPageCurrency) {
+            commit('setCurrentPageCurrency', getters.getCurrentPageCurrency - 1);
+          }
+          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -171,7 +204,6 @@ export default {
     },
     async putCurrencyById({getters, dispatch}, data) {
       try {
-        console.log(data);
         if (!data.currency) return
         const currencyList = getters.getAllCurrencies;
         const selected = currencyList.filter(item => {
@@ -185,7 +217,6 @@ export default {
           newName: data.currency.short
         }
         const jsonData = JSON.stringify(data.currency)
-        console.log(jsonData);
         const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${data.id}`, {
           method: 'PUT',
           headers: {
@@ -196,8 +227,10 @@ export default {
         if (res.ok) {
           if (exportData.newName != exportData.oldName) {
             await dispatch('changeCurrencyCode', exportData)
+
           }
           await dispatch('getCurrencyData');
+          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -206,69 +239,6 @@ export default {
       }
 
     },
-    async resetMainCurrency({dispatch}) {
-      try {
-        let mainCurrency = await ctx.getters.getMainCurrency;
-        mainCurrency.main = false;
-        const json = JSON.stringify(mainCurrency);
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${mainCurrency.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json'
-          },
-          body: json
-        });
-        if (res.ok) {
-          await dispatch('getCurrencyData');
-        } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-
-
-    },
-    async changeMainCurrency({getters, dispatch}, id) {
-      try {
-        if (isNaN(id)) {
-          return
-        }
-        const currencyList = await getters.getAllCurrencies;
-
-        const selected = currencyList.filter(item => {
-          return item.id === id;
-        });
-        if (selected.length === 0) {
-          return;
-        }
-        const oldRate = selected[0].rate;
-        const newCurrencyList = currencyList.map(item => {
-          let main = false;
-          if (item.id === id) main = true;
-          const firstParam = +(item.rate) * 100000;
-          const secondPatam = +(oldRate) * 100000;
-          const newRate = (firstParam / secondPatam).toFixed(5);
-          return {
-            id: item.id,
-            rate: newRate,
-            main: main,
-            short: item.short,
-            title: item.title
-          }
-        })
-        await newCurrencyList.forEach(item => {
-          const data = {
-            id: item.id,
-            currency: item
-          }
-          dispatch('putCurrencyById', data);
-        });
-      } catch (e) {
-        console.log(e);
-      }
-
-    }
 
   },
 }

@@ -1,16 +1,22 @@
 export default {
   state: {
     bills: [],
+    billsOnePage: [],
     selectedBill: {
       name: "",
       currency: "",
       records: [],
       id: 1
     },
+    currentPageBill: 1,
+    maxPageBill: 1
   },
   getters: {
     getAllBills(state) {
       return state.bills;
+    },
+    getBillsOnePage(state) {
+      return state.billsOnePage;
     },
     getBillById(state) {
       return (id) => {
@@ -20,18 +26,34 @@ export default {
     },
     getSelectedBill(state) {
       return state.selectedBill;
+    },
+    getCurrentPageBill(state) {
+      return state.currentPageBill;
+    },
+    getMaxPageBill(state) {
+      return state.maxPageBill;
     }
   },
   mutations: {
     updateBills(state, bills) {
       state.bills = bills;
     },
+    setBillsOnePage(state, bills) {
+      state.billsOnePage = bills;
+    },
     setSelectedBill(state, bill) {
       state.selectedBill = bill;
+    },
+    setCurrentPageBill(state, page) {
+      state.currentPageBill = page;
+    },
+    setMaxPageBill(state, value) {
+      state.maxPageBill = value;
     }
   },
   actions: {
     async getBillsData({
+      getters,
       commit
     }) {
 
@@ -40,6 +62,29 @@ export default {
         if (res.ok) {
           const bills = await res.json();
           commit('updateBills', bills);
+        } else {
+          console.error(`server error url: ${res.url} status: ${res.status}` );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async refreshBillOnePage({
+      getters,
+      commit
+    }) {
+
+      try {
+        const page = getters.getCurrentPageBill;
+        const pageItems = getters.getMaxPageItems;
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills?_page=${page}&_limit=${pageItems}`);
+        if (res.ok) {
+          const bills = await res.json();
+          const limit = res.headers.get('X-Total-Count')
+          const maxPage = Math.ceil(limit / pageItems);
+          commit('setMaxPageBill', maxPage);
+          // console.log(bills);
+          commit('setBillsOnePage', bills);
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}` );
         }
@@ -73,6 +118,7 @@ export default {
         });
         if (res.ok) {
           await dispatch('getBillsData');
+          await dispatch('refreshBillOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}` );
           console.log(`data in JSON: ${jsonData}`);
@@ -84,7 +130,7 @@ export default {
 
 
     },
-    async removeBillById({dispatch, getters}, id) {
+    async removeBillById({dispatch, commit, getters}, id) {
       try {
         const bills = getters.getAllBills;
         const selected = bills.filter((item) => {
@@ -98,8 +144,14 @@ export default {
           },
         });
         if (res.ok) {
+          const length = getters.getAllBills.length;
           await dispatch('removeRecordsByBill', selected[0].name);
           await dispatch('getBillsData');
+          if ((length % getters.getMaxPageItems) == 1 &&
+          getters.getCurrentPageBill == getters.getMaxPageBill) {
+            commit('setCurrentPageBill', getters.getCurrentPageBill - 1);
+          }
+          await dispatch('refreshBillOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}` );
           console.log(`data in JSON: ${jsonData}`);
@@ -187,6 +239,7 @@ export default {
         if (res.ok) {
           await dispatch('changeBillName', exportData);
           await dispatch('getBillsData');
+          await dispatch('refreshBillOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}` );
           console.log(`data in JSON: ${jsonData}`);

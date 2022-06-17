@@ -63,7 +63,7 @@ export default {
       if (!this.candidate.name) return false;
       if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
       if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.candidate.currency) this.currencyError = 'выбирете тип';
+      if (!this.candidate.currency) this.currencyError = 'выбирете валюту';
       if (isNaN(this.candidate.startBalance)) this.startBalanceError = 'только число';
 
 
@@ -86,8 +86,17 @@ export default {
       this.candidate.startBalance = 0
     }
   },
+  watch: {
+    async getAllCurrencies() {
+      const currencyList = this.getAllCurrencies
+      if (currencyList.length == 0) this.currencyError = 'у вас нет валют';
+      else {
+        if (this.currencyError === 'у вас нет валют') this.currencyError = '';
+      }
+    }
+  },
   async mounted() {
-    this.getCurrencyData();
+    await this.getCurrencyData();
   }
 }
 </script>

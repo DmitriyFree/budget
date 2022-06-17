@@ -15,20 +15,27 @@
         </div>
         <input type="text" required v-model="candidate.title" @input="resetTitleError">
       </div>
-      <!-- <div class="row checkbox">
-        <div class="label">
-          <label>Зделать основной?</label>
-          <span class="error show"></span>
-        </div>
-        <input type="checkbox" v-model="main">
-      </div> -->
       <div class="row">
         <div class="label">
-          <label>Курс к {{getMainCurrency.short}}</label>
+          <label>Курс к USD</label>
           <span class="error show"></span>
         </div>
         <input type="text" :disabled="isMainCurrency" required v-model="candidate.price">
       </div>
+
+      <div class="row-refresh">
+         <span class="error show">{{refreshError}}</span>
+        <div class="wrap">
+            <button  class="btn" @click.prevent="getPrice" >
+          Обновить курс
+        </button>
+        <img class="img" src="@/assets/images/refresh.svg">
+        </div>
+
+
+      </div>
+
+
       <button type="submit" class="row btn">
         Изменить
       </button>
@@ -41,7 +48,7 @@ export default {
   name: "EditCurrencyForm",
   props: ['currency'],
   computed: {
-    ...mapGetters(['getMainCurrency', 'getSelectedCurrency']),
+    ...mapGetters(['getSelectedCurrency', 'getAvailableCurrenceis']),
     isMainCurrency() {
       if (this.candidate.symbol === 'USD') {
        this.candidate.price = 1;
@@ -59,11 +66,12 @@ export default {
       },
       titleError: '',
       shortError: '',
-      rateError: ''
+      rateError: '',
+      refreshError: ''
     }
   },
   methods: {
-    ...mapActions(['putCurrencyById', 'changeMainCurrency']),
+    ...mapActions(['putCurrencyById', 'refreshPrice']),
     ...mapMutations(['changePopupForm']),
     ...mapGetters(['getAllCurrencies']),
     async formHandler() {
@@ -84,10 +92,21 @@ export default {
       await this.putCurrencyById(data);
       this.changePopupForm(false);
     },
+    async getPrice(){
+      if (this.candidate.price) {
+        if (!this.candidate.symbol) this.refreshError = 'валюта не выбрана';
+        else {
+          await this.refreshPrice();
+          const selectedObj = this.getAvailableCurrenceis.find((item) => item.symbol === this.candidate.symbol);
+          this.candidate.price = selectedObj.price;
+        }
+      } else this.candidate.price = 1;
+
+    },
     checkFormData() {
       if (!this.candidate.title && !this.candidate.symbol) return false;
       if (this.candidate.title.length < 3) this.titleError = 'минимум 3 символа';
-      if (this.candidate.title.length > 20) this.titleError = 'максимум 20 символов';
+      if (this.candidate.title.length > 25) this.titleError = 'максимум 25 символов';
       if (this.isCurrencyCode(this.candidate.symbol)) this.shortError = 'не уникальный код';
       if (this.candidate.symbol.length != 3) this.shortError = 'длина 3 символа';
 
@@ -98,7 +117,6 @@ export default {
 
     },
     isCurrencyCode(code) {
-      // if (code == this.currency) return false;
       let result = false;
       const currencies = this.getAllCurrencies();
       currencies.forEach(item => {
@@ -115,6 +133,9 @@ export default {
     },
     resetRateError() {
       this.rateError = '';
+    },
+    resetRefreshError(){
+      this.refreshError = '';
     },
   },
   watch: {

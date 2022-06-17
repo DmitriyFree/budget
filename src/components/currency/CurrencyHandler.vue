@@ -11,7 +11,6 @@
       </create-modal>
       </div>
       <currency-list/>
-      <!-- <main-currency-handler/> -->
     </div>
     <modal v-show="isPopupForm">
       <edit-currency-form />
@@ -24,7 +23,7 @@
 import {mapGetters, mapActions, mapMutations} from "vuex"
 import CreateCurrencyForm from './CreateCurrencyForm.vue'
 import CurrencyList from './CurrencyList.vue'
-import MainCurrencyHandler from './MainCurrencyHandler.vue'
+import MainCurrencyHandler from '../balance/MainCurrencyHandler.vue'
 import CreateModal from '../modal/CreateModal.vue'
 import CreateButton from '../ui/CreateButton.vue'
 import Modal from '../modal/Modal.vue';
@@ -47,7 +46,7 @@ export default {
     createForm(){
       this.changeCreateForm(true);
     },
-    removeCurrency(rusult){
+    async removeCurrency(rusult){
       if (rusult) {
         const id = this.getSelectedCurrency.id;
         this.removeCurrencyById(id);

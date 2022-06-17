@@ -1,39 +1,51 @@
 <template>
   <div class="list-header">
-    <table v-if="!isEmptyList">
+    <div  v-if="!isEmptyList">
+      <table>
       <thead>
         <tr>
          <th>№</th>
          <th>Название</th>
          <th>Валюта</th>
+         <th>Начальный баланс</th>
          <th>Действие</th>
        </tr>
       </thead>
       <tbody>
-        <bill-item v-for="item of getAllBills" :key="item.id" v-bind:bill="item"></bill-item>
+        <bill-item v-for="item of getBillsOnePage" :key="item.id" v-bind:bill="item"></bill-item>
       </tbody>
-    </table>
+        </table>
+        <pagination :pagesAmount="getMaxPageBill" :page="getCurrentPageBill" @currentPage="updateList"/>
+    </div>
+
+
     <div v-else class="empty-list">Список счетов пуст</div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
+import Pagination from '../ui/Pagination.vue';
 import BillItem from './BillItem.vue';
 export default {
-  components: { BillItem },
+  components: { BillItem, Pagination },
   computed:  {
-    ...mapGetters(['getAllBills']),
+    ...mapGetters(['getBillsOnePage', 'getMaxPageBill', 'getCurrentPageBill']),
     isEmptyList() {
-      if (this.getAllBills.length === 0) return true;
+      if (this.getBillsOnePage.length === 0) return true;
       else return false;
     }
   },
   methods: {
-    ...mapActions(['getBillsData']),
+    ...mapActions(['refreshBillOnePage']),
+    ...mapMutations(['setCurrentPageBill']),
+    async updateList(currentPage) {
+      this.setCurrentPageBill(currentPage);
+      await this.refreshBillOnePage();
+    }
   },
   async mounted() {
-    this.getBillsData();
+    await this.refreshBillOnePage();
   }
 
 }

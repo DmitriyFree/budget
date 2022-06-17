@@ -1,8 +1,8 @@
 <template>
   <div class="create-form">
     <div class="choice">
-      <div class="choice__income" @click="clickIncome">Доход</div>
-      <div class="choice__outcome" @click="clickOutcome">Расход</div>
+      <div class="choice__income" :class="{'active': candidate.income}" @click="clickIncome">Доход</div>
+      <div class="choice__outcome" :class="{'active': !candidate.income}" @click="clickOutcome">Расход</div>
     </div>
 
     <div  v-show="candidate.income === true">
@@ -10,7 +10,7 @@
       <div class="row">
         <div class="label">
         <label>Счет</label>
-          <span class="error"></span>
+          <span class="error">{{billError}}</span>
         </div>
         <select v-model="candidate.bill" required>
           <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
@@ -19,7 +19,7 @@
       <div class="row">
         <div class="label">
         <label>Категория</label>
-          <span class="error"></span>
+          <span class="error">{{categoryError}}</span>
         </div>
         <select v-model="candidate.category" required>
           <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
@@ -59,7 +59,7 @@
       <div class="row">
         <div class="label">
         <label>Счет</label>
-          <span class="error"></span>
+          <span class="error">{{billError}}</span>
         </div>
         <select v-model="candidate.bill">
           <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
@@ -68,7 +68,7 @@
       <div class="row">
         <div class="label">
         <label>Категория</label>
-          <span class="error"></span>
+          <span class="error">{{categoryError}}</span>
         </div>
         <select v-model="candidate.category">
           <option v-for="item in outcomeCategories" :key="item.id">{{item.name}}</option>
@@ -119,6 +119,8 @@ export default {
         date: '',
         description: '',
       },
+      billError: '',
+      categoryError: '',
       sumError: '',
       dateError: '',
       descriptionError: ''
@@ -169,7 +171,7 @@ export default {
       if (isNaN(this.candidate.sum)) this.sumError = 'только число';
 
 
-      if(this.sumError || this.dateError || this.descriptionError) return false;
+      if(this.billError || this.categoryError || this.sumError || this.dateError || this.descriptionError) return false;
       return true;
     },
     resetSumError() {
@@ -196,11 +198,27 @@ export default {
 
       return `${year}-${month}-${day}`;
     }
-   },
-    async mounted() {
-      this.getBillsData();
-      this.candidate.date = this.getCurrentData()
-   }
+  },
+  watch: {
+    async getAllBills() {
+      const billList = this.getAllBills
+      if (billList.length == 0) this.billError = 'у вас еще не щетов';
+      else {
+        if (this.billError === 'у вас еще не щетов') this.billError = '';
+      }
+    },
+    async getAllCategories() {
+      const categoryList = this.getAllCategories
+      if (categoryList.length == 0) this.categoryError = 'у вас нет категории';
+      else {
+        if (this.categoryError === 'у вас нет категории') this.categoryError= '';
+      }
+    }
+  },
+  async mounted() {
+    this.getBillsData();
+    this.candidate.date = this.getCurrentData()
+  }
 }
 </script>
 
@@ -212,6 +230,10 @@ export default {
       & div {
         cursor: pointer;
         padding: 5px 10px;
+        border:  2px solid transparent;
+        &.active {
+          border: 2px solid #000;
+        }
       }
       &__income {
         background: #73eb73;
