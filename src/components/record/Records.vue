@@ -64,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getAllBills', 'getAllRecords', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
+    ...mapGetters(['getAllBills', 'getAllRecords', 'getMaxPageItems', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
     billSelectHandler: function() {
 
       let result = [];
@@ -97,14 +97,15 @@ export default {
     },
     pageCount() {
       const selectedList = this.selectByType;
+      console.log(selectedList);
        this.currentPage = 1
       return Math.ceil(selectedList.length / this.getMaxPageItems);
 
     },
     pageList() {
       const list = []
-      const end = this.currentPage * 5;
-      const start = end - 5;
+      const end = this.currentPage * this.getMaxPageItems;
+      const start = end - this.getMaxPageItems;
       this.selectByType.forEach((item, index )=> {
         if (start <= index && index < end) list.push(item);
       });

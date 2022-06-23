@@ -52,6 +52,51 @@
       "sum": "4",
       "description": "",
       "id": 7
+    },
+    {
+      "bill": "Наличние",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "2022-06-22",
+      "sum": "44",
+      "description": "",
+      "id": 8
+    },
+    {
+      "bill": "Наличние",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "2022-06-22",
+      "sum": "555",
+      "description": "",
+      "id": 9
+    },
+    {
+      "bill": "Наличние",
+      "type": "Расход",
+      "category": "Телефон",
+      "date": "2022-06-22",
+      "sum": "555",
+      "description": "",
+      "id": 10
+    },
+    {
+      "bill": "Наличние",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "2022-06-22",
+      "sum": "555",
+      "description": "",
+      "id": 11
+    },
+    {
+      "bill": "Наличние",
+      "type": "Расход",
+      "category": "Машына",
+      "date": "2022-06-22",
+      "sum": "555",
+      "description": "",
+      "id": 12
     }
   ],
   "categories": [
