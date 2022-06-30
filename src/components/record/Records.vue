@@ -65,10 +65,34 @@ export default {
   },
   computed: {
     ...mapGetters(['getAllBills', 'getAllRecords', 'getMaxPageItems', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
+
+    transferHandler() {
+      const records = this.getAllRecords
+      const returnedList = []
+
+      records.forEach(item => {
+        if ( item.type == 'transfer') {
+          const firstRecord = {...item.fromBill}
+          firstRecord.date = item.date
+          firstRecord.id = item.id
+
+          const secondRecord = {...item.toBill}
+          secondRecord.date = item.date
+          secondRecord.id = item.id
+
+          returnedList.push(firstRecord)
+          returnedList.push(secondRecord)
+
+        } else returnedList.push(item)
+      })
+
+      return returnedList
+    },
+
     billSelectHandler: function() {
 
       let result = [];
-      const records = this.getAllRecords;
+      const records = this.getAllRecords
       if (this.billName === "Все") {
         result = records;
       } else {
@@ -97,7 +121,6 @@ export default {
     },
     pageCount() {
       const selectedList = this.selectByType;
-      console.log(selectedList);
        this.currentPage = 1
       return Math.ceil(selectedList.length / this.getMaxPageItems);
 

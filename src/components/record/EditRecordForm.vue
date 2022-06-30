@@ -103,6 +103,7 @@ export default {
         }
       }
       this.putRecordById(data);
+      this.$emit('hideForm', true);
       this.changePopupForm(false);
     },
     checkFormData() {

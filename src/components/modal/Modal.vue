@@ -19,6 +19,7 @@ export default {
     ...mapMutations(['changePopupForm']),
     closeModal() {
       this.changePopupForm(false);
+      this.$emit('closeForm', true);
     },
     clickListener(e) {
       const target = e.target;

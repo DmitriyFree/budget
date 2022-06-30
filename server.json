@@ -1,102 +1,68 @@
 {
   "bills": [
     {
-      "name": "Наличние",
-      "currency": "USD",
-      "startBalance": "1000",
+      "name": "Налычние",
+      "currency": "UAH",
+      "startBalance": "0",
       "id": 1
+    },
+    {
+      "name": "Карта",
+      "currency": "UAH",
+      "startBalance": 0,
+      "id": 2
+    },
+    {
+      "name": "Наличные в Доларе",
+      "currency": "USD",
+      "startBalance": "200",
+      "id": 3
     }
   ],
   "records": [
     {
-      "bill": "Наличние",
+      "bill": "Налычние",
       "category": "Зарплата",
       "type": "Доход",
-      "date": "2022-06-15",
-      "sum": "5555",
+      "date": "2022-06-04",
+      "sum": "10000",
       "description": "",
       "id": 1
     },
     {
-      "bill": "Наличние",
-      "category": "Машына",
+      "bill": "Налычние",
       "type": "Расход",
-      "date": "2022-06-15",
-      "sum": "400",
+      "category": "Транспорт",
+      "date": "2022-06-05",
+      "sum": "15",
       "description": "",
       "id": 2
     },
     {
-      "bill": "Наличние",
-      "category": "Машына",
+      "bill": "Налычние",
+      "sum": "100",
+      "category": "Перевод",
       "type": "Расход",
-      "date": "2022-06-15",
-      "sum": "444",
-      "description": "",
-      "id": 5
+      "date": "2022-06-16",
+      "transfer": {
+        "rate": 1,
+        "firstRecordId": 3,
+        "secondRecordId": 4
+      },
+      "id": 3
     },
     {
-      "bill": "Наличние",
-      "category": "Машына",
-      "type": "Расход",
-      "date": "2022-06-17",
-      "sum": "555",
-      "description": "",
-      "id": 6
-    },
-    {
-      "bill": "Наличние",
-      "category": "Машына",
-      "type": "Расход",
-      "date": "2022-06-17",
-      "sum": "4",
-      "description": "",
-      "id": 7
-    },
-    {
-      "bill": "Наличние",
+      "bill": "Карта",
+      "sum": "100",
+      "category": "Перевод",
       "type": "Доход",
-      "category": "Зарплата",
-      "date": "2022-06-22",
-      "sum": "44",
-      "description": "",
-      "id": 8
-    },
-    {
-      "bill": "Наличние",
-      "type": "Доход",
-      "category": "Зарплата",
-      "date": "2022-06-22",
-      "sum": "555",
-      "description": "",
-      "id": 9
-    },
-    {
-      "bill": "Наличние",
-      "type": "Расход",
-      "category": "Телефон",
-      "date": "2022-06-22",
-      "sum": "555",
-      "description": "",
-      "id": 10
-    },
-    {
-      "bill": "Наличние",
-      "type": "Доход",
-      "category": "Зарплата",
-      "date": "2022-06-22",
-      "sum": "555",
-      "description": "",
-      "id": 11
-    },
-    {
-      "bill": "Наличние",
-      "type": "Расход",
-      "category": "Машына",
-      "date": "2022-06-22",
-      "sum": "555",
-      "description": "",
-      "id": 12
+      "date": "2022-06-16",
+      "transfer": {
+        "rate": 1,
+        "firstRecordId": 3,
+        "secondRecordId": 4
+      },
+      "id": 4
     }
   ],
   "categories": [
@@ -141,6 +107,25 @@
       "title": "Американский долар",
       "symbol": "USD",
       "price": "1.0000",
+      "id": 1
+    },
+    {
+      "title": "Канадский долар",
+      "symbol": "CAD",
+      "price": "1.2919",
+      "id": 2
+    },
+    {
+      "title": "Украинская гривна",
+      "symbol": "UAH",
+      "price": "34.0000",
+      "id": 3
+    }
+  ],
+  "currencytransfer": [
+    {
+      "firstRecordId": 15,
+      "secondRecordId": 16,
       "id": 1
     }
   ]

@@ -19,6 +19,12 @@ export default {
     getAllRecords(state) {
       return state.records;
     },
+    getRecordById(state) {
+      return (id) => {
+        const arr = state.records.filter(item => item.id === id)
+        return arr[0];
+      }
+    },
     getRecordsOnePage(state) {
       return state.recordsOnePage
     },
@@ -35,6 +41,9 @@ export default {
   mutations: {
     updateRecords(state, records) {
       state.records = records;
+    },
+    updateTransfers(state, transfers) {
+      state.currencyTransers = transfers
     },
     setRecordsOnePage(state, records) {
       state.recordsOnePage = records;
@@ -189,6 +198,81 @@ export default {
       }
 
     },
+    async addTransfer({dispatch}, data) {
+      try {
+
+        const firstCandidate = {
+          record: {
+            bill: data.firstBill,
+            sum: data.firstSum,
+            category: 'Перевод',
+            type: 'Расход',
+            date: data.date,
+            transfer: {
+              rate: data.rate,
+              firstRecordId: 1,
+              secondRecordId: 1
+            }
+          }
+        }
+        const secondCandidate = {
+          record: {
+            bill: data.secondBill,
+            sum: data.secondSum,
+            category: 'Перевод',
+            type: 'Доход',
+            date: data.date,
+            transfer: {
+              rate: data.rate,
+              firstRecordId: 1,
+              secondRecordId: 1
+            }
+          }
+        }
+
+        const firstRecord = await createRecord(firstCandidate.record);
+        const secondRecord = await createRecord(secondCandidate.record);
+
+
+        firstCandidate.id = firstRecord.id
+
+        firstCandidate.record.transfer.firstRecordId = firstRecord.id
+        firstCandidate.record.transfer.secondRecordId = secondRecord.id
+
+        secondCandidate.id = secondRecord.id
+
+        secondCandidate.record.transfer.firstRecordId = firstRecord.id
+        secondCandidate.record.transfer.secondRecordId = secondRecord.id
+
+        await dispatch('putRecordById', await firstCandidate)
+        await dispatch('putRecordById', await secondCandidate)
+
+        await dispatch('getRecordsData')
+
+
+      async function createRecord (record) {
+          const json = JSON.stringify(record);
+          const res = await fetch(`${process.env.VUE_APP_API_URL}/records`, {
+            method: 'POST',
+            headers: {
+              'Content-type': 'application/json'
+            },
+            body: json
+          });
+          if (res.ok) {
+            const resp = await res.json();
+            return resp
+          } else {
+            console.error(`server error url: ${res.url} status: ${res.status}`);
+            return false;
+          }
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
+
+    },
     async removeRecordById({dispatch}, id) {
       try {
         const res = await fetch(`${process.env.VUE_APP_API_URL}/records/${id}`, {
@@ -202,6 +286,15 @@ export default {
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
+      } catch (e) {
+        console.log(e);
+      }
+
+    },
+    async removeTransfer({dispatch}, record) {
+      try {
+        await dispatch('removeRecordById', record.transfer.firstRecordId)
+        await dispatch('removeRecordById', record.transfer.secondRecordId)
       } catch (e) {
         console.log(e);
       }
@@ -223,6 +316,50 @@ export default {
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
+      } catch (e) {
+        console.log(e);
+      }
+
+    },
+    async putTransfer({dispatch}, data) {
+      try {
+
+        const firstCandidate = {
+          record: {
+            bill: data.firstBill,
+            sum: data.firstSum,
+            category: 'Перевод',
+            type: 'Расход',
+            date: data.date,
+            transfer: {
+              rate: data.rate,
+              firstRecordId: data.firstRecordId,
+              secondRecordId: data.secondRecordId
+            }
+          },
+          id: data.firstRecordId
+        }
+        const secondCandidate = {
+          record: {
+            bill: data.secondBill,
+            sum: data.secondSum,
+            category: 'Перевод',
+            type: 'Доход',
+            date: data.date,
+            transfer: {
+              rate: data.rate,
+              firstRecordId: data.firstRecordId,
+              secondRecordId: data.secondRecordId
+            }
+          },
+          id: data.secondRecordId
+        }
+
+        await dispatch('putRecordById', firstCandidate)
+        await dispatch('putRecordById', secondCandidate)
+
+        await dispatch('getRecordsData')
+
       } catch (e) {
         console.log(e);
       }

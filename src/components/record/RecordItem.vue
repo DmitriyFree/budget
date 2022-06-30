@@ -37,13 +37,6 @@ export default {
     }
   },
   computed: mapGetters(['getConfirmResult']),
-  // data() {
-  //   return {
-  //     elem: '',
-  //     message: '',
-  //     id: 0
-  //   }
-  // },
   methods: {
     ...mapMutations(['changePopupForm', 'setConfirmModalText', 'setSelectedRecord']),
     editRecord() {
@@ -54,14 +47,6 @@ export default {
       await this.setConfirmModalText('Вы уверенны?');
       this.setSelectedRecord(this.record);
     },
-    // deleteItem(result){
-    //   if (result) {
-    //     this.removeRecordById(this.id);
-    //   }
-    //   this.message = '';
-    //   this.id = 0;
-    // },
-
   }
 }
 </script>
