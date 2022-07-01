@@ -32,10 +32,10 @@
        </tr>
       </thead>
       <tbody>
-        <record-item v-for="item in pageList" :key="item.id" v-bind:record="item"/>
+        <record-item v-for="item in pageItems" :key="item.id" v-bind:record="item"/>
       </tbody>
      </table>
-      <pagination :pagesAmount="pageCount" :page="currentPage" @currentPage="updateList" />
+      <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" />
     </div>
     <div v-else class="empty-list">Список записей пуст</div>
   </div>
@@ -44,11 +44,12 @@
 
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Pagination from '../ui/Pagination.vue';
 import RecordItem from './RecordItem.vue';
+import paginationMixin from '@/mixins/pagination.mixin'
 export default {
-  components: { RecordItem, Pagination },
   name: 'Records',
+  components: { RecordItem },
+  mixins: [paginationMixin],
   data() {
     return {
       currentPage: 1,
@@ -65,30 +66,6 @@ export default {
   },
   computed: {
     ...mapGetters(['getAllBills', 'getAllRecords', 'getMaxPageItems', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
-
-    transferHandler() {
-      const records = this.getAllRecords
-      const returnedList = []
-
-      records.forEach(item => {
-        if ( item.type == 'transfer') {
-          const firstRecord = {...item.fromBill}
-          firstRecord.date = item.date
-          firstRecord.id = item.id
-
-          const secondRecord = {...item.toBill}
-          secondRecord.date = item.date
-          secondRecord.id = item.id
-
-          returnedList.push(firstRecord)
-          returnedList.push(secondRecord)
-
-        } else returnedList.push(item)
-      })
-
-      return returnedList
-    },
-
     billSelectHandler: function() {
 
       let result = [];
@@ -119,27 +96,13 @@ export default {
       if (this.selectByType.length === 0) return true;
       else return false
     },
-    pageCount() {
-      const selectedList = this.selectByType;
-       this.currentPage = 1
-      return Math.ceil(selectedList.length / this.getMaxPageItems);
-
-    },
-    pageList() {
-      const list = []
-      const end = this.currentPage * this.getMaxPageItems;
-      const start = end - this.getMaxPageItems;
-      this.selectByType.forEach((item, index )=> {
-        if (start <= index && index < end) list.push(item);
-      });
-      return list;
-    }
   },
   methods: {
     ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData']),
     ...mapMutations(['changePopupForm', 'setFormData', 'setCurrentPageRecord']),
     async updateList(currentPage) {
-      this.currentPage = currentPage;
+      this.page = currentPage
+      await this.setupPagination(this.selectByType)
     },
     selectTypeHandler(e) {
       const target = e.target;
@@ -151,11 +114,17 @@ export default {
       this.typeCome = target.dataset.typeRecord
     }
   },
+  watch: {
+    selectByType() {
+      this.setupPagination(this.selectByType)
+    }
+  },
   async mounted() {
     await this.getBillsData();
     await this.getRecordsData();
     this.records = await this.getAllRecords;
     this.bills = await this.getAllBills;
+    await this.setupPagination(this.selectByType)
   }
 }
 </script>

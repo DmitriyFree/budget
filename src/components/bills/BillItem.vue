@@ -14,13 +14,9 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
-import ConfirmModal from '../modal/ConfirmModal.vue';
-import DeleteButton from '../ui/DeleteButton.vue';
-import EditButton from '../ui/EditButton.vue';
+import {mapGetters, mapMutations} from 'vuex';
 export default {
   name: 'BillItem',
-  components: {EditButton, DeleteButton, ConfirmModal},
   props: {
     bill: {
       type: Object,

@@ -26,11 +26,9 @@ import CurrencyList from './CurrencyList.vue'
 import MainCurrencyHandler from '../balance/MainCurrencyHandler.vue'
 import CreateModal from '../modal/CreateModal.vue'
 import CreateButton from '../ui/CreateButton.vue'
-import Modal from '../modal/Modal.vue';
 import EditCurrencyForm from './EditCurrencyForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler, CreateModal, CreateButton, Modal, EditCurrencyForm, ConfirmModal },
+  components: { CreateCurrencyForm, CurrencyList, MainCurrencyHandler, CreateModal, CreateButton, EditCurrencyForm },
   name: 'CurrencyHandler',
   computed: {
     ...mapGetters(['getMainCurrency', 'isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedCurrency'])

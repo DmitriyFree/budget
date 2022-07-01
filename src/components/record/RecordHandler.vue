@@ -31,15 +31,12 @@ import CreateRecordForm from './CreateRecordForm.vue'
 import Records from './Records.vue'
 import CreateModal from '../modal/CreateModal.vue'
 import {mapGetters, mapMutations, mapActions} from 'vuex';
-import CreateButton from '../ui/CreateButton.vue';
 import CurrencyTransferButton from '../ui/CurrencyTransferButton.vue'
-import Modal from '../modal/Modal.vue';
 import EditRecordForm from './EditRecordForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
 import TransferCurrencyForm from './TransferCurrencyForm.vue';
 import EditTransferForm from './EditTransferForm.vue'
 export default {
-  components: { CreateRecordForm, Records, CreateModal, CreateButton, Modal, EditRecordForm, ConfirmModal, CurrencyTransferButton, TransferCurrencyForm, EditTransferForm},
+  components: { CreateRecordForm, Records, CreateModal, EditRecordForm, CurrencyTransferButton, TransferCurrencyForm, EditTransferForm},
   name: 'RecordHandler',
   computed: {
     ...mapGetters(['isCreateForm', 'isPopupForm', 'getSelectedRecord', 'getRecordById']),

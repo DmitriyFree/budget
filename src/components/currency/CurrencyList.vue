@@ -12,10 +12,10 @@
           </tr>
         </thead>
         <tbody>
-        <currency-item  v-for="item of list" :key="item.id" v-bind:currency="item"></currency-item>
+        <currency-item  v-for="item of pageItems" :key="item.id" v-bind:currency="item"></currency-item>
         </tbody>
       </table>
-      <pagination :pagesAmount="getMaxPageCurrency" :page="getCurrentPageCurrency" @currentPage="updateList" ></pagination>
+      <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" ></pagination>
     </div>
 
     <div v-else class="empty-list">Список валют пуст</div>
@@ -23,32 +23,36 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Pagination from '../ui/Pagination.vue';
+import {mapGetters, mapActions} from 'vuex';
+import paginationMixin from '@/mixins/pagination.mixin'
 import CurrencyItem from './CurrencyItem.vue';
 export default {
-  components: {CurrencyItem, Pagination},
+  components: {CurrencyItem},
   name: 'CurrencyList',
+  mixins: [paginationMixin],
   computed: {
-    ...mapGetters(['getCurrencyOnePage', 'getMaxPageCurrency', 'getCurrentPageCurrency']),
-    list() {
-      return this.getCurrencyOnePage;
-    },
+    ...mapGetters(['getAllCurrencies']),
     isEmptyList() {
-      if (this.getCurrencyOnePage.length === 0) return true;
+      if (this.getAllCurrencies.length === 0) return true;
       else return false;
     }
   },
   methods: {
-    ...mapActions(['refreshCurrencyOnePage']),
-    ...mapMutations(['setCurrentPageCurrency']),
-    async updateList(currentPage) {
-      this.setCurrentPageCurrency(currentPage);
-      await this.refreshCurrencyOnePage();
+    ...mapActions(['getCurrencyData']),
+    updateList(currentPage) {
+      this.page = currentPage
+      this.setupPagination(this.getAllCurrencies)
+    }
+
+  },
+  watch: {
+    getAllCurrencies() {
+      this.setupPagination(this.getAllCurrencies)
     }
   },
   async mounted() {
-    this.refreshCurrencyOnePage();
+    await this.getCurrencyData()
+    await this.setupPagination(this.getAllCurrencies)
   }
 }
 </script>

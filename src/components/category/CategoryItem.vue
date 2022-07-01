@@ -14,12 +14,8 @@
 
 <script>
 import {mapGetters, mapMutations} from 'vuex';
-import ConfirmModal from '../modal/ConfirmModal.vue';
-import DeleteButton from '../ui/DeleteButton.vue';
-import EditButton from '../ui/EditButton.vue';
 export default {
   name: 'CategoryItem',
-  components: {EditButton, DeleteButton, ConfirmModal},
   props: {
     category: {
       type: Object,

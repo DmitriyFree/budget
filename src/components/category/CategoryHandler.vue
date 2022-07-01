@@ -21,17 +21,13 @@
 </template>
 <script>
 import CategoriesList from '../category/CategoriesList.vue'
-import Loader from '../Loader.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
 import {mapGetters, mapMutations, mapActions} from "vuex"
 import CreateModal from '../modal/CreateModal.vue'
-import EditButton from '../ui/EditButton.vue'
-import CreateButton from '../ui/CreateButton.vue'
 import EditCategoryForm from './EditCategoryForm.vue';
-import Modal from '../modal/Modal.vue';
 import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { CreateCategoryForm, CategoriesList, Loader, CreateModal, EditButton, CreateButton, EditCategoryForm, Modal, ConfirmModal},
+  components: { CreateCategoryForm, CategoriesList, CreateModal, EditCategoryForm, ConfirmModal},
   name: 'CategoryHandler',
     computed: {
       ...mapGetters(['isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedCategory']),

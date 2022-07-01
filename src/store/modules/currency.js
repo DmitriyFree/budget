@@ -1,7 +1,6 @@
 export default {
   state: {
     currency: [],
-    currencyOnePage: [],
     selectedCurrency: {
       "title": "",
       "symbol": "",
@@ -27,15 +26,10 @@ export default {
       {name: 'Китайский юань', symbol: 'CNY', price: 1},
       {name: 'Индийская рупия', symbol: 'INR', price: 1},
       {name: 'Турецкая лира', symbol: 'TRY', price: 1},],
-    currentPageCurrency: 1,
-    maxPageCurrency: 1
   },
   getters: {
     getAllCurrencies(state) {
       return state.currency;
-    },
-    getCurrencyOnePage(state) {
-      return state.currencyOnePage;
     },
     getSelectedCurrency(state) {
       return state.selectedCurrency;
@@ -58,19 +52,10 @@ export default {
     getAvailableCurrenceis(state) {
       return state.availableCurrencyList;
     },
-    getCurrentPageCurrency(state) {
-      return state.currentPageCurrency;
-    },
-    getMaxPageCurrency(state) {
-      return state.maxPageCurrency;
-    }
   },
   mutations: {
     updateCurrency(state, currencies) {
       state.currency = currencies;
-    },
-    setCurrencyOnePage(state, currencies) {
-      state.currencyOnePage = currencies;
     },
     setSelectedCurrency(state, currency) {
       state.selectedCurrency = currency;
@@ -81,12 +66,6 @@ export default {
     refreshAvailable(state, list) {
       state.vailableCurrencyList = list;
     },
-    setCurrentPageCurrency(state, page) {
-      state.currentPageCurrency = page;
-    },
-    setMaxPageCurrency(state, val) {
-      state.maxPageCurrency = val;
-    }
   },
   actions: {
     async getCurrencyData({commit}) {
@@ -95,25 +74,6 @@ export default {
         if (res.ok) {
           const data = await res.json();
           commit('updateCurrency', data);
-        } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
-        }
-      } catch (e) {
-        console.log(e);
-      }
-
-    },
-    async refreshCurrencyOnePage({getters, commit}) {
-      try {
-        const page = getters.getCurrentPageCurrency;
-        const pageItems = getters.getMaxPageItems;
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency?_page=${page}&_limit=${pageItems}`);
-        if (res.ok) {
-          const data = await res.json();
-          const limit = res.headers.get('X-Total-Count')
-          const maxPage = Math.ceil(limit / pageItems);
-          commit('setMaxPageCurrency', maxPage);
-          commit('setCurrencyOnePage', data);
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -163,7 +123,6 @@ export default {
         });
         if (res.ok) {
           await dispatch('getCurrencyData');
-          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -174,10 +133,8 @@ export default {
     },
     async removeCurrencyById({getters, commit, dispatch}, id) {
       try {
-        const currencies = getters.getAllCurrencies;
-        const selected = currencies.filter((item) => {
-          return item.id === id;
-        });
+        if (!id) return
+        const selected = getters.getCurrencyById(id)
 
         const res = await fetch(`${process.env.VUE_APP_API_URL}/currency/${id}`, {
 
@@ -187,13 +144,8 @@ export default {
           },
         });
         if (res.ok) {
-          await dispatch('removeBillsByCurrency', selected[0].symbol);
+          await dispatch('removeBillsByCurrency', selected.symbol);
           await dispatch('getCurrencyData');
-          if ((currencies.length % getters.getMaxPageItems) == 1 &&
-          getters.getCurrentPageCurrency == getters.getMaxPageCurrency) {
-            commit('setCurrentPageCurrency', getters.getCurrentPageCurrency - 1);
-          }
-          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }
@@ -204,16 +156,11 @@ export default {
     },
     async putCurrencyById({getters, dispatch}, data) {
       try {
-        if (!data.currency) return
-        const currencyList = getters.getAllCurrencies;
-        const selected = currencyList.filter(item => {
-          return item.id == data.id
-        });
-        if (selected.length == 0) {
-          return
-        }
+        if (!data.currency || !data.id) return
+        const selected = getters.getCurrencyById(data.id)
+
         const exportData = {
-          oldName: selected[0].short,
+          oldName: selected.short,
           newName: data.currency.short
         }
         const jsonData = JSON.stringify(data.currency)
@@ -230,7 +177,6 @@ export default {
 
           }
           await dispatch('getCurrencyData');
-          await dispatch('refreshCurrencyOnePage');
         } else {
           console.error(`server error url: ${res.url} status: ${res.status}`);
         }

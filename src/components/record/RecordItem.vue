@@ -21,14 +21,10 @@
   </tr>
 </template>
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex';
-import Modal from '../modal/Modal.vue';
+import {mapGetters, mapMutations} from 'vuex';
 import EditRecordForm from './EditRecordForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
-import DeleteButton from '../ui/DeleteButton.vue';
-import EditButton from '../ui/EditButton.vue';
 export default {
-  components: {EditRecordForm, Modal, ConfirmModal, DeleteButton, EditButton},
+  components: {EditRecordForm},
   name: 'RecordItem',
   props: {
     record: {

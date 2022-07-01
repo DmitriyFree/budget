@@ -24,11 +24,9 @@ import BillList from './BillList.vue'
 import CreateBillForm from './CreateBillForm.vue'
 import {mapGetters, mapActions ,mapMutations} from "vuex"
 import CreateButton from '../ui/CreateButton.vue'
-import Modal from '../modal/Modal.vue';
 import EditBillForm from './EditBillForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
 export default {
-  components: { BillList, CreateBillForm, CreateModal, CreateButton, Modal, EditBillForm, ConfirmModal },
+  components: { BillList, CreateBillForm, CreateModal, CreateButton, EditBillForm },
   name: 'BillHandler',
   computed: {
     ...mapGetters(['isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedBill']),

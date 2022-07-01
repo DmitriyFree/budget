@@ -63,6 +63,15 @@
         "secondRecordId": 4
       },
       "id": 4
+    },
+    {
+      "bill": "Налычние",
+      "type": "Доход",
+      "category": "Депозит",
+      "date": "2022-07-01",
+      "sum": "500",
+      "description": "",
+      "id": 5
     }
   ],
   "categories": [
@@ -108,12 +117,6 @@
       "symbol": "USD",
       "price": "1.0000",
       "id": 1
-    },
-    {
-      "title": "Канадский долар",
-      "symbol": "CAD",
-      "price": "1.2919",
-      "id": 2
     },
     {
       "title": "Украинская гривна",

@@ -47,9 +47,8 @@
 <script>
 import {mapGetters, mapActions} from "vuex"
 import MainCurrencyHandler from './MainCurrencyHandler.vue';
-import Loader from '../Loader.vue'
 export default {
-  components: {Loader, MainCurrencyHandler },
+  components: { MainCurrencyHandler },
   name: 'BalanceHandler',
   computed: {
     ...mapGetters(['getAllRecords', 'getAllBills', 'getAllCurrencies', 'getCurrencyBySymbol']),

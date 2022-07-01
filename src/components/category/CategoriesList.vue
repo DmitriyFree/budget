@@ -12,10 +12,10 @@
           </tr>
         </thead>
         <tbody>
-          <category-item v-for="item of getCategoriesOnePage" :key="item.id" v-bind:category="item"></category-item>
+          <category-item v-for="item of pageItems" :key="item.id" v-bind:category="item"></category-item>
         </tbody>
      </table>
-     <pagination :pagesAmount="getMaxPagesCategory" :page="getCurrentPageCategory" @currentPage="updateList"/>
+     <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList"/>
     </div>
 
     <div v-else class="empty-list">Список категорий пуст</div>
@@ -23,30 +23,35 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
-import Pagination from '../ui/Pagination.vue';
+import {mapGetters, mapActions} from 'vuex';
+import paginationMixin from '@/mixins/pagination.mixin'
 import CategoryItem from './CategoryItem.vue';
 export default {
-  components: {CategoryItem, Pagination},
+  components: {CategoryItem},
   name: 'CategoriesList',
+  mixins: [paginationMixin],
   computed: {
-    ...mapGetters(['getAllCategories', 'getCategoriesOnePage', 'getMaxPagesCategory', 'getCurrentPageCategory']),
+    ...mapGetters(['getAllCategories']),
     isEmptyList() {
-      if (this.getCategoriesOnePage.length === 0) return true;
+      if (this.getAllCategories.length === 0) return true;
       else return false;
     }
   },
   methods: {
-    ...mapActions(['getCategoriesData', 'refreshCategoriesOnePage']),
-    ...mapMutations(['setCurrentPageCategory']),
+    ...mapActions(['getCategoriesData']),
     async updateList(currentPage) {
-      this.setCurrentPageCategory(currentPage);
-      await this.refreshCategoriesOnePage();
+      this.page = currentPage
+      await this.setupPagination(this.getAllCategories)
+    }
+  },
+  watch: {
+    getAllCategories() {
+      this.setupPagination(this.getAllCategories)
     }
   },
   async mounted() {
-    await this.refreshCategoriesOnePage();
     await this.getCategoriesData();
+    await this.setupPagination(this.getAllCategories)
   }
 }
 </script>

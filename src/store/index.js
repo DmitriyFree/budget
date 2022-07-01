@@ -9,17 +9,7 @@ import loader from './modules/loader'
 
 Vue.use(Vuex)
 
-// https://mybudgetproject.herokuapp.com
-
 export default new Vuex.Store({
-  state: {
-    maxPageItems: 10
-  },
-  getters: {
-    getMaxPageItems(state){
-      return state.maxPageItems;
-    },
-  },
   modules: {
     bill,
     categories,
