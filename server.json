@@ -11,12 +11,6 @@
       "currency": "UAH",
       "startBalance": 0,
       "id": 2
-    },
-    {
-      "name": "Наличные в Доларе",
-      "currency": "USD",
-      "startBalance": "200",
-      "id": 3
     }
   ],
   "records": [
@@ -31,8 +25,8 @@
     },
     {
       "bill": "Налычние",
-      "type": "Расход",
       "category": "Транспорт",
+      "type": "Расход",
       "date": "2022-06-05",
       "sum": "15",
       "description": "",
@@ -72,6 +66,41 @@
       "sum": "500",
       "description": "",
       "id": 5
+    },
+    {
+      "bill": "Налычние",
+      "type": "Доход",
+      "category": "Зарплата",
+      "date": "2022-07-03",
+      "sum": "5",
+      "description": "",
+      "id": 6
+    },
+    {
+      "bill": "Налычние",
+      "sum": "700",
+      "category": "Перевод",
+      "type": "Расход",
+      "date": "2022-07-04",
+      "transfer": {
+        "rate": 1,
+        "firstRecordId": 7,
+        "secondRecordId": 8
+      },
+      "id": 7
+    },
+    {
+      "bill": "Карта",
+      "sum": "700",
+      "category": "Перевод",
+      "type": "Доход",
+      "date": "2022-07-04",
+      "transfer": {
+        "rate": 1,
+        "firstRecordId": 7,
+        "secondRecordId": 8
+      },
+      "id": 8
     }
   ],
   "categories": [

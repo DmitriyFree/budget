@@ -25,9 +25,11 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex'
+import categoryMixin from '@/mixins/validator/category.mixin'
 export default {
   name: 'EditCategoryForm',
+  mixins: [categoryMixin],
   computed: {
     ...mapGetters(['getSelectedCategory'])
   },
@@ -38,8 +40,6 @@ export default {
         name: '',
         type: '',
       },
-      nameError: '',
-      typeError: ''
     }
   },
   methods: {
@@ -54,26 +54,9 @@ export default {
           type: this.candidate.type
         }
       }
-      await this.putCategoryById(data);
-      this.changePopupForm(false);
-
-    },
-    checkFormData() {
-      if (!this.candidate.name) return false;
-      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.candidate.type) this.typeError = 'выбирете тип';
-
-      if(this.nameError || this.typeError) return false;
-      return true;
-
-    },
-    resetNameError() {
-      this.nameError = '';
-    },
-    resetTypeError() {
-      this.typeError = '';
-    },
+      await this.putCategoryById(data)
+      this.changePopupForm(false)
+    }
   },
   watch: {
     getSelectedCategory() {

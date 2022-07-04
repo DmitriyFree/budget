@@ -4,9 +4,9 @@
       <div class="row">
         <div class="label">
           <label>Код</label>
-          <span class="error show">{{shortError}}</span>
+          <span class="error show">{{symbolError}}</span>
         </div>
-        <input type="text" disabled required v-model="candidate.symbol" @input="resetShortError">
+        <input type="text" disabled required v-model="candidate.symbol" @input="resetSymbolError">
       </div>
       <div class="row">
         <div class="label">
@@ -26,7 +26,7 @@
       <div class="row-refresh">
          <span class="error show">{{refreshError}}</span>
         <div class="wrap">
-            <button  class="btn" @click.prevent="getPrice" >
+            <button  class="btn" @click.prevent="getPrice">
           Обновить курс
         </button>
         <img class="img" src="@/assets/images/refresh.svg">
@@ -44,16 +44,18 @@
 </template>
 <script>
 import {mapGetters, mapActions, mapMutations} from 'vuex'
+import currencyMixin from '@/mixins/validator/currency.mixin'
 export default {
   name: "EditCurrencyForm",
   props: ['currency'],
+  mixins: [currencyMixin],
   computed: {
     ...mapGetters(['getSelectedCurrency', 'getAvailableCurrenceis']),
     isMainCurrency() {
       if (this.candidate.symbol === 'USD') {
-       this.candidate.price = 1;
-       return true;
-      } else false;
+       this.candidate.price = 1
+       return true
+      } else false
     },
   },
   data() {
@@ -64,10 +66,6 @@ export default {
         symbol: '',
         price: 1
       },
-      titleError: '',
-      shortError: '',
-      rateError: '',
-      refreshError: ''
     }
   },
   methods: {
@@ -77,7 +75,7 @@ export default {
     async formHandler() {
       if (!this.checkFormData()) return
       if (this.main) {
-        await this.changeMainCurrency(this.id);
+        await this.changeMainCurrency(this.id)
         this.rate = 1;
       }
       const data = {
@@ -89,53 +87,28 @@ export default {
         }
 
       }
-      await this.putCurrencyById(data);
-      this.changePopupForm(false);
+      await this.putCurrencyById(data)
+      this.changePopupForm(false)
     },
     async getPrice(){
       if (this.candidate.price) {
-        if (!this.candidate.symbol) this.refreshError = 'валюта не выбрана';
+        if (!this.candidate.symbol) this.refreshError = 'валюта не выбрана'
         else {
-          await this.refreshPrice();
-          const selectedObj = this.getAvailableCurrenceis.find((item) => item.symbol === this.candidate.symbol);
-          this.candidate.price = selectedObj.price;
+          await this.refreshPrice()
+          const selectedObj = this.getAvailableCurrenceis.find((item) => item.symbol === this.candidate.symbol)
+          this.candidate.price = selectedObj.price
         }
-      } else this.candidate.price = 1;
-
-    },
-    checkFormData() {
-      if (!this.candidate.title && !this.candidate.symbol) return false;
-      if (this.candidate.title.length < 3) this.titleError = 'минимум 3 символа';
-      if (this.candidate.title.length > 25) this.titleError = 'максимум 25 символов';
-      if (this.isCurrencyCode(this.candidate.symbol)) this.shortError = 'не уникальный код';
-      if (this.candidate.symbol.length != 3) this.shortError = 'длина 3 символа';
-
-
-
-      if(this.titleError || this.shortError) return false;
-      return true;
+      } else this.candidate.price = 1
 
     },
     isCurrencyCode(code) {
-      let result = false;
-      const currencies = this.getAllCurrencies();
+      let result = false
+      const currencies = this.getAllCurrencies()
       currencies.forEach(item => {
-        if (item.price == code) result = true;
+        if (item.price == code) result = true
       });
-      return result;
+      return result
 
-    },
-    resetTitleError() {
-      this.titleError = '';
-    },
-    resetShortError() {
-      this.shortError = '';
-    },
-    resetRateError() {
-      this.rateError = '';
-    },
-    resetRefreshError(){
-      this.refreshError = '';
     },
   },
   watch: {

@@ -60,14 +60,16 @@
   </div>
 </template>
 <script>
-import {mapMutations, mapGetters, mapActions} from 'vuex';
+import {mapMutations, mapGetters, mapActions} from 'vuex'
+import recordMixin from '@/mixins/validator/record.mixin'
 export default {
   name: 'EditRecordForm',
   props: ['record'],
+  mixins: [recordMixin],
   computed: {
     ...mapGetters(['getAllBills', 'getAllCategories', 'getFormData', 'getSelectedRecord']),
     availableCategories() {
-      return this.getAllCategories.filter(item => item.type == this.candidate.type);
+      return this.getAllCategories.filter(item => item.type == this.candidate.type)
     },
   },
   data() {
@@ -81,9 +83,6 @@ export default {
         sum: 0,
         description: '',
       },
-      sumError: '',
-      dateError: '',
-      descriptionError: ''
     }
   },
   methods: {
@@ -102,29 +101,9 @@ export default {
           description: this.candidate.description
         }
       }
-      this.putRecordById(data);
-      this.$emit('hideForm', true);
-      this.changePopupForm(false);
-    },
-    checkFormData() {
-      if (!this.candidate.bill || !this.candidate.type || !this.candidate.category) return false;
-      if (this.candidate.description.length > 20) this.descriptionError = 'максимум 20 символов';
-      if (!this.candidate.date) this.dateError = 'выберите дату';
-      if (isNaN(this.candidate.sum)) this.sumError = 'только число';
-
-
-      if(this.sumError || this.dateError || this.descriptionError) return false;
-      return true;
-
-    },
-    resetSumError() {
-      this.sumError = '';
-    },
-    resetDateError() {
-      this.dateError = '';
-    },
-    resetDescriptionError() {
-      this.descriptionError = '';
+      this.putRecordById(data)
+      this.$emit('hideForm', true)
+      this.changePopupForm(false)
     },
   },
   watch: {

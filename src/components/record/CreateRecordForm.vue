@@ -106,9 +106,13 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex'
+import recordMixin from '@/mixins/validator/record.mixin'
 export default {
   name: 'CreateRecordForm',
+  mixins: [
+    recordMixin
+  ],
   data() {
     return {
       candidate: {
@@ -119,11 +123,6 @@ export default {
         date: '',
         description: '',
       },
-      billError: '',
-      categoryError: '',
-      sumError: '',
-      dateError: '',
-      descriptionError: ''
     }
   },
   computed: {
@@ -139,16 +138,16 @@ export default {
     ...mapActions(['getBillsData', 'putBillById', 'addRecord']),
     ...mapMutations(['changeCreateForm']),
     clickIncome() {
-      this.candidate.income = true;
+      this.candidate.income = true
     },
     clickOutcome() {
-      this.candidate.income = false;
+      this.candidate.income = false
     },
     formHandler() {
       if (this.checkFormData()) {
 
-        let type = 'Доход';
-        if (!this.candidate.income) type = 'Расход';
+        let type = 'Доход'
+        if (!this.candidate.income) type = 'Расход'
 
         const newRecord = {
           bill: this.candidate.bill,
@@ -158,65 +157,40 @@ export default {
           sum: this.candidate.sum,
           description: this.candidate.description
         }
-        this.changeCreateForm(false);
-        this.addRecord(newRecord);
-        this.resetForm();
+        this.changeCreateForm(false)
+        this.addRecord(newRecord)
+        this.resetForm()
       }
 
     },
-    checkFormData() {
-      if (!this.candidate.bill || !this.candidate.category) return false;
-      if (this.candidate.description.length > 20) this.descriptionError = 'максимум 20 символов';
-      if (!this.candidate.date) this.dateError = 'выберите дату';
-      if (isNaN(this.candidate.sum)) this.sumError = 'только число';
-
-
-      if(this.billError || this.categoryError || this.sumError || this.dateError || this.descriptionError) return false;
-      return true;
-    },
-    resetSumError() {
-      this.sumError = '';
-    },
-    resetDateError() {
-      this.dateError = '';
-    },
-    resetDescriptionError() {
-      this.descriptionError = '';
-    },
-    resetForm() {
-      this.candidate.bill = '';
-      this.candidate.category = '';
-      this.candidate.sum = '';
-      this.candidate.category = '';
-    },
     getCurrentData() {
-      const year = new Date().getFullYear();
+      const year = new Date().getFullYear()
       let month = new Date().getMonth()+1
       if(month < 10) month = '0'+ month;
       let day = new Date().getDate();
       if(day < 10) day = '0'+ day;
 
-      return `${year}-${month}-${day}`;
+      return `${year}-${month}-${day}`
     }
   },
   watch: {
     async getAllBills() {
       const billList = this.getAllBills
-      if (billList.length == 0) this.billError = 'у вас еще не щетов';
+      if (billList.length == 0) this.billError = 'у вас еще не щетов'
       else {
-        if (this.billError === 'у вас еще не щетов') this.billError = '';
+        if (this.billError === 'у вас еще не щетов') this.billError = ''
       }
     },
     async getAllCategories() {
       const categoryList = this.getAllCategories
-      if (categoryList.length == 0) this.categoryError = 'у вас нет категории';
+      if (categoryList.length == 0) this.categoryError = 'у вас нет категории'
       else {
-        if (this.categoryError === 'у вас нет категории') this.categoryError= '';
+        if (this.categoryError === 'у вас нет категории') this.categoryError= ''
       }
     }
   },
   async mounted() {
-    this.getBillsData();
+    this.getBillsData()
     this.candidate.date = this.getCurrentData()
   }
 }

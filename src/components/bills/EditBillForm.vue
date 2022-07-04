@@ -32,8 +32,10 @@
 </template>
 <script>
 import {mapActions, mapMutations, mapGetters} from 'vuex'
+import billMixin from '@/mixins/validator/bill.mixin'
 export default {
   name: 'EditBillForm',
+  mixins: [billMixin],
   computed: {
     ...mapGetters(['getSelectedBill', 'getAllCurrencies'])
   },
@@ -45,9 +47,6 @@ export default {
         currency: '',
         startBalance: 0,
       },
-      nameError: '',
-      currencyError: '',
-      startBalanceError: ''
     }
   },
   methods: {
@@ -55,6 +54,7 @@ export default {
     ...mapMutations(['changePopupForm']),
     async formHandler() {
       if (!this.checkFormData()) return
+      if (!candidate.startBalance) candidate.startBalance = 0
       const data = {
         id: this.candidate.id,
         bill: {
@@ -63,29 +63,8 @@ export default {
           startBalance: this.candidate.startBalance
         }
       }
-      this.putBillById(data);
-      this.changePopupForm(false);
-    },
-    checkFormData() {
-      if (!this.candidate.name) return false;
-      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.candidate.currency) this.currencyError = 'выбирете тип';
-      if (isNaN(this.candidate.startBalance)) this.startBalanceError = 'только число';
-
-
-      if(this.nameError || this.currencyError || this.startBalanceError) return false;
-      return true;
-
-    },
-    resetNameError() {
-      this.nameError = '';
-    },
-    resetCurrencyError() {
-      this.currencyError = '';
-    },
-    resetStartBalanceError() {
-      this.startBalanceError = '';
+      this.putBillById(data)
+      this.changePopupForm(false)
     },
   },
   watch: {

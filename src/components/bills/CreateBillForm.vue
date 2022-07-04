@@ -33,9 +33,11 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters, mapMutations} from 'vuex'
+import billMixin from '@/mixins/validator/bill.mixin'
 export default {
   name: 'CreateBillForm',
+  mixins: [billMixin],
   data() {
     return {
       candidate: {
@@ -43,9 +45,6 @@ export default {
         currency: '',
         startBalance: 0
       },
-      nameError: '',
-      currencyError: '',
-      startBalanceError: ''
     }
   },
   computed: mapGetters(['getAllCurrencies']),
@@ -54,49 +53,24 @@ export default {
     ...mapMutations(['changeCreateForm']),
     formHandler() {
       if (this.checkFormData()) {
-        this.addBill(this.candidate);
-        this.resetForm();
-        this.changeCreateForm(false);
+        if (!candidate.startBalance) candidate.startBalance = 0
+        this.addBill(this.candidate)
+        this.resetForm()
+        this.changeCreateForm(false)
       }
     },
-    checkFormData() {
-      if (!this.candidate.name) return false;
-      if (this.candidate.name.length < 3) this.nameError = 'минимум 3 символа';
-      if (this.candidate.name.length > 20) this.nameError = 'максимум 20 символов';
-      if (!this.candidate.currency) this.currencyError = 'выбирете валюту';
-      if (isNaN(this.candidate.startBalance)) this.startBalanceError = 'только число';
-
-
-      if(this.nameError || this.currencyError || this.startBalanceError) return false;
-      return true;
-
-    },
-    resetNameError() {
-      this.nameError = '';
-    },
-    resetCurrencyError() {
-      this.currencyError = '';
-    },
-    resetStartBalanceError() {
-      this.startBalanceError = '';
-    },
-    resetForm() {
-      this.candidate.name = '';
-      this.candidate.currency = '',
-      this.candidate.startBalance = 0
-    }
   },
   watch: {
     async getAllCurrencies() {
       const currencyList = this.getAllCurrencies
-      if (currencyList.length == 0) this.currencyError = 'у вас нет валют';
+      if (currencyList.length == 0) this.currencyError = 'у вас нет валют'
       else {
-        if (this.currencyError === 'у вас нет валют') this.currencyError = '';
+        if (this.currencyError === 'у вас нет валют') this.currencyError = ''
       }
     }
   },
   async mounted() {
-    await this.getCurrencyData();
+    await this.getCurrencyData()
   }
 }
 </script>

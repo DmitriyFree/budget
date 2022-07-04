@@ -59,9 +59,11 @@
 </template>
 
 <script>
-import {mapMutations, mapGetters, mapActions} from 'vuex';
+import {mapMutations, mapGetters, mapActions} from 'vuex'
+import transferMixin from '@/mixins/validator/transfer.mixin'
 export default {
   name: "EditTransferForm",
+  mixins: [transferMixin],
   props: {
     firstRecord: {
       type: Object,
@@ -72,20 +74,21 @@ export default {
       required: true
     }
   },
+
   computed: {
     ...mapGetters(['getAllBills', 'getCurrencyBySymbol']),
     isAvailableRate() {
       let result = false;
       if (this.firstBill.currency && this.secondBill.currency) {
         if (this.firstBill.currency != this.secondBill.currency) {
-          const firstRate = this.getCurrencyBySymbol(this.firstBill.currency).price;
-          const secondRate = this.getCurrencyBySymbol(this.secondBill.currency).price;
+          const firstRate = this.getCurrencyBySymbol(this.firstBill.currency).price
+          const secondRate = this.getCurrencyBySymbol(this.secondBill.currency).price
           const res = secondRate / firstRate
           this.rate = res.toFixed(6)
           result = true
-        } else this.rate = 1;
+        } else this.rate = 1
       }
-      return result;
+      return result
     }
   },
   data() {
@@ -99,13 +102,6 @@ export default {
       firstSumTimer: null,
       secondSumTimer: null,
       rateTimer: null,
-      firstBillError: '',
-      secondBillError: '',
-      firstSumError: '',
-      secondSumError: '',
-      rateError: '',
-      dateError: '',
-      descriptionError: ''
     }
   },
   methods: {
@@ -116,8 +112,7 @@ export default {
       if(!this.checkFormData()) {
         return
       }
-
-      if (!this.isAvailableRate) this.secondSum = this.firstSum;
+      if (!this.isAvailableRate) this.secondSum = this.firstSum
 
       const candidat = {
         firstRecordId: this.firstRecord.id,
@@ -130,85 +125,26 @@ export default {
         date: this.date
       }
 
-      this.putTransfer(candidat);
+      this.putTransfer(candidat)
 
-      this.$emit('hideForm', true);
-      this.changePopupForm(false);
-      this.resetForm();
+      this.$emit('hideForm', true)
+      this.changePopupForm(false)
+      this.resetForm()
 
-    },
-    secondSumHandler(e) {
-      if (this.secondSumTimer) clearTimeout(this.secondSumTimer);
-      this.resetSecondSumError();
-      this.secondSumTimer = setTimeout(() => {
-        const value = e.target.value;
-        this.secondSum = value;
-        if (isNaN(this.secondSum)) this.secondSumError = 'Только число'
-        else if (this.secondSum <= 0) this.secondSumError = 'Введите число больше нуля'
-        else this.rate = (this.secondSum / this.firstSum).toFixed(6);
-      }, 1000);
-
-    },
-    checkFormData() {
-      if (!this.firstBill) {
-        this.firstBillError = 'Выберете счет'
-        return false
-      }
-      if (!this.secondBill) {
-        this.secondBillError = 'Выберете счет'
-        return false
-      }
-      if (this.firstBill.name == this.secondBill.name) {
-        this.secondBillError = 'Счета совпадают'
-        return false
-      }
-      if (!this.date) this.dateError = 'выберите дату';
-
-      if(this.firstSumError || this.secondSumError || this.rateError || this.dateError) return false;
-      return true;
     },
     resetSumError() {},
     getCurrentData() {
-      const year = new Date().getFullYear();
+      const year = new Date().getFullYear()
       let month = new Date().getMonth()+1
-      if(month < 10) month = '0'+ month;
-      let day = new Date().getDate();
-      if(day < 10) day = '0'+ day;
+      if(month < 10) month = '0'+ month
+      let day = new Date().getDate()
+      if(day < 10) day = '0'+ day
 
-      return `${year}-${month}-${day}`;
-    },
-    resetForm() {
-      this.firstBill = ''
-      this.secondBill= ''
-      this.firstSum = 0
-      this.secondSum = 0
-      this.rate = 1
-      this.date = this.getCurrentData()
-    },
-    resetFirstBillError() {
-      this.firstBillError = ''
-    },
-    resetSecondBillError() {
-      this.secondBillError = ''
-    },
-    resetFirstSumError() {
-      this.firstSumError = ''
-    },
-    resetSecondSumError() {
-      this.secondSumError = ''
-    },
-    resetRateError() {
-      this.rateError = ''
-    },
-    resteDateError() {
-      this.dateError = ''
+      return `${year}-${month}-${day}`
     },
   },
   watch: {
-
     firstRecord() {
-
-      console.log(this.firstRecord)
       const bills = this.getAllBills
       this.firstBill = bills.find(item => item.name == this.firstRecord.bill)
       this.firstSum =  this.firstRecord.sum
@@ -216,37 +152,12 @@ export default {
       this.rate = this.firstRecord.transfer.rate
     },
     secondRecord() {
-            console.log(this.secondRecord)
       const bills = this.getAllBills
       this.secondBill = bills.find(item => item.name == this.secondRecord.bill)
       this.secondSum = this.secondRecord.sum
       this.date = this.secondRecord.date
       this.rate = this.secondRecord.transfer.rate
     },
-    firstSum() {
-      if (this.firstSumTimer) clearTimeout(this.firstSumTimer);
-      this.resetFirstSumError()
-      this.firstSumTimer = setTimeout(() => {
-        if (isNaN(this.firstSum)) this.firstSumError = 'Только число'
-        else if (this.firstSum <= 0) this.firstSumError = 'Введите число больше нуля'
-        else {
-          if (this.isAvailableRate) this.secondSum = (this.firstSum * this.rate).toFixed(2);
-        }
-
-      }, 1000);
-    },
-    rate() {
-
-      if (this.rateTimer) clearTimeout(this.rateTimer);
-      this.resetRateError()
-      this.rateTimer = setTimeout(() => {
-        if (isNaN(this.rate)) this.rateError = 'Только число'
-        else if (this.rate <= 0) this.rateError = 'Введите число больше нуля'
-        else this.secondSum = (this.firstSum * this.rate).toFixed(2)
-      }, 1000);
-
-
-    }
   },
   async mounted() {
       const bills = this.getAllBills
