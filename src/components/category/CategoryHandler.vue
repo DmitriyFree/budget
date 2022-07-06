@@ -1,6 +1,5 @@
 <template>
   <div class="handler">
-    <loader/>
     <div class="handler__header">
       <div class="title">Категории</div>
       <create-button class="btn" @clickButton="createForm"></create-button>
@@ -13,24 +12,22 @@
       </div>
       <categories-list/>
     </div>
-    <modal v-show="isPopupForm">
+    <!-- <modal v-show="isPopupForm">
       <edit-category-form />
-    </modal>
-    <confirm-modal @result="removeCategory"/>
+    </modal> -->
   </div>
 </template>
 <script>
+import {mapGetters, mapMutations} from 'vuex'
 import CategoriesList from '../category/CategoriesList.vue'
 import CreateCategoryForm from './CreateCategoryForm.vue'
-import {mapGetters, mapMutations, mapActions} from "vuex"
 import CreateModal from '../modal/CreateModal.vue'
-import EditCategoryForm from './EditCategoryForm.vue';
-import ConfirmModal from '../modal/ConfirmModal.vue';
+import EditCategoryForm from './EditCategoryForm.vue'
 export default {
-  components: { CreateCategoryForm, CategoriesList, CreateModal, EditCategoryForm, ConfirmModal},
+  components: { CreateCategoryForm, CategoriesList, CreateModal, EditCategoryForm},
   name: 'CategoryHandler',
     computed: {
-      ...mapGetters(['isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedCategory']),
+      ...mapGetters(['isCreateForm', 'isPopupForm', 'getSelectedCategory']),
     },
     data() {
       return {
@@ -38,17 +35,10 @@ export default {
       }
     },
     methods: {
-      ...mapMutations(['changeCreateForm', 'setConfirmResult']),
-      ...mapActions(['removeCategoryById']),
+      ...mapMutations(['changeCreateForm']),
       createForm(){
-        this.changeCreateForm(true);
+        this.changeCreateForm(true)
       },
-      removeCategory(result) {
-        if (result) {
-          const id = this.getSelectedCategory.id;
-          this.removeCategoryById(id);
-        }
-      }
     },
 }
 </script>

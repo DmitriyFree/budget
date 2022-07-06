@@ -11,20 +11,14 @@
     <td>{{record.sum}}</td>
     <td>
         <div class="td-btn">
-            <!-- <div class="edit__btn" @click="editRecord(item.id)">Edit</div> -->
-            <edit-button class="edit__btn" @clickButton="editRecord"></edit-button>
-            <!-- <div class="remove__btn" @click="confirm(item.id)">Remove</div> -->
+            <edit-button class="edit__btn" @clickButton="edit"></edit-button>
             <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
         </div>
     </td>
-    <!-- <confirm-modal v-bind:text="message" @result="deleteItem"/> -->
   </tr>
 </template>
 <script>
-import {mapGetters, mapMutations} from 'vuex';
-import EditRecordForm from './EditRecordForm.vue';
 export default {
-  components: {EditRecordForm},
   name: 'RecordItem',
   props: {
     record: {
@@ -32,16 +26,12 @@ export default {
       required: true
     }
   },
-  computed: mapGetters(['getConfirmResult']),
   methods: {
-    ...mapMutations(['changePopupForm', 'setConfirmModalText', 'setSelectedRecord']),
-    editRecord() {
-      this.setSelectedRecord(this.record);
-      this.changePopupForm(true);
+    edit() {
+      this.$emit('edit', this.record)
     },
-    async confirm(id) {
-      await this.setConfirmModalText('Вы уверенны?');
-      this.setSelectedRecord(this.record);
+    confirm() {
+      this.$emit('delete', this.record)
     },
   }
 }

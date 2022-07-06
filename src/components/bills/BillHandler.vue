@@ -15,21 +15,20 @@
     <modal v-show="isPopupForm">
       <edit-bill-form />
     </modal>
-    <confirm-modal @result="removeBill" />
   </div>
 </template>
 <script>
+import {mapGetters, mapActions ,mapMutations} from 'vuex'
 import CreateModal from '../modal/CreateModal.vue'
 import BillList from './BillList.vue'
 import CreateBillForm from './CreateBillForm.vue'
-import {mapGetters, mapActions ,mapMutations} from "vuex"
 import CreateButton from '../ui/CreateButton.vue'
-import EditBillForm from './EditBillForm.vue';
+import EditBillForm from './EditBillForm.vue'
 export default {
   components: { BillList, CreateBillForm, CreateModal, CreateButton, EditBillForm },
   name: 'BillHandler',
   computed: {
-    ...mapGetters(['isCreateForm', 'isPopupForm', 'getConfirmResult', 'getSelectedBill']),
+    ...mapGetters(['isCreateForm', 'isPopupForm', 'getSelectedBill']),
   },
   data() {
     return {
@@ -37,7 +36,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changeCreateForm', 'setConfirmResult']),
+    ...mapMutations(['changeCreateForm']),
     ...mapActions(['removeBillById']),
     createForm(){
       this.changeCreateForm(true);

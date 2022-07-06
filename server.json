@@ -34,32 +34,6 @@
     },
     {
       "bill": "Налычние",
-      "sum": "100",
-      "category": "Перевод",
-      "type": "Расход",
-      "date": "2022-06-16",
-      "transfer": {
-        "rate": 1,
-        "firstRecordId": 3,
-        "secondRecordId": 4
-      },
-      "id": 3
-    },
-    {
-      "bill": "Карта",
-      "sum": "100",
-      "category": "Перевод",
-      "type": "Доход",
-      "date": "2022-06-16",
-      "transfer": {
-        "rate": 1,
-        "firstRecordId": 3,
-        "secondRecordId": 4
-      },
-      "id": 4
-    },
-    {
-      "bill": "Налычние",
       "type": "Доход",
       "category": "Депозит",
       "date": "2022-07-01",
@@ -75,32 +49,6 @@
       "sum": "5",
       "description": "",
       "id": 6
-    },
-    {
-      "bill": "Налычние",
-      "sum": "700",
-      "category": "Перевод",
-      "type": "Расход",
-      "date": "2022-07-04",
-      "transfer": {
-        "rate": 1,
-        "firstRecordId": 7,
-        "secondRecordId": 8
-      },
-      "id": 7
-    },
-    {
-      "bill": "Карта",
-      "sum": "700",
-      "category": "Перевод",
-      "type": "Доход",
-      "date": "2022-07-04",
-      "transfer": {
-        "rate": 1,
-        "firstRecordId": 7,
-        "secondRecordId": 8
-      },
-      "id": 8
     }
   ],
   "categories": [
@@ -138,6 +86,11 @@
       "name": "Транспорт",
       "type": "Расход",
       "id": 7
+    },
+    {
+      "name": "ffdffdfg",
+      "type": "Расход",
+      "id": 8
     }
   ],
   "currency": [

@@ -190,7 +190,6 @@ export default {
     }
   },
   async mounted() {
-    this.getBillsData()
     this.candidate.date = this.getCurrentData()
   }
 }

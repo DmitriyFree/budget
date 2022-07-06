@@ -12,36 +12,63 @@
           </tr>
         </thead>
         <tbody>
-        <currency-item  v-for="item of pageItems" :key="item.id" v-bind:currency="item"></currency-item>
+        <currency-item  v-for="item of pageItems"
+          :key="item.id"
+          :currency="item"
+          @delete="deleteHandler" ></currency-item>
         </tbody>
       </table>
       <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" ></pagination>
     </div>
 
     <div v-else class="empty-list">Список валют пуст</div>
+
+    <confirm-modal
+      :show="show"
+      @result="deleteCurrency"/>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import CurrencyItem from './CurrencyItem.vue';
+import CurrencyItem from './CurrencyItem.vue'
 export default {
   components: {CurrencyItem},
   name: 'CurrencyList',
   mixins: [paginationMixin],
+  data() {
+    return {
+      target: {},
+      show: false
+    }
+  },
   computed: {
     ...mapGetters(['getAllCurrencies']),
     isEmptyList() {
-      if (this.getAllCurrencies.length === 0) return true;
+      if (this.getAllCurrencies.length === 0) return true
       else return false;
     }
   },
   methods: {
-    ...mapActions(['getCurrencyData']),
+    ...mapActions(['removeCurrencyById']),
     updateList(currentPage) {
       this.page = currentPage
       this.setupPagination(this.getAllCurrencies)
+    },
+    deleteHandler(category) {
+      this.show = true
+      this.target = category
+    },
+    async deleteCurrency(result) {
+      if (result && this.target.id) {
+        try {
+          await this.removeCurrencyById(this.target.id)
+        } catch (e) {}
+      }
+      this.show = false
+      this.target = {}
+
     }
 
   },
@@ -51,7 +78,6 @@ export default {
     }
   },
   async mounted() {
-    await this.getCurrencyData()
     await this.setupPagination(this.getAllCurrencies)
   }
 }

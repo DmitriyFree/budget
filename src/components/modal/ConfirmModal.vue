@@ -1,7 +1,7 @@
 <template>
-  <div class="bg" v-show="getConfirmModalText" @click="clickListener">
+  <div class="bg" v-show="show" @click="clickListener">
     <div class="inner">
-      <div class="message">{{getConfirmModalText}}</div>
+       <div class="message">{{text || "Вы уверены"}}</div>
       <div class="buttons">
         <div class="buttons__item-ok">Да</div>
         <div class="buttons__item-cansel">Отменить</div>
@@ -10,42 +10,35 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
 export default {
   name: 'confirmModal',
-  computed: {
-    ...mapGetters(['getConfirmModalText']),
+  props: {
+    text: {
+      type: String,
+      required: false
+    },
+    show: {
+      type: Boolean,
+      required: true
+    }
   },
   methods: {
-    ...mapMutations(['setConfirmModalText']),
     clickListener(e) {
       const target = e.target;
       if (!target) return
       if (target.classList.contains('bg') || target.classList.contains('buttons__item-cansel')) {
         this.$emit('result', false);
-        this.setConfirmModalText('');
       } else if (target.classList.contains('buttons__item-ok')) {
         this.$emit('result', true);
-        this.setConfirmModalText('');
       }
-    }
-  },
-  watch: {
-    getConfirmModalText() {
-      if (this.getConfirmModalText) {
-        document.documentElement.style.overflow = 'hidden';
-        return
-      }
-      document.documentElement.style.overflow = 'auto';
-     }
+    },
   },
   async mounted() {
     document.addEventListener('keydown', (e) => {
       if (e.code == 'Escape') {
-        this.$emit('result', false);
-        this.setConfirmModalText('');
+        this.$emit('result', false)
       }
-    });
+    })
   },
 }
 </script>

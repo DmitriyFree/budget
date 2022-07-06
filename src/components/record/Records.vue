@@ -32,12 +32,18 @@
        </tr>
       </thead>
       <tbody>
-        <record-item v-for="item in pageItems" :key="item.id" v-bind:record="item"/>
+        <record-item v-for="item in pageItems"
+          :key="item.id"
+          :record="item"
+          @delete="deleteHandler"/>
       </tbody>
      </table>
       <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" />
     </div>
     <div v-else class="empty-list">Список записей пуст</div>
+    <confirm-modal
+      :show="show"
+      @result="deleteRecord"/>
   </div>
  </div>
 </template>
@@ -61,7 +67,10 @@ export default {
       billName: "Все",
       records: [],
       typeCome: "Все",
-      selectedRecord: {}
+      selectedRecord: {},
+
+      target: {},
+      show: false
     }
   },
   computed: {
@@ -71,10 +80,10 @@ export default {
       let result = [];
       const records = this.getAllRecords
       if (this.billName === "Все") {
-        result = records;
+        result = records
       } else {
         result = records.filter(record => {
-          return record.bill === this.billName;
+          return record.bill === this.billName
         });
       }
       return result;
@@ -82,36 +91,51 @@ export default {
     selectByType: function() {
 
       let result = [];
-      const records = this.billSelectHandler;
+      const records = this.billSelectHandler
       if (this.typeCome === "Все") {
         result = records;
       } else {
         result = records.filter(record => {
-          return record.type === this.typeCome;
+          return record.type === this.typeCome
         });
       }
-      return result;
+      return result
     },
     isEmptyList() {
-      if (this.selectByType.length === 0) return true;
+      if (this.selectByType.length === 0) return true
       else return false
     },
   },
   methods: {
-    ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData']),
+    ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData', 'removeRecordById', 'removeTransfer']),
     ...mapMutations(['changePopupForm', 'setFormData', 'setCurrentPageRecord']),
     async updateList(currentPage) {
       this.page = currentPage
       await this.setupPagination(this.selectByType)
     },
     selectTypeHandler(e) {
-      const target = e.target;
-      const elems = document.querySelectorAll('.pick__type-item');
+      const target = e.target
+      const elems = document.querySelectorAll('.pick__type-item')
       elems.forEach(elem => {
-        elem.classList.remove('active');
+        elem.classList.remove('active')
       });
-      target.classList.add('active');
+      target.classList.add('active')
       this.typeCome = target.dataset.typeRecord
+    },
+    deleteHandler(record) {
+      this.show = true
+      this.target = record
+    },
+    async deleteRecord(result) {
+      if (result && this.target.id) {
+        try {
+          if (this.target.transfer) await this.removeTransfer(this.target)
+          else await this.removeRecordById(this.target.id)
+        } catch (e) {}
+      }
+      this.show = false
+      this.target = {}
+
     }
   },
   watch: {
@@ -120,8 +144,6 @@ export default {
     }
   },
   async mounted() {
-    await this.getBillsData();
-    await this.getRecordsData();
     this.records = await this.getAllRecords;
     this.bills = await this.getAllBills;
     await this.setupPagination(this.selectByType)

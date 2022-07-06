@@ -28,36 +28,62 @@
         </div>
       </div>
     </div>
+    <loader :isShow="isLoader"/>
   </div>
 </template>
 
 <script>
-import BalanceHandler from "./balance/BalanceHandler.vue";
-import BillHandler from './bills/BillHandler.vue';
-import CategoryHandler from "./category/CategoryHandler.vue";
-import CurrencyHandler from './currency/CurrencyHandler.vue';
-import RecordHandler from './record/RecordHandler.vue';
+import {mapGetters, mapActions} from 'vuex'
+import BalanceHandler from "./balance/BalanceHandler.vue"
+import BillHandler from './bills/BillHandler.vue'
+import CategoryHandler from "./category/CategoryHandler.vue"
+import CurrencyHandler from './currency/CurrencyHandler.vue'
+import RecordHandler from './record/RecordHandler.vue'
 export default {
   components: { CategoryHandler, BalanceHandler, CurrencyHandler, RecordHandler, BillHandler },
   name: "MainContent",
   data() {
     return {
       menuId: "balance",
+      isLoader: true
     };
   },
   methods: {
+    ...mapActions(['getCategoriesData','getCurrencyData', 'getBillsData', 'getRecordsData']),
     menuListener(e) {
-      const target = e.target;
-      const items = document.querySelectorAll(".menu__item");
+      const target = e.target
+      const items = document.querySelectorAll(".menu__item")
       if (target.classList.contains("menu__item")) {
         items.forEach((item) => {
-          item.classList.remove("active");
+          item.classList.remove("active")
         });
-        target.classList.add("active");
-        this.menuId = target.dataset.id;
+        target.classList.add("active")
+        this.menuId = target.dataset.id
       }
     },
   },
+  computed: {
+    ...mapGetters(['getAllCategories', 'getAllCurrencies', 'getAllBills', 'getAllRecords']),
+  },
+  async mounted() {
+    this.isLoader = true
+
+    try {
+      await this.getRecordsData()
+      await this.getBillsData()
+      await this.getCategoriesData()
+      await this.getCurrencyData()
+    } catch (error) {
+      console.log(error)
+    }
+    finally {
+      this.isLoader = false
+    }
+
+
+
+
+  }
 };
 </script>
 
@@ -66,6 +92,7 @@ export default {
   width: 100%;
   height: 100vh;
   display: flex;
+  position: relative;
   &__left {
     width: 220px;
     height: 100%;

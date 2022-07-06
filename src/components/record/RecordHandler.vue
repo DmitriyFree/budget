@@ -22,18 +22,17 @@
     <modal v-if="showTransferForm" @closeForm="closeEditTransferForm">
       <edit-transfer-form :firstRecord="firstRecord" :secondRecord="secondRecord" @hideForm="closeEditTransferForm"/>
     </modal>
-    <confirm-modal @result="removeRecord" />
   </div>
 </template>
 
 <script>
+import {mapGetters, mapMutations} from 'vuex'
 import CreateRecordForm from './CreateRecordForm.vue'
 import Records from './Records.vue'
 import CreateModal from '../modal/CreateModal.vue'
-import {mapGetters, mapMutations, mapActions} from 'vuex';
 import CurrencyTransferButton from '../ui/CurrencyTransferButton.vue'
-import EditRecordForm from './EditRecordForm.vue';
-import TransferCurrencyForm from './TransferCurrencyForm.vue';
+import EditRecordForm from './EditRecordForm.vue'
+import TransferCurrencyForm from './TransferCurrencyForm.vue'
 import EditTransferForm from './EditTransferForm.vue'
 export default {
   components: { CreateRecordForm, Records, CreateModal, EditRecordForm, CurrencyTransferButton, TransferCurrencyForm, EditTransferForm},
@@ -62,7 +61,6 @@ export default {
   },
   methods: {
     ...mapMutations(['changeCreateForm']),
-    ...mapActions(['removeRecordById', 'removeTransfer']),
     createForm() {
       this.changeCreateForm(true);
     },
@@ -78,13 +76,6 @@ export default {
     closeEditTransferForm(val) {
       if (val) this.isEditTransferForm = false;
     },
-    removeRecord(result){
-      if (result) {
-        const id = this.getSelectedRecord.id;
-        if (this.getSelectedRecord.transfer) this.removeTransfer(this.getSelectedRecord)
-        else this.removeRecordById(id);
-      }
-    }
   },
   watch: {
     isPopupForm() {

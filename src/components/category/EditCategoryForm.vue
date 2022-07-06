@@ -25,13 +25,16 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 import categoryMixin from '@/mixins/validator/category.mixin'
 export default {
   name: 'EditCategoryForm',
   mixins: [categoryMixin],
-  computed: {
-    ...mapGetters(['getSelectedCategory'])
+  props: {
+    category: {
+      type: Object,
+      required: true
+    }
   },
   data() {
     return {
@@ -44,7 +47,6 @@ export default {
   },
   methods: {
     ...mapActions(['putCategoryById']),
-    ...mapMutations(['changePopupForm']),
     async formHandler() {
       if (!this.checkFormData()) return
       const data = {
@@ -55,14 +57,15 @@ export default {
         }
       }
       await this.putCategoryById(data)
-      this.changePopupForm(false)
+      this.$emit('hideForm', true)
     }
   },
   watch: {
-    getSelectedCategory() {
-      this.candidate = {...this.getSelectedCategory}
+    category() {
+      this.candidate = {...this.category}
     }
-  }
+  },
+
 }
 </script>
 <style lang="scss" scoped></style>

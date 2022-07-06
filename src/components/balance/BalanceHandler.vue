@@ -1,6 +1,5 @@
 <template>
   <div class="handler statistic">
-    <loader/>
     <div class="handler__header">
       <div class="title">Баланс по Счетам</div>
     </div>
@@ -110,18 +109,6 @@ export default {
     },
     changeMainCurrency(symbol) {
       this.mainCurrencySymbol = symbol;
-    }
-  },
-  async mounted() {
-    try {
-      await this.toggleLoader(true);
-      await this.getBillsData();
-      await this.getRecordsData();
-      await this.getCurrencyData();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      await this.toggleLoader(false);
     }
   },
 }

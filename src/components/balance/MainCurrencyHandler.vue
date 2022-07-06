@@ -52,9 +52,6 @@ export default {
       this.formActive = false;
     }
   },
-  // async mounted() {
-  //   this.currency = await this.getMainCurrency;
-  // }
 }
 </script>
 <style lang="scss" scoped>

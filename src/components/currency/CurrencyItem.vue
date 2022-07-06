@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
 export default {
   name: 'CurrencyItem',
   props: {
@@ -24,22 +23,14 @@ export default {
       required: true
     }
   },
-  computed: {
-     ...mapGetters(['getConfirmResult'])
-  },
   methods: {
-    ...mapMutations(['changePopupForm', 'setSelectedCurrency', 'setConfirmModalText']),
     edit() {
-      this.setSelectedCurrency(this.currency);
-      this.changePopupForm(true);
+      this.$emit('edit', this.currency)
     },
-    async confirm() {
-      await this.setConfirmModalText('Вы уверены? Будут удалены все связанные записи');
-      this.setSelectedCurrency(this.currency);
+    confirm() {
+      this.$emit('delete', this.currency)
     },
-
   },
-
 }
 </script>
 

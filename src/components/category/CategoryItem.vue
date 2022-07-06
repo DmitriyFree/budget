@@ -5,7 +5,7 @@
     <td>{{category.type}}</td>
     <td class="action">
       <div class="td-btn">
-        <edit-button class="edit__btn" @clickButton="editCategory"></edit-button>
+        <edit-button class="edit__btn" @clickButton="edit"></edit-button>
         <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
       </div>
     </td>
@@ -27,13 +27,11 @@ export default {
   },
   methods: {
     ...mapMutations(['changePopupForm', 'setSelectedCategory', 'setConfirmModalText']),
-    editCategory() {
-      this.setSelectedCategory(this.category);
-      this.changePopupForm(true);
+    edit() {
+      this.$emit('edit', this.category)
     },
     async confirm() {
-      await this.setConfirmModalText('Вы уверены? Будут удалены все связанные записи');
-      this.setSelectedCategory(this.category);
+      this.$emit('delete', this.category)
     },
 
   },

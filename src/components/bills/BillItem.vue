@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex';
+import {mapGetters, mapMutations} from 'vuex'
 export default {
   name: 'BillItem',
   props: {
@@ -29,15 +29,16 @@ export default {
   methods: {
     ...mapMutations(['changePopupForm', 'setSelectedBill', 'setConfirmModalText']),
     editBill() {
+      // this.setSelectedBill(this.bill);
+      // this.changePopupForm(true);
+      this.$emit('edit', this.bill)
 
-      this.setSelectedBill(this.bill);
-      this.changePopupForm(true);
     },
     async confirm() {
-      await this.setConfirmModalText('Вы уверены? Будут удалены все связанные записи');
-      this.setSelectedBill(this.bill);
+      // await this.setConfirmModalText('Вы уверены? Будут удалены все связанные записи');
+      // this.setSelectedBill(this.bill);
+      this.$emit('delete', this.bill)
     },
-
   },
 }
 </script>

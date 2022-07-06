@@ -1,5 +1,5 @@
 <template>
-  <div class="loader-wrapper" v-if="isShowLoader">
+  <div class="loader-wrapper" v-if="isShow">
     <div class="loader">
       <div class="loader__blocks" style="--i:1;"></div>
       <div class="loader__blocks" style="--i:2;"></div>
@@ -26,12 +26,14 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
 export default {
   name: 'Loader',
-  computed: {
-    ...mapGetters(['isShowLoader'])
-  }
+  props: {
+    isShow: {
+      type: Boolean,
+      required: true
+    }
+  },
 }
 </script>
 

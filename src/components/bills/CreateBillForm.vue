@@ -53,7 +53,7 @@ export default {
     ...mapMutations(['changeCreateForm']),
     formHandler() {
       if (this.checkFormData()) {
-        if (!candidate.startBalance) candidate.startBalance = 0
+        if (!this.candidate.startBalance) this.candidate.startBalance = 0
         this.addBill(this.candidate)
         this.resetForm()
         this.changeCreateForm(false)
@@ -69,9 +69,9 @@ export default {
       }
     }
   },
-  async mounted() {
-    await this.getCurrencyData()
-  }
+  // async mounted() {
+  //   await this.getCurrencyData()
+  // }
 }
 </script>
 
