@@ -36,8 +36,14 @@ import billMixin from '@/mixins/validator/bill.mixin'
 export default {
   name: 'EditBillForm',
   mixins: [billMixin],
+  props: {
+    bill: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
-    ...mapGetters(['getSelectedBill', 'getAllCurrencies'])
+    ...mapGetters(['getAllCurrencies'])
   },
   data() {
     return {
@@ -51,27 +57,34 @@ export default {
   },
   methods: {
     ...mapActions(['putBillById']),
-    ...mapMutations(['changePopupForm']),
     async formHandler() {
+      console.log('ddd')
       if (!this.checkFormData()) return
-      if (!candidate.startBalance) candidate.startBalance = 0
-      const data = {
-        id: this.candidate.id,
-        bill: {
-          name: this.candidate.name,
-          currency: this.candidate.currency,
-          startBalance: this.candidate.startBalance
+      try {
+        if (!candidate.startBalance) candidate.startBalance = 0
+        const data = {
+          id: this.candidate.id,
+          bill: {
+            name: this.candidate.name,
+            currency: this.candidate.currency,
+            startBalance: this.candidate.startBalance
+          }
         }
+        await this.putBillById(data)
+      } catch (e) {}
+      finally {
+        this.$emit('hideForm', true)
       }
-      this.putBillById(data)
-      this.changePopupForm(false)
     },
   },
   watch: {
-    getSelectedBill() {
-      this.candidate =  {...this.getSelectedBill}
+    bill() {
+      this.candidate =  {...this.bill}
     }
   },
+  mounted() {
+    this.candidate = this.bill
+  }
 }
 </script>
 <style lang="scss" scoped></style>

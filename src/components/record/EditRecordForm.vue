@@ -60,14 +60,19 @@
   </div>
 </template>
 <script>
-import {mapMutations, mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import recordMixin from '@/mixins/validator/record.mixin'
 export default {
   name: 'EditRecordForm',
-  props: ['record'],
+  props: {
+    record: {
+      type: Object,
+      required: true
+    }
+  },
   mixins: [recordMixin],
   computed: {
-    ...mapGetters(['getAllBills', 'getAllCategories', 'getFormData', 'getSelectedRecord']),
+    ...mapGetters(['getAllBills', 'getAllCategories']),
     availableCategories() {
       return this.getAllCategories.filter(item => item.type == this.candidate.type)
     },
@@ -86,8 +91,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changePopupForm']),
-    ...mapActions(['getBillsData', 'putRecordById']),
+    ...mapActions(['putRecordById']),
     formHandler() {
       if (!this.checkFormData()) return;
       const data = {
@@ -103,16 +107,15 @@ export default {
       }
       this.putRecordById(data)
       this.$emit('hideForm', true)
-      this.changePopupForm(false)
     },
   },
   watch: {
-    getSelectedRecord() {
-      this.candidate = {...this.getSelectedRecord}
+    record() {
+      this.candidate = {...this.record}
     }
   },
   async mounted() {
-    this.getBillsData();
-   }
+    this.candidate = this.record
+  }
 }
 </script>

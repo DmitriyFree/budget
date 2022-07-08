@@ -51,14 +51,16 @@ export default {
       }
 
     },
-    async addCategory({dispatch}, category) {
+    async addCategory({dispatch}, data) {
       try {
+        if (!data) return
+        const json = JSON.stringify(data);
         const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json'
           },
-          body: category,
+          body: json,
 
         });
 

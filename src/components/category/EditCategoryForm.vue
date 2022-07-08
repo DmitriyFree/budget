@@ -65,6 +65,9 @@ export default {
       this.candidate = {...this.category}
     }
   },
+  mounted() {
+    this.candidate = {...this.category}
+  }
 
 }
 </script>

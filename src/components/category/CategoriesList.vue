@@ -23,7 +23,7 @@
      <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList"/>
     </div>
     <div v-else class="empty-list">Список категорий пуст</div>
-    <modal v-show="showEdit" @closeForm="hideModal">
+    <modal :modalActive="showEdit" @hideModal="hideModal">
       <edit-category-form
       :category="target"
       @hideForm="closeEditForm" />
@@ -37,12 +37,11 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import CategoryItem from './CategoryItem.vue'
-import ConfirmModal from '../modal/ConfirmModal.vue'
-import EditCategoryForm from '../category/EditCategoryForm.vue'
+import CategoryItem from '@/components/category/CategoryItem.vue'
+import EditCategoryForm from '@/components/category/EditCategoryForm.vue'
 export default {
-  components: {CategoryItem, ConfirmModal, EditCategoryForm},
   name: 'CategoriesList',
+  components: {CategoryItem, EditCategoryForm},
   mixins: [paginationMixin],
   data() {
     return {
@@ -86,10 +85,11 @@ export default {
         try {
           await this.removeCategoryById(this.target.id)
         } catch (e) {}
+        finally {
+          this.show = false
+          this.target = {}
+        }
       }
-      this.show = false
-      this.target = {}
-
     }
   },
   watch: {

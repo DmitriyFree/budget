@@ -78,7 +78,7 @@ export default {
   computed: {
     ...mapGetters(['getAllBills', 'getCurrencyBySymbol']),
     isAvailableRate() {
-      let result = false;
+      let result = false
       if (this.firstBill.currency && this.secondBill.currency) {
         if (this.firstBill.currency != this.secondBill.currency) {
           const firstRate = this.getCurrencyBySymbol(this.firstBill.currency).price
@@ -105,7 +105,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['changePopupForm']),
     ...mapActions(['addRecord', 'putTransfer']),
     formHandler() {
 

@@ -143,7 +143,7 @@ export default {
     clickOutcome() {
       this.candidate.income = false
     },
-    formHandler() {
+    async formHandler() {
       if (this.checkFormData()) {
 
         let type = 'Доход'
@@ -157,9 +157,13 @@ export default {
           sum: this.candidate.sum,
           description: this.candidate.description
         }
-        this.changeCreateForm(false)
-        this.addRecord(newRecord)
-        this.resetForm()
+        try {
+          await this.addRecord(newRecord)
+          this.resetForm()
+        } catch (e) {}
+        finally {
+          this.$emit('hideForm', true)
+        }
       }
 
     },
@@ -189,9 +193,9 @@ export default {
       }
     }
   },
-  async mounted() {
-    this.candidate.date = this.getCurrentData()
-  }
+  // async mounted() {
+  //   this.candidate.date = this.getCurrentData()
+  // }
 }
 </script>
 

@@ -15,12 +15,18 @@
         <bill-item v-for="item of pageItems"
         :key="item.id"
         :bill="item"
-        @delete="deleteHandler"></bill-item>
+        @delete="deleteHandler"
+        @edit="editHandler"></bill-item>
       </tbody>
         </table>
         <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList"/>
     </div>
     <div v-else class="empty-list">Список счетов пуст</div>
+    <modal :modal-active="showEdit" @hideModal="hideModal">
+      <edit-bill-form
+      :bill="target"
+      @hideForm="closeEditForm" />
+    </modal>
     <confirm-modal :show="show" @result="deleteBill"></confirm-modal>
   </div>
 </template>
@@ -28,14 +34,16 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import BillItem from './BillItem.vue'
+import BillItem from '@/components/bills/BillItem.vue'
+import EditBillForm from '@/components/bills/EditBillForm.vue'
 export default {
-  components: { BillItem },
+  components: { BillItem, EditBillForm },
   mixins: [paginationMixin],
   data() {
     return {
       target: {},
-      show: false
+      show: false,
+      showEdit: false
     }
   },
   computed:  {
@@ -50,6 +58,19 @@ export default {
     async updateList(currentPage) {
       this.page = currentPage
       await this.setupPagination(this.getAllBills)
+    },
+    editHandler(bill) {
+      this.target = bill
+      this.showEdit= true
+    },
+    closeEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.showEdit = false
+      }
+    },
+    hideModal(result) {
+      if (result)   this.showEdit = false
     },
     deleteHandler(bill) {
       this.show = true

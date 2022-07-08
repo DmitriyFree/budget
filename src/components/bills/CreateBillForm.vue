@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import billMixin from '@/mixins/validator/bill.mixin'
 export default {
   name: 'CreateBillForm',
@@ -49,14 +49,16 @@ export default {
   },
   computed: mapGetters(['getAllCurrencies']),
   methods: {
-    ...mapActions(['getCurrencyData', 'addBill']),
-    ...mapMutations(['changeCreateForm']),
-    formHandler() {
+    ...mapActions(['addBill']),
+    async formHandler() {
       if (this.checkFormData()) {
         if (!this.candidate.startBalance) this.candidate.startBalance = 0
-        this.addBill(this.candidate)
-        this.resetForm()
-        this.changeCreateForm(false)
+        try {
+          await  this.addBill(this.candidate)
+        } catch (e) {}
+        finally {
+          this.$emit('hideForm', true)
+        }
       }
     },
   },
@@ -69,9 +71,6 @@ export default {
       }
     }
   },
-  // async mounted() {
-  //   await this.getCurrencyData()
-  // }
 }
 </script>
 

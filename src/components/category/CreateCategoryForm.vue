@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {mapActions, mapMutations} from 'vuex'
+import {mapActions} from 'vuex'
 import categoryMixin from '@/mixins/validator/category.mixin'
 export default {
   name: 'CreateCategoryForm',
@@ -42,13 +42,10 @@ export default {
   },
   methods: {
     ...mapActions(['addCategory']),
-    ...mapMutations(['changeCreateForm']),
-    formHandler() {
+    async formHandler() {
       if (this.checkFormData()) {
-        console.log()
-        this.addCategory(JSON.stringify(this.candidate))
-        this.resetForm()
-        this.changeCreateForm(false)
+        await this.addCategory(this.candidate)
+        this.$emit('hideForm', true)
       }
     },
   }

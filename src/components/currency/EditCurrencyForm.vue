@@ -31,11 +31,7 @@
         </button>
         <img class="img" src="@/assets/images/refresh.svg">
         </div>
-
-
       </div>
-
-
       <button type="submit" class="row btn">
         Изменить
       </button>
@@ -43,14 +39,19 @@
   </div>
 </template>
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
 export default {
   name: "EditCurrencyForm",
-  props: ['currency'],
+  props: {
+    currency: {
+      type: Object,
+      required: true
+    }
+  },
   mixins: [currencyMixin],
   computed: {
-    ...mapGetters(['getSelectedCurrency', 'getAvailableCurrenceis']),
+    ...mapGetters(['getAvailableCurrenceis']),
     isMainCurrency() {
       if (this.candidate.symbol === 'USD') {
        this.candidate.price = 1
@@ -70,7 +71,6 @@ export default {
   },
   methods: {
     ...mapActions(['putCurrencyById', 'refreshPrice']),
-    ...mapMutations(['changePopupForm']),
     ...mapGetters(['getAllCurrencies']),
     async formHandler() {
       if (!this.checkFormData()) return
@@ -88,7 +88,7 @@ export default {
 
       }
       await this.putCurrencyById(data)
-      this.changePopupForm(false)
+      this.$emit('hideForm', true)
     },
     async getPrice(){
       if (this.candidate.price) {
@@ -112,10 +112,13 @@ export default {
     },
   },
   watch: {
-    getSelectedCurrency() {
-      this.candidate = {...this.getSelectedCurrency}
+    currency() {
+      this.candidate = {...this.currency}
+    }
+  },
+  mounted() {
+    this.candidate = {...this.currency}
   }
-},
 };
 </script>
 <style lang="scss" scoped></style>

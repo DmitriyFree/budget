@@ -35,12 +35,24 @@
         <record-item v-for="item in pageItems"
           :key="item.id"
           :record="item"
+          @edit="editHandler"
           @delete="deleteHandler"/>
       </tbody>
      </table>
       <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" />
     </div>
     <div v-else class="empty-list">Список записей пуст</div>
+    <modal :modal-active="showRecordEdit" @hideForm="hideModal">
+      <edit-record-form
+        :record="target"
+        @hideForm="closeEditForm" />
+    </modal>
+    <modal :modal-active="showTransferEdit" @hideForm="hideModal">
+      <edit-transfer-form
+        :firstRecord="firstRecord"
+        :secondRecord="secondRecord"
+        @hideForm="closeEditTransferForm"/>
+    </modal>
     <confirm-modal
       :show="show"
       @result="deleteRecord"/>
@@ -49,12 +61,14 @@
 </template>
 
 <script>
-import {mapGetters, mapActions, mapMutations} from 'vuex';
-import RecordItem from './RecordItem.vue';
+import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
+import RecordItem from '@/components/record/RecordItem.vue'
+import EditRecordForm from '@/components/record/EditRecordForm.vue'
+import EditTransferForm from '@/components/record/EditTransferForm.vue'
 export default {
   name: 'Records',
-  components: { RecordItem },
+  components: { RecordItem, EditRecordForm, EditTransferForm },
   mixins: [paginationMixin],
   data() {
     return {
@@ -70,11 +84,16 @@ export default {
       selectedRecord: {},
 
       target: {},
-      show: false
+      show: false,
+      showRecordEdit: false,
+      showTransferEdit: false,
+
+      firstRecord: {},
+      secondRecord: {}
     }
   },
   computed: {
-    ...mapGetters(['getAllBills', 'getAllRecords', 'getMaxPageItems', 'isPopupForm', 'getMaxPageRecord', 'getMaxPageItems']),
+    ...mapGetters(['getAllBills', 'getAllRecords', 'getRecordById']),
     billSelectHandler: function() {
 
       let result = [];
@@ -86,14 +105,14 @@ export default {
           return record.bill === this.billName
         });
       }
-      return result;
+      return result
     },
     selectByType: function() {
 
       let result = [];
       const records = this.billSelectHandler
       if (this.typeCome === "Все") {
-        result = records;
+        result = records
       } else {
         result = records.filter(record => {
           return record.type === this.typeCome
@@ -107,8 +126,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getBillsData', 'getRecordsData', 'getRecordsData', 'removeRecordById', 'removeTransfer']),
-    ...mapMutations(['changePopupForm', 'setFormData', 'setCurrentPageRecord']),
+    ...mapActions(['removeRecordById', 'removeTransfer']),
     async updateList(currentPage) {
       this.page = currentPage
       await this.setupPagination(this.selectByType)
@@ -121,6 +139,38 @@ export default {
       });
       target.classList.add('active')
       this.typeCome = target.dataset.typeRecord
+    },
+    editHandler(record) {
+      if (!record.transfer) {
+        this.target = record
+        this.showRecordEdit= true
+      } else {
+        const firstId = record.transfer.firstRecordId
+        const secondId = record.transfer.secondRecordId
+        this.firstRecord = this.getRecordById(firstId)
+        this.secondRecord = this.getRecordById(secondId)
+        this.showTransferEdit = true
+      }
+
+
+    },
+    closeEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.showRecordEdit = false
+      }
+    },
+    closeEditTransferForm(result) {
+      if (result) {
+        this.target = {}
+        this.showTransferEdit = false
+      }
+    },
+    hideModal(result) {
+      if (result) {
+        this.showRecordEdit = false
+        this.showTransferEdit = false
+      }
     },
     deleteHandler(record) {
       this.show = true
@@ -141,11 +191,31 @@ export default {
   watch: {
     selectByType() {
       this.setupPagination(this.selectByType)
+    },
+
+    isPopupForm() {
+      const resp = this.getSelectedRecord;
+      if (this.isPopupForm) this.isEditRecordForm = false
+      if (!resp.transfer) {
+        this.isEditTransferForm = false
+        this.isEditRecordForm = true
+      } else {
+
+        this.isEditRecordForm = false
+        const firtId = resp.transfer.firstRecordId
+        const secondId = resp.transfer.secondRecordId
+
+        if (firtId && secondId) {
+          this.isEditTransferForm = true
+          this.firstRecord = this.getRecordById(firtId)
+          this.secondRecord = this.getRecordById(secondId)
+        } else this.isEditTransferForm = false
+      }
     }
   },
   async mounted() {
-    this.records = await this.getAllRecords;
-    this.bills = await this.getAllBills;
+    this.records = await this.getAllRecords
+    this.bills = await this.getAllBills
     await this.setupPagination(this.selectByType)
   }
 }

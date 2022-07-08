@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapMutations} from 'vuex';
+import {mapActions, mapGetters} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
 export default {
   name: 'CreateCurrencyForm',
@@ -77,7 +77,6 @@ export default {
   methods: {
     ...mapActions(['addCurrency', 'refreshPrice']),
     ...mapGetters(['getAllCurrencies']),
-    ...mapMutations(['changeCreateForm']),
     async getPrice(){
       if (this.candidate.price) {
         if (!this.candidate.symbol) this.refreshError = 'валюта не выбрана'
@@ -94,9 +93,13 @@ export default {
     async formHandler() {
       if (this.checkFormData()) {
         if (this.main) this.resetMainCurrency()
-        await this.addCurrency(this.candidate)
-        this.resetForm()
-        this.changeCreateForm(false)
+        try {
+          await this.addCurrency(this.candidate)
+        } catch (e) {}
+        finally {
+          this.resetForm()
+          this.$emit('hideForm', true)
+        }
       } else {
       }
 

@@ -95,26 +95,29 @@ export default {
   },
   methods: {
     ...mapActions(['addRecord', 'addTransfer']),
-    formHandler() {
+    async formHandler() {
 
       if(!this.checkFormData()) {
         return
       }
 
-      if (!this.isAvailableRate) this.secondSum = this.firstSum;
+      if (!this.isAvailableRate) this.secondSum = this.firstSum
 
-      const candidat = {
-        firstBill: this.firstBill.name,
-        secondBill: this.secondBill.name,
-        firstSum: this.firstSum,
-        secondSum: this.secondSum,
-        rate: this.rate,
-        date: this.date
+      try {
+        const candidat = {
+          firstBill: this.firstBill.name,
+          secondBill: this.secondBill.name,
+          firstSum: this.firstSum,
+          secondSum: this.secondSum,
+          rate: this.rate,
+          date: this.date
+        }
+        await this.addTransfer(candidat)
+        this.resetForm()
+      } catch (e) {}
+      finally {
+              this.$emit('hideForm', true)
       }
-      this.addTransfer(candidat)
-      this.$emit('hideForm', true)
-      this.resetForm()
-
     },
     resetSumError() {},
     getCurrentData() {
