@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "Header",
+  name: "AppHeader",
   computed: {
     getDate() {
       let date = new Date();

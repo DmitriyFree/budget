@@ -12,24 +12,30 @@
           </tr>
         </thead>
         <tbody>
-          <category-item v-for="item of pageItems"
+          <category-list-item v-for="item of pageItems"
             :key="item.id"
             :category="item"
             @edit="editHandler"
             @delete="deleteHandler">
-          </category-item>
+          </category-list-item>
         </tbody>
-     </table>
-     <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList"/>
+      </table>
+      <pagination
+        :pages-amount="pageCount"
+        :page="page"
+        @currentPage="updateList"/>
     </div>
     <div v-else class="empty-list">Список категорий пуст</div>
-    <modal :modalActive="showEdit" @hideModal="hideModal">
-      <edit-category-form
-      :category="target"
-      @hideForm="closeEditForm" />
+    <modal
+      :modal-active="activeEditForm"
+      @hideModal="hideEditForm">
+      <category-edit-form
+        :category="target"
+        @hideForm="hideEditForm" >
+      </category-edit-form>
     </modal>
     <confirm-modal
-      :show="show"
+      :show="activeConfirmForm"
       @result="deleteCategory"/>
   </div>
 </template>
@@ -37,17 +43,17 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import CategoryItem from '@/components/category/CategoryItem.vue'
-import EditCategoryForm from '@/components/category/EditCategoryForm.vue'
+import CategoryListItem from '@/components/category/CategoryListItem.vue'
+import CategoryEditForm from '@/components/category/CategoryEditForm.vue'
 export default {
-  name: 'CategoriesList',
-  components: {CategoryItem, EditCategoryForm},
+  name: 'CategoryList',
+  components: {CategoryListItem, CategoryEditForm},
   mixins: [paginationMixin],
   data() {
     return {
       target: {},
-      show: false,
-      showEdit: false
+      activeConfirmForm: false,
+      activeEditForm: false
     }
   },
   computed: {
@@ -63,34 +69,31 @@ export default {
       this.page = currentPage
       await this.setupPagination(this.getAllCategories)
     },
-    editHandler(category) {
-      this.target = category
-      this.showEdit= true
-    },
-    closeEditForm(result) {
-      if (result) {
-        this.target = {}
-        this.showEdit = false
-      }
-    },
-    hideModal(result) {
-      if (result)   this.showEdit = false
-    },
-    deleteHandler(category) {
-      this.show = true
-      this.target = category
-    },
     async deleteCategory(result) {
       if (result && this.target.id) {
         try {
           await this.removeCategoryById(this.target.id)
         } catch (e) {}
         finally {
-          this.show = false
+          this.activeConfirmForm = false
           this.target = {}
         }
       }
-    }
+    },
+    editHandler(category) {
+      this.target = category
+      this.activeEditForm= true
+    },
+    deleteHandler(category) {
+      this.target = category
+      this.activeConfirmForm = true
+    },
+    hideEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.activeEditForm = false
+      }
+    },
   },
   watch: {
     getAllCategories() {

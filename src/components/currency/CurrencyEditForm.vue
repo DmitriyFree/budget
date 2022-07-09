@@ -6,29 +6,38 @@
           <label>Код</label>
           <span class="error show">{{symbolError}}</span>
         </div>
-        <input type="text" disabled required v-model="candidate.symbol" @input="resetSymbolError">
+        <input required
+          type="text"
+          v-model="candidate.symbol"
+          @input="resetSymbolError">
       </div>
       <div class="row">
         <div class="label">
           <label>Название</label>
           <span class="error show">{{titleError}}</span>
         </div>
-        <input type="text" required v-model="candidate.title" @input="resetTitleError">
+        <input required
+          type="text"
+          v-model="candidate.title"
+          @input="resetTitleError">
       </div>
       <div class="row">
         <div class="label">
           <label>Курс к USD</label>
           <span class="error show"></span>
         </div>
-        <input type="text" :disabled="isMainCurrency" required v-model="candidate.price">
+        <input required
+          type="text"
+          :disabled="isMainCurrency"
+          v-model="candidate.price">
       </div>
 
       <div class="row-refresh">
-         <span class="error show">{{refreshError}}</span>
+        <span class="error show">{{refreshError}}</span>
         <div class="wrap">
-            <button  class="btn" @click.prevent="getPrice">
-          Обновить курс
-        </button>
+          <button  class="btn" @click.prevent="getPrice">
+            Обновить курс
+          </button>
         <img class="img" src="@/assets/images/refresh.svg">
         </div>
       </div>
@@ -42,7 +51,7 @@
 import {mapGetters, mapActions} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
 export default {
-  name: "EditCurrencyForm",
+  name: "CurrencyEditForm",
   props: {
     currency: {
       type: Object,

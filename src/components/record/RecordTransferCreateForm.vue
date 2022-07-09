@@ -7,32 +7,55 @@
         <label>С</label>
           <span class="error">{{firstBillError}}</span>
         </div>
-        <select v-model="firstBill" required @input="resetFirstBillError">
-          <option v-for="bill in getAllBills" :key="bill.id" :value="bill" >{{bill.name}}</option>
+        <select required
+          v-model="firstBill"
+          @input="resetFirstBillError">
+          <option
+            v-for="bill in getAllBills"
+            :key="bill.id"
+            :value="bill">
+            {{bill.name}}
+          </option>
         </select>
       </div>
+
       <div class="row">
         <div class="label">
         <label>В</label>
           <span class="error">{{secondBillError}}</span>
         </div>
-        <select v-model="secondBill" required @input="resetSecondBillError">
-          <option v-for="bill in getAllBills" :key="bill.id" :value="bill">{{bill.name}}</option>
+        <select required
+          v-model="secondBill"
+          @input="resetSecondBillError">
+          <option
+            v-for="bill in getAllBills"
+            :key="bill.id"
+            :value="bill">
+            {{bill.name}}
+          </option>
         </select>
       </div>
+
       <div class="row">
         <div class="label">
         <label>Сумма</label>
           <span class="error">{{firstSumError}}</span>
         </div>
-        <input type="text" required  v-model="firstSum" @input="resetSumError">
+        <input required
+          type="text"
+          v-model="firstSum"
+          @input="resetSumError">
       </div>
       <div class="row">
         <div class="label">
         <label>Сумма</label>
           <span class="error">{{secondSumError}}</span>
         </div>
-        <input type="text" required :disabled="!isAvailableRate" :value="secondSum" @input="secondSumHandler">
+        <input required
+          type="text"
+          :disabled="!isAvailableRate"
+          :value="secondSum"
+          @input="secondSumHandler">
       </div>
 
       <div class="row">
@@ -40,7 +63,11 @@
         <label>Курс</label>
           <span class="error">{{rateError}}</span>
         </div>
-        <input type="text" required :disabled="!isAvailableRate" v-model="rate" @input="resetSumError">
+        <input required
+          type="text"
+          :disabled="!isAvailableRate"
+          v-model="rate"
+          @input="resetSumError">
       </div>
 
       <div class="row">
@@ -48,7 +75,10 @@
         <label>Дата</label>
           <span class="error">{{dateError}}</span>
         </div>
-        <input type="date" v-model="date" required @input="resteDateError">
+        <input required
+          type="date"
+          v-model="date"
+          @input="resteDateError">
       </div>
 
       <button type="submit" class="row btn">
@@ -62,7 +92,7 @@
 import { mapGetters, mapActions} from 'vuex'
 import transferMixin from '@/mixins/validator/transfer.mixin'
 export default {
-  name: "TransferCurrencyForm",
+  name: "RecordTransferCreateForm",
   mixins: [transferMixin],
   computed: {
     ...mapGetters(['getAllBills', 'getCurrencyBySymbol']),
@@ -94,7 +124,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['addRecord', 'addTransfer']),
+    ...mapActions(['addTransfer']),
     async formHandler() {
 
       if(!this.checkFormData()) {
@@ -116,7 +146,7 @@ export default {
         this.resetForm()
       } catch (e) {}
       finally {
-              this.$emit('hideForm', true)
+        this.$emit('hideForm', true)
       }
     },
     resetSumError() {},

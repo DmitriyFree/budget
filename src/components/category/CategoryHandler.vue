@@ -2,24 +2,28 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Категории</div>
-      <create-button class="btn" @clickButton="showModal"></create-button>
+      <create-button class="btn" @clickButton="showCreateModal"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form">
-        <modal :modalActive="activeCreateModal" @hideModal="hideModal">
-          <create-category-form @hideForm="hideModal"/>
+        <modal
+          :modal-active="activeCreateModal"
+          @hideModal="hideCreateModal">
+          <category-create-form
+            @hideForm="hideCreateModal" >
+          </category-create-form>
         </modal>
       </div>
-      <categories-list/>
+      <category-list></category-list>
     </div>
   </div>
 </template>
 
 <script>
-import CategoriesList from '@/components/category/CategoriesList.vue'
-import CreateCategoryForm from '@/components/category/CreateCategoryForm.vue'
+import CategoryList from '@/components/category/CategoryList.vue'
+import CategoryCreateForm from '@/components/category/CategoryCreateForm.vue'
 export default {
-  components: {CreateCategoryForm, CategoriesList},
+  components: {CategoryCreateForm, CategoryList},
   name: 'CategoryHandler',
     data() {
       return {
@@ -27,10 +31,10 @@ export default {
       }
     },
     methods: {
-      showModal() {
+      showCreateModal() {
         this.activeCreateModal = true
       },
-      hideModal(result) {
+      hideCreateModal(result) {
         if (result) this.activeCreateModal = false
       }
     },

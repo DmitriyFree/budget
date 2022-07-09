@@ -2,12 +2,12 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Валюты</div>
-      <create-button class="btn" @clickButton="showModal"></create-button>
+      <create-button class="btn" @clickButton="showCreateModal"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form">
-      <modal :modal-active="activeCreateModal" @hideModal="hideModal">
-        <create-currency-form @hideForm="hideModal"/>
+      <modal :modal-active="activeCreateModal" @hideModal="hideCreateModal">
+        <currency-create-form @hideForm="hideCreateModal"></currency-create-form>
       </modal>
       </div>
       <currency-list/>
@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import CreateCurrencyForm from '@/components/currency/CreateCurrencyForm.vue'
+import CurrencyCreateForm from '@/components/currency/CurrencyCreateForm.vue'
 import CurrencyList from '@/components/currency/CurrencyList.vue'
 export default {
-  components: { CreateCurrencyForm, CurrencyList},
+  components: { CurrencyCreateForm, CurrencyList},
   name: 'CurrencyHandler',
   data() {
     return {
@@ -27,10 +27,10 @@ export default {
     }
   },
   methods: {
-    showModal() {
+    showCreateModal() {
       this.activeCreateModal = true
     },
-    hideModal(result) {
+    hideCreateModal(result) {
       if (result) this.activeCreateModal = false
     }
   },

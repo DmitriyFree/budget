@@ -6,15 +6,24 @@
           <label>Название</label>
           <span class="error show">{{nameError}}</span>
         </div>
-        <input type="text" required v-model="candidate.name" @input="resetNameError">
+        <input required
+          type="text"
+          v-model="candidate.name"
+          @input="resetNameError">
       </div>
        <div class="row">
         <div class="label">
           <label>Валюта</label>
           <span class="error show">{{currencyError}}</span>
         </div>
-        <select v-model="candidate.currency" required @input="resetCurrencyError">
-          <option v-for="item in getAllCurrencies" :key="item.id" >{{item.symbol}}</option>
+        <select required
+          v-model="candidate.currency"
+          @input="resetCurrencyError">
+          <option
+            v-for="item in getAllCurrencies"
+            :key="item.id" >
+            {{item.symbol}}
+          </option>
         </select>
       </div>
       <div class="row">
@@ -22,7 +31,10 @@
           <label>Начальный баланс</label>
           <span class="error">{{startBalanceError}}</span>
         </div>
-        <input type="text" v-model="candidate.startBalance" @input="resetStartBalanceError">
+        <input
+          type="text"
+          v-model="candidate.startBalance"
+          @input="resetStartBalanceError">
       </div>
       <button type="submit" class="row btn">
         Изменить
@@ -31,10 +43,10 @@
   </div>
 </template>
 <script>
-import {mapActions, mapMutations, mapGetters} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 import billMixin from '@/mixins/validator/bill.mixin'
 export default {
-  name: 'EditBillForm',
+  name: 'BillEditForm',
   mixins: [billMixin],
   props: {
     bill: {
@@ -58,7 +70,6 @@ export default {
   methods: {
     ...mapActions(['putBillById']),
     async formHandler() {
-      console.log('ddd')
       if (!this.checkFormData()) return
       try {
         if (!candidate.startBalance) candidate.startBalance = 0

@@ -2,104 +2,56 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Записи</div>
-      <create-button class="btn" @clickButton="showCreateRecordModal"></create-button>
-      <currency-transfer-button class="btn" @clickButton="enterTransferForm"></currency-transfer-button>
+      <create-button class="btn" @clickButton="showRecordCreateForm"></create-button>
+      <currency-transfer-button class="btn" @clickButton="showTransferCreateForm"></currency-transfer-button>
     </div>
     <div class="handler__content">
-      <div class="handler__content-form" v-bind:class="{done: !btnActive}">
-        <modal :modal-active="createRecordForm" @hideForm="hideCreateRecordModal">
-          <create-record-form @hideForm="hideCreateModal" />
+      <div class="handler__content-form">
+        <modal :modal-active="createRecordForm" @hideModal="hideRecordCreateForm">
+          <record-create-form
+            @hideForm="hideRecordCreateForm">
+          </record-create-form>
         </modal>
-        <modal :modal-active="createTransferForm" @hideForm="closeTranserForm">
-          <transfer-currency-form @hideForm="closeTranserForm" />
+        <modal
+          :modal-active="createTransferForm"
+          @hideModal="hideTransferCreateForm">
+          <record-transfer-create-form
+            @hideForm="hideTransferCreateForm">
+          </record-transfer-create-form>
         </modal>
       </div>
-      <records/>
+      <record-list></record-list>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapMutations} from 'vuex'
-import CreateRecordForm from '@/components/record/CreateRecordForm.vue'
-import Records from '@/components/record/Records.vue'
-import TransferCurrencyForm from '@/components/record/TransferCurrencyForm.vue'
+import RecordCreateForm from '@/components/record/RecordCreateForm.vue'
+import RecordTransferCreateForm from '@/components/record/RecordTransferCreateForm.vue'
+import RecordList from '@/components/record/RecordList.vue'
 export default {
-  components: { CreateRecordForm, Records, TransferCurrencyForm},
   name: 'RecordHandler',
-  computed: {
-    ...mapGetters(['getRecordById']),
-    showEditRecordForm() {
-      if(this.isEditRecordForm && this.isPopupForm) return true
-      else return false
-    },
-    showTransferForm() {
-      if(this.isEditTransferForm && this.isPopupForm) return true
-      else return false
-    },
-
-  },
+  components: {RecordCreateForm, RecordTransferCreateForm, RecordList},
   data() {
     return {
-      btnActive: false,
       createRecordForm: false,
       createTransferForm: false,
-      isEditRecordForm: false,
-      isEditTransferForm: false,
-      firstRecord: {},
-      secondRecord: {}
     }
   },
   methods: {
-    ...mapMutations(['changeCreateForm']),
-    createForm() {
-      this.changeCreateForm(true)
-    },
-    enterTransferForm() {
-      this.createTransferForm = true
-    },
-    closeTranserForm(val) {
-      if (val) this.createTransferForm = false
-    },
-    hideCreateRecordModal(result) {
-      if (result) this.createRecordForm = false
-    },
-    closeEditRecordForm(val) {
-      if (val) this.isEditRecordForm = false
-    },
-    closeEditTransferForm(val) {
-      if (val) this.isEditTransferForm = false
-    },
-
-    showCreateRecordModal() {
+    showRecordCreateForm() {
       this.createRecordForm = true
     },
-
-    hideCreateModal(result) {
+    hideRecordCreateForm(result) {
       if (result) this.createRecordForm = false
+    },
+    showTransferCreateForm() {
+      this.createTransferForm = true
+    },
+    hideTransferCreateForm(result) {
+      if (result) this.createTransferForm = false
     }
   },
-  watch: {
-    isPopupForm() {
-      const resp = this.getSelectedRecord;
-      if (this.isPopupForm) this.isEditRecordForm = false
-      if (!resp.transfer) {
-        this.isEditTransferForm = false
-        this.isEditRecordForm = true
-      } else {
-
-        this.isEditRecordForm = false
-        const firtId = resp.transfer.firstRecordId
-        const secondId = resp.transfer.secondRecordId
-
-        if (firtId && secondId) {
-          this.isEditTransferForm = true
-          this.firstRecord = this.getRecordById(firtId)
-          this.secondRecord = this.getRecordById(secondId)
-        } else this.isEditTransferForm = false
-      }
-    }
-  }
 }
 </script>
 

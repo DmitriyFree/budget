@@ -1,5 +1,5 @@
 // ui
-import Loader from "@/components/ui/Loader"
+import AppLoader from "@/components/ui/AppLoader"
 import CreateButton from "@/components/ui/CreateButton"
 import DeleteButton from "@/components/ui/DeleteButton"
 import EditButton from "@/components/ui/EditButton"
@@ -12,7 +12,7 @@ import ConfirmModal from "@/components/modal/ConfirmModal"
 
 
 export default [
-  Loader,
+  AppLoader,
   CreateButton,
   DeleteButton,
   EditButton,

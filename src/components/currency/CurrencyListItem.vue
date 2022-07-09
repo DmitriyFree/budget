@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: 'CurrencyItem',
+  name: 'CurrencyListItem',
   props: {
     currency: {
       type: Object,

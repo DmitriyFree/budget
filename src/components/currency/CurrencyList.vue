@@ -12,26 +12,32 @@
           </tr>
         </thead>
         <tbody>
-        <currency-item  v-for="item of pageItems"
+        <currency-list-item
+          v-for="item of pageItems"
           :key="item.id"
           :currency="item"
           @edit="editHandler"
-          @delete="deleteHandler" ></currency-item>
+          @delete="deleteHandler" >
+        </currency-list-item>
         </tbody>
       </table>
-      <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" ></pagination>
+      <pagination
+        :pages-amount="pageCount"
+        :page="page"
+        @currentPage="updateList" ></pagination>
     </div>
 
     <div v-else class="empty-list">Список валют пуст</div>
 
-    <modal :modalActive="showEdit" @hideModal="hideModal">
-      <edit-currency-form
+    <modal :modalActive="activeEditForm" @hideModal="hideEditForm">
+      <currency-edit-form
         :currency="target"
-        @hideForm="closeEditForm" />
+        @hideForm="hideEditForm">
+      </currency-edit-form>
     </modal>
 
     <confirm-modal
-      :show="show"
+      :show="activeConfirmForm"
       @result="deleteCurrency"/>
   </div>
 </template>
@@ -39,17 +45,17 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import CurrencyItem from '@/components/currency/CurrencyItem.vue'
-import EditCurrencyForm from '@/components/currency/EditCurrencyForm.vue'
+import CurrencyListItem from '@/components/currency/CurrencyListItem.vue'
+import CurrencyEditForm from '@/components/currency/CurrencyEditForm.vue'
 export default {
-  components: {CurrencyItem, EditCurrencyForm},
+  components: {CurrencyListItem, CurrencyEditForm},
   name: 'CurrencyList',
   mixins: [paginationMixin],
   data() {
     return {
       target: {},
-      show: false,
-      showEdit: false
+      activeConfirmForm: false,
+      activeEditForm: false
     }
   },
   computed: {
@@ -65,34 +71,30 @@ export default {
       this.page = currentPage
       this.setupPagination(this.getAllCurrencies)
     },
-    editHandler(category) {
-      this.target = category
-      this.showEdit= true
-    },
-    closeEditForm(result) {
-      if (result) {
-        this.target = {}
-        this.showEdit = false
-      }
-    },
-    hideModal(result) {
-      if (result)   this.showEdit = false
-    },
-    deleteHandler(category) {
-      this.show = true
-      this.target = category
-    },
     async deleteCurrency(result) {
       if (result && this.target.id) {
         try {
           await this.removeCurrencyById(this.target.id)
         } catch (e) {}
       }
-      this.show = false
+      this.activeConfirmForm = false
       this.target = {}
 
-    }
-
+    },
+    editHandler(currency) {
+      this.target = currency
+      this.activeEditForm= true
+    },
+    deleteHandler(currency) {
+      this.target = currency
+      this.activeConfirmForm = true
+    },
+    hideEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.activeEditForm = false
+      }
+    },
   },
   watch: {
     getAllCurrencies() {

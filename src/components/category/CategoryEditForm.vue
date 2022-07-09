@@ -6,14 +6,19 @@
           <label>Название</label>
           <span class="error">{{nameError}}</span>
         </div>
-        <input type="text" required v-model="candidate.name" @input="resetNameError">
+        <input required
+          type="text"
+          v-model="candidate.name"
+          @input="resetNameError">
       </div>
        <div class="row">
         <div class="label">
           <label>Тип</label>
           <span class="error">{{typeError}}</span>
         </div>
-        <select v-model="candidate.type" required @input="resetTypeError">
+        <select required
+          v-model="candidate.type"
+          @input="resetTypeError">
           <option>Доход</option>
           <option>Расход</option>
         </select>
@@ -28,7 +33,7 @@
 import {mapActions} from 'vuex'
 import categoryMixin from '@/mixins/validator/category.mixin'
 export default {
-  name: 'EditCategoryForm',
+  name: 'CategoryEditForm',
   mixins: [categoryMixin],
   props: {
     category: {

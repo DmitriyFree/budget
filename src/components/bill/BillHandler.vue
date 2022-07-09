@@ -2,12 +2,14 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Счета</div>
-      <create-button class="btn" @clickButton="showModal"></create-button>
+      <create-button class="btn" @clickButton="showCreateModal"></create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form">
-        <modal :modal-active="activeCreateModal" @hideModal="hideModal">
-          <create-bill-form @hideForm="hideModal"/>
+        <modal
+          :modal-active="activeCreateModal"
+          @hideModal="hideCreateModal">
+          <bill-create-form @hideForm="hideCreateModal"></bill-create-form>
         </modal>
       </div>
       <bill-list/>
@@ -15,21 +17,21 @@
   </div>
 </template>
 <script>
-import BillList from '@/components/bills/BillList.vue'
-import CreateBillForm from '@/components/bills/CreateBillForm.vue'
+import BillList from '@/components/bill/BillList.vue'
+import BillCreateForm from '@/components/bill/BillCreateForm.vue'
 export default {
   name: 'BillHandler',
-  components: {BillList, CreateBillForm},
+  components: {BillList, BillCreateForm},
   data() {
     return {
       activeCreateModal: false
     }
   },
   methods: {
-    showModal() {
+    showCreateModal() {
       this.activeCreateModal = true
     },
-    hideModal(result) {
+    hideCreateModal(result) {
       if (result) this.activeCreateModal = false
     },
   },

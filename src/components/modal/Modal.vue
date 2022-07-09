@@ -1,5 +1,9 @@
 <template>
-  <div class="modal" @click="clickListener" v-if="showModal" v-bind:class="{show: showModal}">
+  <div class="modal"
+    @click="clickListener"
+    v-if="showModal"
+    :class="{show: showModal}">
+
     <div class="modal__content">
       <div class="modal-close__btn">x</div>
       <slot></slot>

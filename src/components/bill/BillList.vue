@@ -12,38 +12,50 @@
        </tr>
       </thead>
       <tbody>
-        <bill-item v-for="item of pageItems"
+        <bill-list-item v-for="item of pageItems"
         :key="item.id"
         :bill="item"
         @delete="deleteHandler"
-        @edit="editHandler"></bill-item>
+        @edit="editHandler"></bill-list-item>
       </tbody>
         </table>
-        <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList"/>
+        <pagination
+          :pages-amount="pageCount"
+          :page="page"
+          @currentPage="updateList"/>
     </div>
     <div v-else class="empty-list">Список счетов пуст</div>
-    <modal :modal-active="showEdit" @hideModal="hideModal">
-      <edit-bill-form
-      :bill="target"
-      @hideForm="closeEditForm" />
+
+    <modal
+      :modal-active="activeEditForm"
+      @hideModal="hideEditForm">
+
+      <bill-edit-form
+        :bill="target"
+        @hideForm="hideEditForm">
+      </bill-edit-form>
     </modal>
-    <confirm-modal :show="show" @result="deleteBill"></confirm-modal>
+
+    <confirm-modal
+      :show="activeConfirmForm"
+      @result="deleteBill">
+    </confirm-modal>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import BillItem from '@/components/bills/BillItem.vue'
-import EditBillForm from '@/components/bills/EditBillForm.vue'
+import BillListItem from '@/components/bill/BillListItem.vue'
+import BillEditForm from '@/components/bill/BillEditForm.vue'
 export default {
-  components: { BillItem, EditBillForm },
+  components: { BillListItem, BillEditForm },
   mixins: [paginationMixin],
   data() {
     return {
       target: {},
-      show: false,
-      showEdit: false
+      activeConfirmForm: false,
+      activeEditForm: false
     }
   },
   computed:  {
@@ -59,33 +71,30 @@ export default {
       this.page = currentPage
       await this.setupPagination(this.getAllBills)
     },
-    editHandler(bill) {
-      this.target = bill
-      this.showEdit= true
-    },
-    closeEditForm(result) {
-      if (result) {
-        this.target = {}
-        this.showEdit = false
-      }
-    },
-    hideModal(result) {
-      if (result)   this.showEdit = false
-    },
-    deleteHandler(bill) {
-      this.show = true
-      this.target = bill
-    },
     async deleteBill(result) {
       if (result && this.target.id) {
         try {
           await this.removeBillById(this.target.id)
         } catch (e) {}
       }
-      this.show = false
+      this.activeConfirmForm = false
       this.target = {}
 
-    }
+    },
+    editHandler(bill) {
+      this.target = bill
+      this.activeEditForm= true
+    },
+    deleteHandler(bill) {
+      this.target = bill
+      this.activeConfirmForm = true
+    },
+    hideEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.activeEditForm = false
+      }
+    },
   },
   watch: {
     getAllBills() {

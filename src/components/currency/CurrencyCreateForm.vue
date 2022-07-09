@@ -7,7 +7,13 @@
           <label>Выберете валюту</label>
         </div>
         <select required v-model="candidate.symbol" @input="selectCurrencyHandler">
-          <option  v-for="item in getAvailableCurrenceis" :key="item.symbol" :value="item.symbol">{{item.symbol}} {{item.name}}</option>
+          <option
+            v-for="item in getAvailableCurrenceis"
+            :key="item.symbol"
+            :value="item.symbol">
+            {{item.symbol}}
+            {{item.name}}
+            </option>
         </select>
       </div>
       <div class="row">
@@ -15,34 +21,51 @@
           <label>Код</label>
           <span class="error show">{{symbolError}}</span>
         </div>
-        <input type="text" required disabled v-model="candidate.symbol">
+        <input
+          type="text"
+          required
+          disabled
+          v-model="candidate.symbol">
       </div>
       <div class="row">
         <div class="label">
           <label>Название</label>
           <span class="error show">{{titleError}}</span>
         </div>
-        <input type="text" required v-model="candidate.title" @input="resetTitleError">
+        <input required
+          type="text"
+          v-model="candidate.title"
+          @input="resetTitleError">
       </div>
       <div class="row">
         <div class="label">
           <label>Курс к 1USD</label>
           <span class="error show">{{rateError}}</span>
         </div>
-        <input type="text" required v-model="candidate.price" :disabled="isMainCurrency"  @input="resetRateError">
+        <input required
+          type="text"
+          v-model="candidate.price"
+          :disabled="isMainCurrency"
+          @input="resetRateError">
       </div>
 
       <div class="row-refresh">
          <span class="error show">{{refreshError}}</span>
         <div class="wrap">
-            <button  class="btn" @click.prevent="getPrice" >
-          Обновить курс
-        </button>
-        <img class="img" :class="{spin: isSpin}" src="@/assets/images/refresh.svg">
+          <button  class="btn" @click.prevent="getPrice" >
+            Обновить курс
+          </button>
+          <img
+            class="img"
+            :class="{spin: isSpin}"
+            src="@/assets/images/refresh.svg">
         </div>
       </div>
 
-      <button type="submit" class="row btn" @input="resetRateError">
+      <button
+        type="submit"
+        class="row btn"
+        @input="resetRateError">
         ДОБАВИТЬ
       </button>
      </form>
@@ -53,7 +76,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
 export default {
-  name: 'CreateCurrencyForm',
+  name: 'CurrencyCreateForm',
   mixins: [currencyMixin],
   computed: {
     ...mapGetters(['getAvailableCurrenceis']),

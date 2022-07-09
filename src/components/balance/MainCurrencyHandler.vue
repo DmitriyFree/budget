@@ -4,18 +4,26 @@
       <div class="main-currency__title">В качестве основной валюты выбран {{mainCurrency.symbol}}</div>
       <div class="main-currency__btn" @click="formActive = !formActive">
         <span>{{buttonText}}</span>
-        <img v-bind:class="{active: formActive}" src="@/assets/images/triangle.svg" alt="">
+        <img
+          v-bind:class="{active: formActive}"
+          src="@/assets/images/triangle.svg"
+          alt="">
       </div>
     </div>
-    <form class="" @submit.prevent="formHandler" v-bind:class="{done: !formActive}">
+    <form @submit.prevent="formHandler" v-bind:class="{done: !formActive}">
       <div class="row">
         <div class="label">
           <label>Выберете валюту</label>
           <span class="error show"></span>
         </div>
         <select v-model="selectedOption">
-        <option v-for="item of getAllCurrencies" :key="item.id" :value="item">{{item.title}}</option>
-      </select>
+          <option
+            v-for="item of getAllCurrencies"
+            :key="item.id"
+            :value="item">
+            {{item.title}}
+          </option>
+        </select>
       </div>
       <button type="submit" class="row btn">
         ПОДТВЕРДИТЬ

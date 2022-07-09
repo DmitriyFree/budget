@@ -1,8 +1,18 @@
 <template>
   <div class="create-form">
     <div class="choice">
-      <div class="choice__income" :class="{'active': candidate.income}" @click="clickIncome">Доход</div>
-      <div class="choice__outcome" :class="{'active': !candidate.income}" @click="clickOutcome">Расход</div>
+      <div
+        class="choice__income"
+        :class="{'active': candidate.income}"
+        @click="clickIncome">
+        Доход
+      </div>
+      <div
+        class="choice__outcome"
+        :class="{'active': !candidate.income}"
+        @click="clickOutcome">
+        Расход
+      </div>
     </div>
 
     <div  v-show="candidate.income === true">
@@ -13,24 +23,37 @@
           <span class="error">{{billError}}</span>
         </div>
         <select v-model="candidate.bill" required>
-          <option v-for="bill in getAllBills" :key="bill.id">{{bill.name}}</option>
+          <option
+            v-for="bill in getAllBills"
+            :key="bill.id">
+            {{bill.name}}
+          </option>
         </select>
       </div>
+
       <div class="row">
         <div class="label">
         <label>Категория</label>
           <span class="error">{{categoryError}}</span>
         </div>
         <select v-model="candidate.category" required>
-          <option v-for="item in incomeCategories" :key="item.id">{{item.name}}</option>
+          <option
+            v-for="item in incomeCategories"
+            :key="item.id">
+            {{item.name}}
+          </option>
         </select>
       </div>
+
       <div class="row">
         <div class="label">
         <label>Сумма</label>
           <span class="error">{{sumError}}</span>
         </div>
-        <input type="text" required v-model="candidate.sum" @input="resetSumError">
+        <input required
+          type="text"
+          v-model="candidate.sum"
+          @input="resetSumError">
       </div>
 
       <div class="row">
@@ -38,7 +61,10 @@
         <label>Дата</label>
           <span class="error">{{dateError}}</span>
         </div>
-        <input type="date" required v-model="candidate.date" @input="resetDateError">
+        <input required
+          type="date"
+          v-model="candidate.date"
+          @input="resetDateError">
       </div>
 
       <div class="row">
@@ -46,8 +72,12 @@
         <label>Описание</label>
           <span class="error">{{descriptionError}}</span>
         </div>
-        <input type="text" v-model="candidate.description" @input="resetDescriptionError">
+        <input
+          type="text"
+          v-model="candidate.description"
+          @input="resetDescriptionError">
       </div>
+
       <button type="submit" class="row btn">
         ДОБАВИТЬ
       </button>
@@ -109,7 +139,7 @@
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import recordMixin from '@/mixins/validator/record.mixin'
 export default {
-  name: 'CreateRecordForm',
+  name: 'RecordCreateForm',
   mixins: [
     recordMixin
   ],
@@ -149,15 +179,15 @@ export default {
         let type = 'Доход'
         if (!this.candidate.income) type = 'Расход'
 
-        const newRecord = {
-          bill: this.candidate.bill,
-          type: type,
-          category: this.candidate.category,
-          date: this.candidate.date,
-          sum: this.candidate.sum,
-          description: this.candidate.description
-        }
         try {
+          const newRecord = {
+            bill: this.candidate.bill,
+            type: type,
+            category: this.candidate.category,
+            date: this.candidate.date,
+            sum: this.candidate.sum,
+            description: this.candidate.description
+           }
           await this.addRecord(newRecord)
           this.resetForm()
         } catch (e) {}
@@ -180,22 +210,22 @@ export default {
   watch: {
     async getAllBills() {
       const billList = this.getAllBills
-      if (billList.length == 0) this.billError = 'у вас еще не щетов'
+      if (billList.length === 0) this.billError = 'у вас еще не щетов'
       else {
         if (this.billError === 'у вас еще не щетов') this.billError = ''
       }
     },
     async getAllCategories() {
       const categoryList = this.getAllCategories
-      if (categoryList.length == 0) this.categoryError = 'у вас нет категории'
+      if (categoryList.length === 0) this.categoryError = 'у вас нет категории'
       else {
         if (this.categoryError === 'у вас нет категории') this.categoryError= ''
       }
     }
   },
-  // async mounted() {
-  //   this.candidate.date = this.getCurrentData()
-  // }
+  async mounted() {
+    this.candidate.date = this.getCurrentData()
+  }
 }
 </script>
 

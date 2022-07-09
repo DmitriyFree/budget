@@ -14,8 +14,14 @@
           <label>Валюта</label>
           <span class="error">{{currencyError}}</span>
         </div>
-        <select v-model="candidate.currency" required @input="resetCurrencyError">
-          <option v-for="item in getAllCurrencies" :key="item.id" >{{item.symbol}}</option>
+        <select required
+          v-model="candidate.currency"
+          @input="resetCurrencyError">
+          <option
+            v-for="item in getAllCurrencies"
+            :key="item.id" >
+            {{item.symbol}}
+          </option>
         </select>
       </div>
       <div class="row">
@@ -23,7 +29,10 @@
           <label>Начальный баланс</label>
           <span class="error">{{startBalanceError}}</span>
         </div>
-        <input type="text" v-model="candidate.startBalance" @input="resetStartBalanceError">
+        <input
+          type="text"
+          v-model="candidate.startBalance"
+          @input="resetStartBalanceError">
       </div>
       <button type="submit" class="row btn">
         ДОБАВИТЬ
@@ -36,7 +45,7 @@
 import {mapActions, mapGetters} from 'vuex'
 import billMixin from '@/mixins/validator/bill.mixin'
 export default {
-  name: 'CreateBillForm',
+  name: 'BillCreateForm',
   mixins: [billMixin],
   data() {
     return {

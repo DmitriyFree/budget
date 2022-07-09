@@ -12,33 +12,33 @@
     <div class="inner__right">
       <div class="content">
         <div class="content-item" v-show="menuId == 'balance'">
-          <balance-handler/>
+          <balance-handler></balance-handler>
         </div>
         <div class="content-item" v-show="menuId == 'record'">
-         <record-handler/>
+         <record-handler></record-handler>
         </div>
         <div class="content-item" v-show="menuId == 'kat'">
-          <category-handler />
+          <category-handler></category-handler>
         </div>
         <div class="content-item" v-show="menuId == 'bills'">
-          <bill-handler/>
+          <bill-handler></bill-handler>
         </div>
         <div class="content-item" v-show="menuId == 'currency'">
-          <currency-handler/>
+          <currency-handler></currency-handler>
         </div>
       </div>
     </div>
-    <loader :isShow="isLoader"/>
+    <app-loader :isShow="isLoader"></app-loader>
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import BalanceHandler from "./balance/BalanceHandler.vue"
-import BillHandler from './bills/BillHandler.vue'
-import CategoryHandler from "./category/CategoryHandler.vue"
-import CurrencyHandler from './currency/CurrencyHandler.vue'
-import RecordHandler from './record/RecordHandler.vue'
+import BalanceHandler from '@/components/balance/BalanceHandler.vue'
+import BillHandler from '@/components/bill/BillHandler.vue'
+import CategoryHandler from '@/components/category/CategoryHandler.vue'
+import CurrencyHandler from '@/components/currency/CurrencyHandler.vue'
+import RecordHandler from '@/components/record/RecordHandler.vue'
 export default {
   components: { CategoryHandler, BalanceHandler, CurrencyHandler, RecordHandler, BillHandler },
   name: "MainContent",
@@ -79,10 +79,6 @@ export default {
     finally {
       this.isLoader = false
     }
-
-
-
-
   }
 };
 </script>
@@ -97,16 +93,11 @@ export default {
     width: 220px;
     height: 100%;
     border-right: 1px solid #aaa;
-    // background: #000;
-    // background: #343434;
   }
   &__right {
     position: relative;
     width: 100%;
     height: 100%;
-    // .content-item {
-    //   position: relative;
-    // }
   }
 }
 .menu {
@@ -115,20 +106,12 @@ export default {
     padding: 10px 25px;
     cursor: pointer;
     transition: 0.7s;
-    // color: #fff;
     color: #000;
-    // background: rgba(0, 0, 0, 0.1);
     &:hover {
-      // background: #00aacc40;
       background: #11aaf340;
-      // background: rgba(255, 255, 255, 0.2);
-      // background: rgba(0, 0, 0, 0.2);
     }
     &.active {
-      // background: #00aacc80;
       background: #11aaf380;
-      // background: rgba(255, 255, 255, 0.3);
-      // background: #000;
     }
   }
 }

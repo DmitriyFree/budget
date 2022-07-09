@@ -15,7 +15,7 @@
 <script>
 import {mapGetters, mapMutations} from 'vuex';
 export default {
-  name: 'CategoryItem',
+  name: 'CategoryListItem',
   props: {
     category: {
       type: Object,

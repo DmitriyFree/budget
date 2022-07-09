@@ -32,30 +32,48 @@
        </tr>
       </thead>
       <tbody>
-        <record-item v-for="item in pageItems"
+        <record-list-item v-for="item in pageItems"
           :key="item.id"
           :record="item"
           @edit="editHandler"
-          @delete="deleteHandler"/>
+          @delete="deleteHandler">
+        </record-list-item>
       </tbody>
      </table>
-      <pagination :pagesAmount="pageCount" :page="page" @currentPage="updateList" />
+      <pagination
+        :pages-amount="pageCount"
+        :page="page"
+        @currentPage="updateList">
+      </pagination>
     </div>
+
     <div v-else class="empty-list">Список записей пуст</div>
-    <modal :modal-active="showRecordEdit" @hideForm="hideModal">
-      <edit-record-form
+
+    <modal
+      :modal-active="activeRecordEdit"
+      @hideModal="hideRecordEditModal">
+
+      <record-edit-form
         :record="target"
-        @hideForm="closeEditForm" />
+        @hideForm="hideRecordEditModal">
+      </record-edit-form>
     </modal>
-    <modal :modal-active="showTransferEdit" @hideForm="hideModal">
-      <edit-transfer-form
+
+    <modal
+      :modal-active="activeTransferEdit"
+      @hideModal="hideTransferEditForm">
+
+      <record-transfer-edit-form
         :firstRecord="firstRecord"
         :secondRecord="secondRecord"
-        @hideForm="closeEditTransferForm"/>
+        @hideForm="hideTransferEditForm">
+      </record-transfer-edit-form>
     </modal>
+
     <confirm-modal
-      :show="show"
-      @result="deleteRecord"/>
+      :show="activeConfirmModal"
+      @result="deleteRecord">
+    </confirm-modal>
   </div>
  </div>
 </template>
@@ -63,12 +81,12 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import paginationMixin from '@/mixins/pagination.mixin'
-import RecordItem from '@/components/record/RecordItem.vue'
-import EditRecordForm from '@/components/record/EditRecordForm.vue'
-import EditTransferForm from '@/components/record/EditTransferForm.vue'
+import RecordListItem from '@/components/record/RecordListItem.vue'
+import RecordEditForm from '@/components/record/RecordEditForm.vue'
+import RecordTransferEditForm from '@/components/record/RecordTransferEditForm.vue'
 export default {
-  name: 'Records',
-  components: { RecordItem, EditRecordForm, EditTransferForm },
+  name: 'RecordList',
+  components: {RecordListItem, RecordEditForm, RecordTransferEditForm},
   mixins: [paginationMixin],
   data() {
     return {
@@ -84,9 +102,9 @@ export default {
       selectedRecord: {},
 
       target: {},
-      show: false,
-      showRecordEdit: false,
-      showTransferEdit: false,
+      activeConfirmModal: false,
+      activeRecordEdit: false,
+      activeTransferEdit: false,
 
       firstRecord: {},
       secondRecord: {}
@@ -140,78 +158,72 @@ export default {
       target.classList.add('active')
       this.typeCome = target.dataset.typeRecord
     },
-    editHandler(record) {
-      if (!record.transfer) {
-        this.target = record
-        this.showRecordEdit= true
-      } else {
-        const firstId = record.transfer.firstRecordId
-        const secondId = record.transfer.secondRecordId
-        this.firstRecord = this.getRecordById(firstId)
-        this.secondRecord = this.getRecordById(secondId)
-        this.showTransferEdit = true
-      }
-
-
-    },
-    closeEditForm(result) {
-      if (result) {
-        this.target = {}
-        this.showRecordEdit = false
-      }
-    },
-    closeEditTransferForm(result) {
-      if (result) {
-        this.target = {}
-        this.showTransferEdit = false
-      }
-    },
-    hideModal(result) {
-      if (result) {
-        this.showRecordEdit = false
-        this.showTransferEdit = false
-      }
-    },
-    deleteHandler(record) {
-      this.show = true
-      this.target = record
-    },
     async deleteRecord(result) {
       if (result && this.target.id) {
         try {
           if (this.target.transfer) await this.removeTransfer(this.target)
           else await this.removeRecordById(this.target.id)
         } catch (e) {}
+        finally {
+          this.activeConfirmModal = false
+          this.target = {}
+        }
       }
-      this.show = false
-      this.target = {}
+    },
 
-    }
+    editHandler(record) {
+      if (!record.transfer) {
+        this.target = record
+        this.activeRecordEdit= true
+      } else {
+        const firstId = record.transfer.firstRecordId
+        const secondId = record.transfer.secondRecordId
+        this.firstRecord = this.getRecordById(firstId)
+        this.secondRecord = this.getRecordById(secondId)
+        this.activeTransferEdit = true
+      }
+    },
+    deleteHandler(record) {
+      this.activeConfirmModal = true
+      this.target = record
+    },
+    hideRecordEditModal(result) {
+      if (result) {
+        this.target = {}
+        this.activeRecordEdit = false
+      }
+    },
+    hideTransferEditForm(result) {
+      if (result) {
+        this.target = {}
+        this.activeTransferEdit = false
+      }
+    },
   },
   watch: {
     selectByType() {
       this.setupPagination(this.selectByType)
     },
 
-    isPopupForm() {
-      const resp = this.getSelectedRecord;
-      if (this.isPopupForm) this.isEditRecordForm = false
-      if (!resp.transfer) {
-        this.isEditTransferForm = false
-        this.isEditRecordForm = true
-      } else {
+    // isPopupForm() {
+    //   const resp = this.getSelectedRecord;
+    //   if (this.isPopupForm) this.isEditRecordForm = false
+    //   if (!resp.transfer) {
+    //     this.isEditTransferForm = false
+    //     this.isEditRecordForm = true
+    //   } else {
 
-        this.isEditRecordForm = false
-        const firtId = resp.transfer.firstRecordId
-        const secondId = resp.transfer.secondRecordId
+    //     this.isEditRecordForm = false
+    //     const firtId = resp.transfer.firstRecordId
+    //     const secondId = resp.transfer.secondRecordId
 
-        if (firtId && secondId) {
-          this.isEditTransferForm = true
-          this.firstRecord = this.getRecordById(firtId)
-          this.secondRecord = this.getRecordById(secondId)
-        } else this.isEditTransferForm = false
-      }
-    }
+    //     if (firtId && secondId) {
+    //       this.isEditTransferForm = true
+    //       this.firstRecord = this.getRecordById(firtId)
+    //       this.secondRecord = this.getRecordById(secondId)
+    //     } else this.isEditTransferForm = false
+    //   }
+    // }
   },
   async mounted() {
     this.records = await this.getAllRecords

@@ -10,16 +10,16 @@
     <td>{{record.description}}</td>
     <td>{{record.sum}}</td>
     <td>
-        <div class="td-btn">
-            <edit-button class="edit__btn" @clickButton="edit"></edit-button>
-            <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
-        </div>
+      <div class="td-btn">
+        <edit-button class="edit__btn" @clickButton="edit"></edit-button>
+        <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
+      </div>
     </td>
   </tr>
 </template>
 <script>
 export default {
-  name: 'RecordItem',
+  name: 'RecordListItem',
   props: {
     record: {
       type: Object,
@@ -43,17 +43,12 @@ export default {
        padding: 0 7px;
        background: #ff426e;
        text-align: center;
-      //  color: #fff;
-      //  background: #c70d0d;
-
     }
     &.income span{
       display: block;
       padding: 0 7px;
       background: #73eb73;
       text-align: center;
-      // color: #fff;
-      // background: #196e19;
     }
   }
 
