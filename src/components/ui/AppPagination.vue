@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  name: 'Pagination',
+  name: 'AppPagination',
   props: {
     pagesAmount: {
       type: Number,

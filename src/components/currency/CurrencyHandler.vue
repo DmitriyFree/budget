@@ -2,13 +2,13 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Валюты</div>
-      <create-button class="btn" @clickButton="showCreateModal"></create-button>
+      <app-create-button class="btn" @clickButton="showCreateModal"></app-create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form">
-      <modal :modal-active="activeCreateModal" @hideModal="hideCreateModal">
+      <app-modal :modal-active="activeCreateModal" @hideModal="hideCreateModal">
         <currency-create-form @hideForm="hideCreateModal"></currency-create-form>
-      </modal>
+      </app-modal>
       </div>
       <currency-list/>
     </div>

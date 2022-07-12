@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: 'confirmModal',
+  name: 'AppConfirmModal',
   props: {
     text: {
       type: String,

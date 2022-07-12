@@ -6,8 +6,8 @@
     <td>{{bill.startBalance}}</td>
     <td>
       <div class="td-btn">
-        <edit-button class="edit__btn" @clickButton="editBill"></edit-button>
-        <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
+        <app-edit-button class="edit__btn" @clickButton="editBill"></app-edit-button>
+        <app-delete-button class="remove__btn" @clickButton="confirm"></app-delete-button>
       </div>
     </td>
   </tr>
@@ -29,11 +29,11 @@ export default {
   methods: {
     ...mapMutations(['changePopupForm', 'setSelectedBill', 'setConfirmModalText']),
     editBill() {
-      this.$emit('edit', this.bill)
+      this.$emit('edit', {...this.bill})
 
     },
     async confirm() {
-      this.$emit('delete', this.bill)
+      this.$emit('delete', {...this.bill})
     },
   },
 }

@@ -40,16 +40,16 @@
         </record-list-item>
       </tbody>
      </table>
-      <pagination
+      <app-pagination
         :pages-amount="pageCount"
         :page="page"
         @currentPage="updateList">
-      </pagination>
+      </app-pagination>
     </div>
 
     <div v-else class="empty-list">Список записей пуст</div>
 
-    <modal
+    <app-modal
       :modal-active="activeRecordEdit"
       @hideModal="hideRecordEditModal">
 
@@ -57,9 +57,9 @@
         :record="target"
         @hideForm="hideRecordEditModal">
       </record-edit-form>
-    </modal>
+    </app-modal>
 
-    <modal
+    <app-modal
       :modal-active="activeTransferEdit"
       @hideModal="hideTransferEditForm">
 
@@ -68,12 +68,12 @@
         :secondRecord="secondRecord"
         @hideForm="hideTransferEditForm">
       </record-transfer-edit-form>
-    </modal>
+    </app-modal>
 
-    <confirm-modal
+    <app-confirm-modal
       :show="activeConfirmModal"
       @result="deleteRecord">
-    </confirm-modal>
+    </app-confirm-modal>
   </div>
  </div>
 </template>

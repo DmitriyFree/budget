@@ -12,7 +12,7 @@
 </template>
 <script>
 export default {
-  name: 'Modal',
+  name: 'AppModal',
   props: {
     modalActive: Boolean,
     required: true

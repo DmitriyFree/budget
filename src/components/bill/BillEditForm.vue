@@ -70,9 +70,9 @@ export default {
   methods: {
     ...mapActions(['putBillById']),
     async formHandler() {
-      if (!this.checkFormData()) return
+      if (this.checkFormData())
       try {
-        if (!candidate.startBalance) candidate.startBalance = 0
+        if (!this.candidate.startBalance) candidate.startBalance = 0
         const data = {
           id: this.candidate.id,
           bill: {
@@ -94,7 +94,7 @@ export default {
     }
   },
   mounted() {
-    this.candidate = this.bill
+    this.candidate = {...this.bill}
   }
 }
 </script>

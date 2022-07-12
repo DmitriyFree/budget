@@ -16,6 +16,9 @@ export default {
 </script>
 
 <style lang="scss">
+
+$button_bg: #1e5f7e;
+
 * {
   margin: 0;
   padding: 0;
@@ -132,7 +135,7 @@ table {
         font-size: 14px;
         font-weight: 700;
         color: #fff;
-        background: #1e5f7e;
+        background: $button_bg;
         padding: 10px 25px;
         margin-top: 27px;
         border: none;
@@ -179,7 +182,7 @@ table {
     & .btn {
       padding: 5px 10px;
       color: #fff;
-      background: #1e5f7e;
+      background: $button_bg;
       border: none;
       cursor: pointer;
       overflow: hidden;

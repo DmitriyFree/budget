@@ -20,23 +20,25 @@
           </category-list-item>
         </tbody>
       </table>
-      <pagination
+      <app-pagination
         :pages-amount="pageCount"
         :page="page"
-        @currentPage="updateList"/>
+        @currentPage="updateList">
+      </app-pagination>
     </div>
     <div v-else class="empty-list">Список категорий пуст</div>
-    <modal
+    <app-modal
       :modal-active="activeEditForm"
       @hideModal="hideEditForm">
       <category-edit-form
         :category="target"
         @hideForm="hideEditForm" >
       </category-edit-form>
-    </modal>
-    <confirm-modal
+    </app-modal>
+    <app-confirm-modal
       :show="activeConfirmForm"
-      @result="deleteCategory"/>
+      @result="deleteCategory">
+    </app-confirm-modal>
   </div>
 </template>
 

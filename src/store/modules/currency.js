@@ -29,91 +29,91 @@ export default {
   },
   getters: {
     getAllCurrencies(state) {
-      return state.currency;
+      return state.currency
     },
     getSelectedCurrency(state) {
-      return state.selectedCurrency;
+      return state.selectedCurrency
     },
     getLastRefresh(state) {
-      return state.lastRefresh;
+      return state.lastRefresh
     },
     getCurrencyById(state) {
       return (id) => {
         const arr = state.currency.filter(item => item.id === id)
-        return arr[0];
+        return arr[0]
       }
     },
     getCurrencyBySymbol(state) {
       return (symbol) => {
-        const arr = state.currency.filter(item => item.symbol === symbol);
-        return arr[0];
+        const arr = state.currency.filter(item => item.symbol === symbol)
+        return arr[0]
       }
     },
     getAvailableCurrenceis(state) {
-      return state.availableCurrencyList;
+      return state.availableCurrencyList
     },
   },
   mutations: {
     updateCurrency(state, currencies) {
-      state.currency = currencies;
+      state.currency = currencies
     },
     setSelectedCurrency(state, currency) {
-      state.selectedCurrency = currency;
+      state.selectedCurrency = currency
     },
     setlastRefresh(state, value) {
-      state.lastRefresh = value;
+      state.lastRefresh = value
     },
     refreshAvailable(state, list) {
-      state.vailableCurrencyList = list;
+      state.vailableCurrencyList = list
     },
   },
   actions: {
     async getCurrencyData({commit}) {
       try {
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`)
         if (res.ok) {
-          const data = await res.json();
-          commit('updateCurrency', data);
+          const data = await res.json()
+          commit('updateCurrency', data)
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
     async refreshPrice({getters, commit}){
       try {
-        const lastRefresh = (Date.now() - getters.getLastRefresh);
-        const currencyList = getters.getAvailableCurrenceis;
+        const lastRefresh = (Date.now() - getters.getLastRefresh)
+        const currencyList = getters.getAvailableCurrenceis
         if (lastRefresh > 3600000) {
-          const res = await fetch(process.env.VUE_APP_API_PRICE);
+          const res = await fetch(process.env.VUE_APP_API_PRICE)
           if (res.ok) {
-            commit('setlastRefresh', Date.now());
-            const { data } = await res.json();
+            commit('setlastRefresh', Date.now())
+            const { data } = await res.json()
             currencyList.forEach(item => {
               data.forEach(i => {
                 if (i.symbol === item.symbol) {
-                  const price = (1 / i.rateUsd).toFixed(4);
-                  item.price = price;
+                  const price = (1 / i.rateUsd).toFixed(4)
+                  item.price = price
                 }
             });
 
             });
           } else {
-            console.error(`server error url: ${res.url} status: ${res.status}`);
+            console.error(`server error url: ${res.url} status: ${res.status}`)
           }
 
         }
-        commit('refreshAvailable', currencyList);
+        commit('refreshAvailable', currencyList)
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     async addCurrency({dispatch}, data) {
       try {
         if (!data) return
-        const json = JSON.stringify(data);
+        const json = JSON.stringify(data)
         const res = await fetch(`${process.env.VUE_APP_API_URL}/currency`, {
           method: 'POST',
           headers: {
@@ -122,12 +122,12 @@ export default {
           body: json
         });
         if (res.ok) {
-          await dispatch('getCurrencyData');
+          await dispatch('getCurrencyData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -144,13 +144,13 @@ export default {
           },
         });
         if (res.ok) {
-          await dispatch('removeBillsByCurrency', selected.symbol);
-          await dispatch('getCurrencyData');
+          await dispatch('removeBillsByCurrency', selected.symbol)
+          await dispatch('getCurrencyData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -176,12 +176,12 @@ export default {
             await dispatch('changeCurrencyCode', exportData)
 
           }
-          await dispatch('getCurrencyData');
+          await dispatch('getCurrencyData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },

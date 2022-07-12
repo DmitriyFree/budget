@@ -113,7 +113,6 @@ export default {
   methods: {
     ...mapActions(['putRecordById']),
     async formHandler() {
-      console.log('dd')
       if (!this.checkFormData()) return;
       try {
         const data = {
@@ -141,7 +140,7 @@ export default {
     }
   },
   async mounted() {
-    this.candidate = this.record
+    this.candidate = {...this.record}
   }
 }
 </script>

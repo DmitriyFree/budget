@@ -21,24 +21,26 @@
         </currency-list-item>
         </tbody>
       </table>
-      <pagination
+      <app-pagination
         :pages-amount="pageCount"
         :page="page"
-        @currentPage="updateList" ></pagination>
+        @currentPage="updateList" >
+      </app-pagination>
     </div>
 
     <div v-else class="empty-list">Список валют пуст</div>
 
-    <modal :modalActive="activeEditForm" @hideModal="hideEditForm">
+    <app-modal :modalActive="activeEditForm" @hideModal="hideEditForm">
       <currency-edit-form
         :currency="target"
         @hideForm="hideEditForm">
       </currency-edit-form>
-    </modal>
+    </app-modal>
 
-    <confirm-modal
+    <app-confirm-modal
       :show="activeConfirmForm"
-      @result="deleteCurrency"/>
+      @result="deleteCurrency">
+    </app-confirm-modal>
   </div>
 </template>
 

@@ -11,8 +11,8 @@
     <td>{{record.sum}}</td>
     <td>
       <div class="td-btn">
-        <edit-button class="edit__btn" @clickButton="edit"></edit-button>
-        <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
+        <app-edit-button class="edit__btn" @clickButton="edit"></app-edit-button>
+        <app-delete-button class="remove__btn" @clickButton="confirm"></app-delete-button>
       </div>
     </td>
   </tr>
@@ -28,10 +28,10 @@ export default {
   },
   methods: {
     edit() {
-      this.$emit('edit', this.record)
+      this.$emit('edit', {...this.record})
     },
     confirm() {
-      this.$emit('delete', this.record)
+      this.$emit('delete', {...this.record})
     },
   }
 }

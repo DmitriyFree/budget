@@ -2,17 +2,17 @@
   <div class="handler">
     <div class="handler__header">
       <div class="title">Категории</div>
-      <create-button class="btn" @clickButton="showCreateModal"></create-button>
+      <app-create-button class="btn" @clickButton="showCreateModal"></app-create-button>
     </div>
     <div class="handler__content">
       <div class="handler__content-form">
-        <modal
+        <app-modal
           :modal-active="activeCreateModal"
           @hideModal="hideCreateModal">
           <category-create-form
             @hideForm="hideCreateModal" >
           </category-create-form>
-        </modal>
+        </app-modal>
       </div>
       <category-list></category-list>
     </div>

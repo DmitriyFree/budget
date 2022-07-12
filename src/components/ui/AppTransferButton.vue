@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "CurrencyTransferButton",
+  name: "AppTransferButton",
   methods: {
     clickHandler(e) {
       this.$emit('clickButton', {});

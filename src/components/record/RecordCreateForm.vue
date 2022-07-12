@@ -138,10 +138,12 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import recordMixin from '@/mixins/validator/record.mixin'
+import currentDateMixin from '@/mixins/currentDate.mixin'
 export default {
   name: 'RecordCreateForm',
   mixins: [
-    recordMixin
+    recordMixin,
+    currentDateMixin
   ],
   data() {
     return {
@@ -197,15 +199,6 @@ export default {
       }
 
     },
-    getCurrentData() {
-      const year = new Date().getFullYear()
-      let month = new Date().getMonth()+1
-      if(month < 10) month = '0'+ month;
-      let day = new Date().getDate();
-      if(day < 10) day = '0'+ day;
-
-      return `${year}-${month}-${day}`
-    }
   },
   watch: {
     async getAllBills() {

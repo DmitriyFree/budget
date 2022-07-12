@@ -19,14 +19,15 @@
         @edit="editHandler"></bill-list-item>
       </tbody>
         </table>
-        <pagination
+        <app-pagination
           :pages-amount="pageCount"
           :page="page"
-          @currentPage="updateList"/>
+          @currentPage="updateList">
+        </app-pagination>
     </div>
     <div v-else class="empty-list">Список счетов пуст</div>
 
-    <modal
+    <app-modal
       :modal-active="activeEditForm"
       @hideModal="hideEditForm">
 
@@ -34,12 +35,12 @@
         :bill="target"
         @hideForm="hideEditForm">
       </bill-edit-form>
-    </modal>
+    </app-modal>
 
-    <confirm-modal
+    <app-confirm-modal
       :show="activeConfirmForm"
       @result="deleteBill">
-    </confirm-modal>
+    </app-confirm-modal>
   </div>
 </template>
 

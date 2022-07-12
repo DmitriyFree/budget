@@ -6,8 +6,8 @@
     <td>{{currency.price}}</td>
     <td>
       <div class="td-btn">
-        <edit-button class="edit__btn" @clickButton="edit"></edit-button>
-        <delete-button class="remove__btn" @clickButton="confirm"></delete-button>
+        <app-edit-button class="edit__btn" @clickButton="edit"></app-edit-button>
+        <app-delete-button class="remove__btn" @clickButton="confirm"></app-delete-button>
       </div>
     </td>
 
@@ -25,10 +25,10 @@ export default {
   },
   methods: {
     edit() {
-      this.$emit('edit', this.currency)
+      this.$emit('edit', {...this.currency})
     },
     confirm() {
-      this.$emit('delete', this.currency)
+      this.$emit('delete', {...this.currency})
     },
   },
 }

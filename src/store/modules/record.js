@@ -19,52 +19,52 @@ export default {
     getRecordById(state) {
       return (id) => {
         const arr = state.records.filter(item => item.id === id)
-        return arr[0];
+        return arr[0]
       }
     },
     getSelectedRecord(state) {
-      return state.selectedRecord;
+      return state.selectedRecord
     },
   },
   mutations: {
     updateRecords(state, records) {
-      state.records = records;
+      state.records = records
     },
     updateTransfers(state, transfers) {
       state.currencyTransers = transfers
     },
     setSelectedRecord(state, record) {
-      state.selectedRecord = record;
+      state.selectedRecord = record
     },
   },
 
   actions: {
     async getRecordsData({getters, commit}) {
       try {
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/records`);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/records`)
         if (res.ok) {
-          const data = await res.json();
-          commit('updateRecords', data);
+          const data = await res.json()
+          commit('updateRecords', data)
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     removeRecordsByBill: {
       async handler({getters, dispatch}, data) {
         try {
-          const records = await getters.getAllRecords;
+          const records = await getters.getAllRecords
           const newArr = records.filter((item) => {
-            return item.bill === data;
+            return item.bill === data
           });
           newArr.forEach(async (elem) => {
             await dispatch('removeRecordById', elem.id)
           });
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
 
       },
@@ -76,9 +76,9 @@ export default {
           if(!data.oldName || !data.newName) {
             return
           }
-          const records = await getters.getAllRecords;
+          const records = await getters.getAllRecords
           const newArr = records.filter((item) => {
-            return item.category == data.oldName;
+            return item.category == data.oldName
           });
           newArr.forEach(async (elem) => {
 
@@ -109,9 +109,9 @@ export default {
           if(!data.oldName || !data.newName) {
             return
           }
-          const records = await getters.getAllRecords;
+          const records = await getters.getAllRecords
           const newArr = records.filter((item) => {
-            return item.bill == data.oldName;
+            return item.bill == data.oldName
           });
           newArr.forEach(async (elem) => {
 
@@ -127,7 +127,7 @@ export default {
               id: elem.id,
               record: record
             }
-            await dispatch('putRecordById', exportData);
+            await dispatch('putRecordById', exportData)
           });
         } catch (e) {
           console.log(e);
@@ -139,7 +139,7 @@ export default {
     async addRecord({dispatch}, data) {
       try {
         if (!data) return
-        const json = JSON.stringify(data);
+        const json = JSON.stringify(data)
         const res = await fetch(`${process.env.VUE_APP_API_URL}/records`, {
           method: 'POST',
           headers: {
@@ -148,12 +148,12 @@ export default {
           body: json
         });
         if (res.ok) {
-          await dispatch('getRecordsData');
+          await dispatch('getRecordsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -189,8 +189,8 @@ export default {
           }
         }
 
-        const firstRecord = await createRecord(firstCandidate.record);
-        const secondRecord = await createRecord(secondCandidate.record);
+        const firstRecord = await createRecord(firstCandidate.record)
+        const secondRecord = await createRecord(secondCandidate.record)
 
 
         firstCandidate.id = firstRecord.id
@@ -210,7 +210,7 @@ export default {
 
 
       async function createRecord (record) {
-          const json = JSON.stringify(record);
+          const json = JSON.stringify(record)
           const res = await fetch(`${process.env.VUE_APP_API_URL}/records`, {
             method: 'POST',
             headers: {
@@ -219,16 +219,16 @@ export default {
             body: json
           });
           if (res.ok) {
-            const resp = await res.json();
+            const resp = await res.json()
             return resp
           } else {
-            console.error(`server error url: ${res.url} status: ${res.status}`);
-            return false;
+            console.error(`server error url: ${res.url} status: ${res.status}`)
+            return false
           }
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -241,12 +241,12 @@ export default {
           },
         });
         if (res.ok) {
-          await dispatch('getRecordsData');
+          await dispatch('getRecordsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -271,12 +271,12 @@ export default {
           body: jsonData
         });
         if (res.ok) {
-          await dispatch('getRecordsData');
+          await dispatch('getRecordsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -320,7 +320,7 @@ export default {
         await dispatch('getRecordsData')
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     }

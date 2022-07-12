@@ -1,23 +1,22 @@
 // ui
-import AppLoader from "@/components/ui/AppLoader"
-import CreateButton from "@/components/ui/CreateButton"
-import DeleteButton from "@/components/ui/DeleteButton"
-import EditButton from "@/components/ui/EditButton"
-import Pagination from "@/components/ui/Pagination"
-import CurrencyTransferButton from "@/components/ui/CurrencyTransferButton"
+import AppLoader from '@/components/ui/AppLoader'
+import AppCreateButton from '@/components/ui/AppCreateButton'
+import AppDeleteButton from '@/components/ui/AppDeleteButton'
+import AppEditButton from '@/components/ui/AppEditButton'
+import AppPagination from '@/components/ui/AppPagination'
+import AppTransferButton from '@/components/ui/AppTransferButton'
 
 //modal
-import Modal from "@/components/modal/Modal"
-import ConfirmModal from "@/components/modal/ConfirmModal"
-
+import AppModal from '@/components/modal/AppModal'
+import AppConfirmModal from '@/components/modal/AppConfirmModal'
 
 export default [
   AppLoader,
-  CreateButton,
-  DeleteButton,
-  EditButton,
-  Pagination,
-  CurrencyTransferButton,
-  Modal,
-  ConfirmModal
+  AppCreateButton,
+  AppDeleteButton,
+  AppEditButton,
+  AppPagination,
+  AppTransferButton,
+  AppModal,
+  AppConfirmModal
 ]

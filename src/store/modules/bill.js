@@ -11,49 +11,45 @@ export default {
 
   getters: {
     getAllBills(state) {
-      return state.bills;
+      return state.bills
     },
     getBillById(state) {
       return (id) => {
-        const arr = state.bills.filter(item => item.id === id);
-        return arr[0];
+        const arr = state.bills.filter(item => item.id === id)
+        return arr[0]
       }
     },
     getSelectedBill(state) {
-      return state.selectedBill;
+      return state.selectedBill
     },
   },
 
   mutations: {
     updateBills(state, bills) {
-      state.bills = bills;
+      state.bills = bills
     },
     setSelectedBill(state, bill) {
-      state.selectedBill = bill;
+      state.selectedBill = bill
     },
   },
 
   actions: {
-    async getBillsData({
-      getters,
-      commit
-    }) {
-
+    async getBillsData({commit}) {
       try {
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`)
         if (res.ok) {
-          const bills = await res.json();
-          commit('updateBills', bills);
+          const bills = await res.json()
+          commit('updateBills', bills)
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}` );
+          console.error(`server error url: ${res.url} status: ${res.status}` )
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     async addBill({dispatch}, bill) {
       try {
-        const data = JSON.stringify(bill);
+        const data = JSON.stringify(bill)
         const res = await fetch(`${process.env.VUE_APP_API_URL}/bills`, {
           method: 'POST',
           headers: {
@@ -62,14 +58,14 @@ export default {
           body: data
         });
         if (res.ok) {
-          await dispatch('getBillsData');
+          await dispatch('getBillsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}` );
-          console.log(`data in JSON: ${jsonData}`);
+          console.error(`server error url: ${res.url} status: ${res.status}` )
+          console.log(`data in JSON: ${jsonData}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
 
@@ -77,7 +73,6 @@ export default {
     async removeBillById({dispatch, getters}, id) {
       try {
         const selected = getters.getBillById(id)
-
         const res = await fetch(`${process.env.VUE_APP_API_URL}/bills/${id}`, {
           method: 'DELETE',
           headers: {
@@ -85,30 +80,30 @@ export default {
           },
         });
         if (res.ok) {
-          await dispatch('removeRecordsByBill', selected.name);
-          await dispatch('getBillsData');
+          await dispatch('removeRecordsByBill', selected.name)
+          await dispatch('getBillsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}` );
-          console.log(`data in JSON: ${jsonData}`);
+          console.error(`server error url: ${res.url} status: ${res.status}` )
+          console.log(`data in JSON: ${jsonData}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     },
     removeBillsByCurrency: {
       async handler({getters, dispatch}, currencyName) {
 
         try {
-          const bills = await getters.getAllBills;
+          const bills = await getters.getAllBills
           const newArr = bills.filter((item) => {
-            return item.currency === currencyName;
+            return item.currency === currencyName
           });
           newArr.forEach(async (elem) => {
             await dispatch('removeBillById', elem.id)
           });
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
 
 
@@ -122,9 +117,9 @@ export default {
           if(!data.oldName || !data.newName) {
             return
           }
-          const billList = await getters.getAllBills;
+          const billList = await getters.getAllBills
           const newArr = billList.filter((item) => {
-            return item.currency == data.oldName;
+            return item.currency == data.oldName
           });
           newArr.forEach(async (elem) => {
 
@@ -137,11 +132,11 @@ export default {
               id: elem.id,
               bill: bill
             }
-            await dispatch('putBillById', exportData);
+            await dispatch('putBillById', exportData)
           });
 
         } catch (e) {
-          console.log(e);
+          console.log(e)
         }
 
       },
@@ -151,7 +146,7 @@ export default {
       try {
         if (!data.bill) return
 
-        const billList = getters.getAllBills;
+        const billList = getters.getAllBills
         const selected = billList.filter(item => {
           return item.id == data.id
         });
@@ -172,16 +167,15 @@ export default {
           body: jsonData
         });
         if (res.ok) {
-          await dispatch('changeBillName', exportData);
-          await dispatch('getBillsData');
-          await dispatch('refreshBillOnePage');
+          await dispatch('changeBillName', exportData)
+          await dispatch('getBillsData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}` );
-          console.log(`data in JSON: ${jsonData}`);
+          console.error(`server error url: ${res.url} status: ${res.status}` )
+          console.log(`data in JSON: ${jsonData}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     }

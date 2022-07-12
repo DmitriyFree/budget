@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name: 'DeleteButton',
+  name: 'AppDeleteButton',
   methods: {
     clickHandler(e) {
       this.$emit('clickButton', {});

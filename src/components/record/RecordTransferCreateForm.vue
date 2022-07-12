@@ -44,7 +44,7 @@
         <input required
           type="text"
           v-model="firstSum"
-          @input="resetSumError">
+          @input="resetFirstSumError">
       </div>
       <div class="row">
         <div class="label">
@@ -55,7 +55,7 @@
           type="text"
           :disabled="!isAvailableRate"
           :value="secondSum"
-          @input="secondSumHandler">
+          @input="resetSecondSumError">
       </div>
 
       <div class="row">
@@ -67,7 +67,7 @@
           type="text"
           :disabled="!isAvailableRate"
           v-model="rate"
-          @input="resetSumError">
+          @input="resetRateError">
       </div>
 
       <div class="row">
@@ -91,9 +91,13 @@
 <script>
 import { mapGetters, mapActions} from 'vuex'
 import transferMixin from '@/mixins/validator/transfer.mixin'
+import currentDateMixin from '@/mixins/currentDate.mixin'
 export default {
   name: "RecordTransferCreateForm",
-  mixins: [transferMixin],
+  mixins: [
+    transferMixin,
+    currentDateMixin
+  ],
   computed: {
     ...mapGetters(['getAllBills', 'getCurrencyBySymbol']),
     isAvailableRate() {
@@ -148,16 +152,6 @@ export default {
       finally {
         this.$emit('hideForm', true)
       }
-    },
-    resetSumError() {},
-    getCurrentData() {
-      const year = new Date().getFullYear()
-      let month = new Date().getMonth()+1
-      if(month < 10) month = '0'+ month
-      let day = new Date().getDate()
-      if(day < 10) day = '0'+ day
-
-      return `${year}-${month}-${day}`
     },
   },
   mounted() {

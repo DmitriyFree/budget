@@ -9,27 +9,27 @@ export default {
   },
   getters: {
     getAllCategories(state) {
-      return state.categories;
+      return state.categories
     },
     getCategoryById(state) {
       return (id) => {
-        const arr = state.categories.filter(item => item.id === id);
-        return arr[0];
+        const arr = state.categories.filter(item => item.id === id)
+        return arr[0]
       }
     },
     getSelectedCategory(state) {
-      return state.selectedCategory;
+      return state.selectedCategory
     },
   },
   mutations: {
     updateCategories(state, categories) {
-      state.categories = categories;
+      state.categories = categories
     },
     addNewCategory(state, category) {
-      state.categories.push(category);
+      state.categories.push(category)
     },
     setSelectedCategory(state, category) {
-      state.selectedCategory = category;
+      state.selectedCategory = category
     },
   },
 
@@ -38,23 +38,23 @@ export default {
       commit
     }) {
       try {
-        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`);
+        const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`)
         if (res.ok) {
-          const data = await res.json();
-          commit('updateCategories', data);
+          const data = await res.json()
+          commit('updateCategories', data)
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
     async addCategory({dispatch}, data) {
       try {
         if (!data) return
-        const json = JSON.stringify(data);
+        const json = JSON.stringify(data)
         const res = await fetch(`${process.env.VUE_APP_API_URL}/categories`, {
           method: 'POST',
           headers: {
@@ -65,13 +65,13 @@ export default {
         });
 
         if (res.ok) {
-          await dispatch('getCategoriesData');
+          await dispatch('getCategoriesData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
 
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
@@ -84,25 +84,18 @@ export default {
           },
         });
         if (res.ok) {
-          await dispatch('getCategoriesData');
+          await dispatch('getCategoriesData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
 
     },
     async putCategoryById({getters, dispatch}, data) {
       try {
-        if (!data.category || !data.id) return;
-        // const categoriesList = getters.getAllCategories;
-        // const selected = categoriesList.filter(item => {
-        //   return item.id == data.id
-        // });
-        // if (selected.length == 0) {
-        //   return
-        // }
+        if (!data.category || !data.id) return
         const selected = getters.getCategoryById(data.id)
 
         const exportData = {
@@ -119,10 +112,10 @@ export default {
           body: jsonData
         });
         if (res.ok) {
-          await dispatch('changeCategoryName', exportData);
-          await dispatch('getCategoriesData');
+          await dispatch('changeCategoryName', exportData)
+          await dispatch('getCategoriesData')
         } else {
-          console.error(`server error url: ${res.url} status: ${res.status}`);
+          console.error(`server error url: ${res.url} status: ${res.status}`)
         }
       } catch (e) {
         console.log(e);
