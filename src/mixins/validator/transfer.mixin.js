@@ -1,4 +1,4 @@
-import {required, decimal} from 'vuelidate/lib/validators'
+import {required, decimal} from '@vuelidate/validators'
 export default {
   data() {
     return {
@@ -33,17 +33,17 @@ export default {
 
     },
     checkFormData() {
-      if (!this.$v.firstBill.$dirty && !this.$v.firstBill.required) this.firstBillError = 'Выберете счет'
+      if (!this.v$.firstBill.$dirty && !this.v$.firstBill.required.$invalid) this.firstBillError = 'Выберете счет'
       else this.firstBillError = ''
 
-      if (!this.$v.secondBill.$dirty && !this.$v.secondBill.required) this.secondBillError = 'Выберете счет'
+      if (!this.v$.secondBill.$dirty && !this.v$.secondBill.required.$invalid) this.secondBillError = 'Выберете счет'
       else this.secondBillError = ''
 
       if (this.firstBill.name == this.secondBill.name) {
         this.secondBillError = 'Счета совпадают'
       }
 
-      if (!this.$v.date.$dirty && !this.$v.date.required) this.dateError = 'нет значения'
+      if (!this.v$.date.$dirty && !this.v$.date.required) this.dateError = 'нет значения'
       else this.dateError = ''
 
       if(this.firstSumError || this.secondSumError || this.rateError || this.dateError) return false

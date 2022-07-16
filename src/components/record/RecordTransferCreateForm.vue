@@ -92,12 +92,16 @@
 import { mapGetters, mapActions} from 'vuex'
 import transferMixin from '@/mixins/validator/transfer.mixin'
 import currentDateMixin from '@/mixins/currentDate.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: "RecordTransferCreateForm",
   mixins: [
     transferMixin,
     currentDateMixin
   ],
+    setup () {
+    return { v$: useVuelidate() }
+  },
   computed: {
     ...mapGetters(['getAllBills', 'getCurrencyBySymbol']),
     isAvailableRate() {

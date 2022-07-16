@@ -1,4 +1,4 @@
-import {required, minLength, maxLength, integer} from 'vuelidate/lib/validators'
+import { required, minLength, maxLength, integer } from '@vuelidate/validators'
 export default {
   data() {
     return {
@@ -16,15 +16,15 @@ export default {
   },
   methods: {
     checkFormData() {
-      if (!this.$v.candidate.name.$dirty && !this.$v.candidate.name.required) this.nameError = 'нет значения'
-      else if (!this.$v.candidate.name.$dirty && !this.$v.candidate.name.minLength)  this.nameError = 'минимум 3 символа'
-      else if (!this.$v.candidate.name.$dirty && !this.$v.candidate.name.maxLength) this.nameError = 'максимум 30 символа'
+      if (!this.v$.candidate.name.$dirty && this.v$.candidate.name.required.$invalid) this.nameError = 'нет значения'
+      else if (!this.v$.candidate.name.$dirty && this.v$.candidate.name.minLength.$invalid)  this.nameError = 'минимум 3 символа'
+      else if (!this.v$.candidate.name.$dirty && this.v$.candidate.name.maxLength.$invalid) this.nameError = 'максимум 30 символа'
       else this.nameError = ''
 
-      if (!this.$v.candidate.currency.$dirty && !this.$v.candidate.currency.required) this.currencyError = 'нет значения'
+      if (!this.v$.candidate.currency.$dirty && this.v$.candidate.currency.required.$invalid) this.currencyError = 'нет значения'
       else this.currencyError = ''
 
-      if (!this.$v.candidate.startBalance.$dirty && !this.$v.candidate.startBalance.integer) this.startBalanceError = 'только число'
+      if (!this.v$.candidate.startBalance.$dirty && this.v$.candidate.startBalance.integer.$invalid) this.startBalanceError = 'только число'
       else this.startBalance = ''
 
       if(this.nameError || this.currencyError || this.startBalanceError) return false

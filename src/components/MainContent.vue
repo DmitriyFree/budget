@@ -11,7 +11,7 @@
     </div>
     <div class="inner__right">
       <div class="content">
-        <div class="content-item" v-show="menuId == 'balance'">
+        <!-- <div class="content-item" v-show="menuId == 'balance'">
           <balance-handler></balance-handler>
         </div>
         <div class="content-item" v-show="menuId == 'record'">
@@ -25,22 +25,22 @@
         </div>
         <div class="content-item" v-show="menuId == 'currency'">
           <currency-handler></currency-handler>
-        </div>
+        </div> -->
       </div>
     </div>
-    <app-loader :isShow="isLoader"></app-loader>
+    <!-- <app-loader :isShow="isLoader"></app-loader> -->
   </div>
 </template>
 
 <script>
 import {mapGetters, mapActions} from 'vuex'
-import BalanceHandler from '@/components/balance/BalanceHandler.vue'
-import BillHandler from '@/components/bill/BillHandler.vue'
-import CategoryHandler from '@/components/category/CategoryHandler.vue'
-import CurrencyHandler from '@/components/currency/CurrencyHandler.vue'
-import RecordHandler from '@/components/record/RecordHandler.vue'
+// import BalanceHandler from '@/components/balance/BalanceHandler.vue'
+// import BillHandler from '@/components/bill/BillHandler.vue'
+// import CategoryHandler from '@/components/category/CategoryHandler.vue'
+// import CurrencyHandler from '@/components/currency/CurrencyHandler.vue'
+// import RecordHandler from '@/components/record/RecordHandler.vue'
 export default {
-  components: { CategoryHandler, BalanceHandler, CurrencyHandler, RecordHandler, BillHandler },
+  // components: { CategoryHandler, BalanceHandler, CurrencyHandler, RecordHandler, BillHandler },
   name: "MainContent",
   data() {
     return {
@@ -49,7 +49,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['getCategoriesData','getCurrencyData', 'getBillsData', 'getRecordsData']),
+    // ...mapActions(['getCategoriesData','getCurrencyData', 'getBillsData', 'getRecordsData']),
     menuListener(e) {
       const target = e.target
       const items = document.querySelectorAll(".menu__item")
@@ -62,24 +62,24 @@ export default {
       }
     },
   },
-  computed: {
-    ...mapGetters(['getAllCategories', 'getAllCurrencies', 'getAllBills', 'getAllRecords']),
-  },
-  async mounted() {
-    this.isLoader = true
+  // computed: {
+  //   ...mapGetters(['getAllCategories', 'getAllCurrencies', 'getAllBills', 'getAllRecords']),
+  // },
+  // async mounted() {
+  //   this.isLoader = true
 
-    try {
-      await this.getRecordsData()
-      await this.getBillsData()
-      await this.getCategoriesData()
-      await this.getCurrencyData()
-    } catch (error) {
-      console.log(error)
-    }
-    finally {
-      this.isLoader = false
-    }
-  }
+  //   try {
+  //     await this.getRecordsData()
+  //     await this.getBillsData()
+  //     await this.getCategoriesData()
+  //     await this.getCurrencyData()
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   finally {
+  //     this.isLoader = false
+  //   }
+  // }
 };
 </script>
 

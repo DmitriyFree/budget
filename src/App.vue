@@ -1,17 +1,22 @@
 <template>
-  <div id="app">
-    <app-header></app-header>
-    <main-content></main-content>
+  <div>
+    <component :is="layout">
+      <!-- <router-view/> -->
+    </component>
   </div>
 </template>
 
 <script>
-import AppHeader from '@/components/AppHeader.vue'
-import MainContent from '@/components/MainContent.vue'
-
+import AppMainLayout from '@/layouts/AppMainLayout.vue'
 export default {
-  name: 'App',
-  components: {AppHeader, MainContent}
+  components: {
+    AppMainLayout
+  },
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || 'app-main-layout')
+    }
+  }
 }
 </script>
 

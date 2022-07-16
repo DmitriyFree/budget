@@ -7,7 +7,7 @@
           <label>Название</label>
           <span class="error">{{nameError}}</span>
         </div>
-        <input required
+        <input
           type="text"
           v-model.trim="candidate.name"
           @input="resetNameError">
@@ -17,7 +17,7 @@
           <label>Тип</label>
           <span class="error">{{typeError}}</span>
         </div>
-        <select class="category-form__type form-row" required
+        <select class="category-form__type form-row"
           v-model.trim="candidate.type"
           @input="resetTypeError">
           <option selected value="Доход">Доход</option>
@@ -34,9 +34,13 @@
 <script>
 import {mapActions} from 'vuex'
 import categoryMixin from '@/mixins/validator/category.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'CreateCategoryForm',
   mixins: [categoryMixin],
+  setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       candidate: {

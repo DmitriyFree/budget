@@ -88,6 +88,7 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import transferMixin from '@/mixins/validator/transfer.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: "RecordTransferEditForm",
   mixins: [transferMixin],
@@ -100,6 +101,9 @@ export default {
       ype: Object,
       required: true
     }
+  },
+    setup () {
+    return { v$: useVuelidate() }
   },
 
   computed: {

@@ -1,4 +1,4 @@
-import {required, minLength, maxLength, decimal} from 'vuelidate/lib/validators'
+import {required, minLength, maxLength, decimal} from '@vuelidate/validators'
 export default {
   data() {
     return {
@@ -25,15 +25,15 @@ export default {
       if (this.isCurrencyCode(value)) this.symbolError = 'валюта уже существует'
     },
     checkFormData() {
-      if (!this.$v.candidate.title.$dirty && !this.$v.candidate.title.required) this.titleError = 'нет значения'
-      else if (!this.$v.candidate.title.$dirty && !this.$v.candidate.title.minLength)  this.titleError = 'минимум 3 символа'
-      else if (!this.$v.candidate.title.$dirty && !this.$v.candidate.title.maxLength) this.titleError = 'максимум 30 символа'
+      if (!this.v$.candidate.title.$dirty && this.v$.candidate.title.required.$invalid) this.titleError = 'нет значения'
+      else if (!this.v$.candidate.title.$dirty && this.v$.candidate.title.minLength.$invalid)  this.titleError = 'минимум 3 символа'
+      else if (!this.v$.candidate.title.$dirty && this.v$.candidate.title.maxLength.$invalid) this.titleError = 'максимум 30 символа'
       else this.titleError = ''
 
-      if (!this.$v.candidate.symbol.$dirty && !this.$v.candidate.symbol.required) this.symbolError = 'нет значения'
+      if (!this.v$.candidate.symbol.$dirty && this.v$.candidate.symbol.required.$invalid) this.symbolError = 'нет значения'
       else this.symbolError = ''
 
-      if (!this.$v.candidate.price.$dirty && !this.$v.candidate.price.decimal) this.rateError = 'только число'
+      if (!this.v$.candidate.price.$dirty && this.v$.candidate.price.decimal.$invalid) this.rateError = 'только число'
       else this.rateError = ''
 
       if(this.titleError || this.symbolError || this.rateError) return false

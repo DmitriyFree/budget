@@ -75,9 +75,13 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'CurrencyCreateForm',
   mixins: [currencyMixin],
+    setup () {
+    return { v$: useVuelidate() }
+  },
   computed: {
     ...mapGetters(['getAvailableCurrenceis']),
     isMainCurrency() {

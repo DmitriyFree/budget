@@ -15,7 +15,7 @@ export default {
   name: 'AppModal',
   props: {
     modalActive: Boolean,
-    required: true
+    required: false
   },
   data() {
     return {
@@ -52,7 +52,8 @@ export default {
         document.documentElement.style.overflow = 'hidden'
       } else  document.documentElement.style.overflow = 'auto'
      }
-  }
+  },
+
 
 }
 </script>

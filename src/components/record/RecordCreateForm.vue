@@ -139,12 +139,16 @@
 import {mapActions, mapGetters, mapMutations} from 'vuex'
 import recordMixin from '@/mixins/validator/record.mixin'
 import currentDateMixin from '@/mixins/currentDate.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'RecordCreateForm',
   mixins: [
     recordMixin,
     currentDateMixin
   ],
+    setup () {
+    return { v$: useVuelidate() }
+  },
   data() {
     return {
       candidate: {

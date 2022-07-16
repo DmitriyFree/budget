@@ -50,6 +50,7 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import currencyMixin from '@/mixins/validator/currency.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: "CurrencyEditForm",
   props: {
@@ -59,6 +60,9 @@ export default {
     }
   },
   mixins: [currencyMixin],
+    setup () {
+    return { v$: useVuelidate() }
+  },
   computed: {
     ...mapGetters(['getAvailableCurrenceis']),
     isMainCurrency() {

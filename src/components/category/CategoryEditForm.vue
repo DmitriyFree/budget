@@ -32,9 +32,13 @@
 <script>
 import {mapActions} from 'vuex'
 import categoryMixin from '@/mixins/validator/category.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'CategoryEditForm',
   mixins: [categoryMixin],
+  setup () {
+    return { v$: useVuelidate() }
+  },
   props: {
     category: {
       type: Object,

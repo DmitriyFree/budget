@@ -4,10 +4,11 @@ import bill from '@/store/modules/bill'
 import categories from '@/store/modules/categories'
 import currency from '@/store/modules/currency'
 import record from '@/store/modules/record'
+import { createStore } from 'vuex'
 
-Vue.use(Vuex)
+// Vue.use(Vuex)
 
-export default new Vuex.Store({
+export default createStore({
   modules: {
     bill,
     categories,

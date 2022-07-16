@@ -1,18 +1,19 @@
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
+import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 import store from './store'
-import components from '@/components'
+import components from './components/index'
+// import Vuelidate from 'vuelidate'
 
-Vue.config.productionTip = false
+const app = createApp(App)
+app.use(store)
+app.use(router)
+// app.use(Vuelidate)
 
-Vue.use(Vuelidate)
+components.forEach(component => {
+  app.component(component.name, component)
+})
 
-components.forEach(element => {
-  Vue.component(element.name, element)
-});
+app.mount('#app')
 
- new Vue({
-  store,
-  render: h => h(App)
-}).$mount('#app')
+

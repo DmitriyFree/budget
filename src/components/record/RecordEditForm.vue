@@ -82,6 +82,7 @@
 <script>
 import {mapGetters, mapActions} from 'vuex'
 import recordMixin from '@/mixins/validator/record.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'RecordEditForm',
   props: {
@@ -91,6 +92,9 @@ export default {
     }
   },
   mixins: [recordMixin],
+    setup () {
+    return { v$: useVuelidate() }
+  },
   computed: {
     ...mapGetters(['getAllBills', 'getAllCategories']),
     availableCategories() {

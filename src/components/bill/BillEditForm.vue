@@ -45,9 +45,13 @@
 <script>
 import {mapActions, mapGetters} from 'vuex'
 import billMixin from '@/mixins/validator/bill.mixin'
+import useVuelidate from '@vuelidate/core'
 export default {
   name: 'BillEditForm',
   mixins: [billMixin],
+  setup () {
+    return { v$: useVuelidate() }
+  },
   props: {
     bill: {
       type: Object,
