@@ -26,7 +26,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import MainContent from '@/components/MainContent.vue'
 import {mapGetters, mapActions} from 'vuex'
 export default {
-  name: 'StatView',
+  name: 'AppMainLayout',
   components: {AppHeader, MainContent},
   data() {
     return {

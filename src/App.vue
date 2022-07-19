@@ -1,16 +1,17 @@
 <template>
   <div>
     <component :is="layout">
-      <!-- <router-view/> -->
     </component>
   </div>
 </template>
 
 <script>
 import AppMainLayout from '@/layouts/AppMainLayout.vue'
+import AppLoginLayout from '@/layouts/AppLoginLayout.vue'
 export default {
   components: {
-    AppMainLayout
+    AppMainLayout,
+    AppLoginLayout
   },
   computed: {
     layout() {

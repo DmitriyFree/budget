@@ -5,7 +5,7 @@
     :class="{show: showModal}">
 
     <div class="modal__content">
-      <div class="modal-close__btn">x</div>
+      <div class="modal-close__btn" v-if="closeble">x</div>
       <slot></slot>
     </div>
   </div>
@@ -14,17 +14,26 @@
 export default {
   name: 'AppModal',
   props: {
-    modalActive: Boolean,
-    required: false
+    modalActive: {
+      type: Boolean,
+      required: false
+    }
   },
   data() {
     return {
-      showModal: false
+      showModal: false,
     }
+  },
+  computed: {
+    closeble() {
+      if (this.$route.path === '/login') return false
+      else return true
+    }
+
   },
   methods: {
     closeModal() {
-      this.showModal = false
+      if (this.closeble) this.showModal = false
       this.$emit('hideModal', true);
     },
     clickListener(e) {
@@ -36,7 +45,7 @@ export default {
     }
   },
   async mounted() {
-    this.showModal = this.modalActive
+    this.showModal = this.modalActive || false
     document.addEventListener('keydown', (e) => {
       if (e.code == 'Escape') {
         this.closeModal()
@@ -45,7 +54,7 @@ export default {
   },
   watch: {
     modalActive() {
-      this.showModal = this.modalActive
+      this.showModal = this.modalActive || false
     },
     showModal() {
       if (this.showModal) {
