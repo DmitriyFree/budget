@@ -7,11 +7,28 @@
     </div>
     <div class="header__title">Budget</div>
     <div class="header__date">{{ getDate }}</div>
+    <div
+      class="header__logout"
+      :class="{active: showLogout}"
+      @click="showLogout = !showLogout">
+      <img src="@/assets/images/triangle.svg" alt="">
+    </div>
+    <div
+      class="logout-nemu"
+      @click="logout"
+      v-show="showLogout">
+      logout
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: "AppHeader",
+  data() {
+    return {
+      showLogout: false
+    }
+  },
   computed: {
     getDate() {
       let date = new Date();
@@ -21,6 +38,10 @@ export default {
     },
   },
   methods: {
+    logout() {
+      localStorage.removeItem('id')
+      this.$router.push('/login')
+    },
     convertMonth(number) {
       let month = "";
       switch (number) {
@@ -88,6 +109,7 @@ export default {
   padding: 10px 25px;
   display: flex;
   align-items: center;
+  width: 100%;
   &__btn {
     cursor: pointer;
     div {
@@ -108,6 +130,26 @@ export default {
     line-height: 26px;
     color: #000;
     margin-left: 20px;
+  }
+  &__logout {
+    position: absolute;
+    right: 40px;
+    font-size: 14px;
+    line-height: 26px;
+    cursor: pointer;
+    &.active {
+      transform: rotate(90deg);
+    }
+  }
+  & .logout-nemu {
+    position: absolute;
+    right: 0;
+    top: 46px;
+    padding: 8px 25px;
+    cursor: pointer;
+    background: #11aaf380;
+    z-index: 100;
+
   }
 }
 </style>

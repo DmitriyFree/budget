@@ -1,13 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import { is } from 'core-js/core/object'
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    meta: {auth: true},
-    component: HomeView
+    meta: {layout: 'app-main-layout', auth: true},
+    component: () => import('@/views/StatisticsView.vue')
   },
   {
     path: '/login',

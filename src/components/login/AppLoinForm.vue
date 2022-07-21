@@ -53,3 +53,19 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    background: rgba(70, 70, 70, 0.7);
+    & .info {
+          position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: red;
+    }
+  }
+</style>

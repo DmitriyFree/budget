@@ -9,6 +9,7 @@ import AppTransferButton from '@/components/ui/AppTransferButton'
 //modal
 import AppModal from '@/components/modal/AppModal'
 import AppConfirmModal from '@/components/modal/AppConfirmModal'
+import AppInfoModal from '@/components/modal/AppInfoModal'
 
 export default [
   AppLoader,
@@ -18,5 +19,6 @@ export default [
   AppPagination,
   AppTransferButton,
   AppModal,
-  AppConfirmModal
+  AppConfirmModal,
+  AppInfoModal
 ]

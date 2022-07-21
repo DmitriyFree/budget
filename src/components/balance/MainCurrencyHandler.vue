@@ -5,7 +5,7 @@
       <div class="main-currency__btn" @click="formActive = !formActive">
         <span>{{buttonText}}</span>
         <img
-          v-bind:class="{active: formActive}"
+          :class="{active: formActive}"
           src="@/assets/images/triangle.svg"
           alt="">
       </div>
