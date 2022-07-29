@@ -14,14 +14,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/scss/variables.scss';
   .edit-button {
     font-size: 14px;
     line-height: 28px;
-    // background: #17ac17;
-    background: #1e5f7e;
+    background: $button_bg;
     cursor: pointer;
     padding: 0 10px;
-    color: #fff;
-    // color: #000;
+    color: $button_text_color;
   }
 </style>

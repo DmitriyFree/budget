@@ -103,11 +103,12 @@ export default {
 }
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .pagination {
   margin-top: 25px;
   display: flex;
   &__nuv {
-    background: #1e5f7e;
+    background: $button_bg;
     padding: 1px 5px;
     margin:0 3px;
     cursor: pointer;
@@ -115,18 +116,15 @@ export default {
   &__item {
     padding: 5px 10px;
     background: none;
-    background: #1e5f7e;
-    // background: #11aaf3;
+    background: $button_bg;
     cursor: pointer;
     color: rgb(255, 255, 255);
     margin:0 3px;
     &.current_page {
-      // background: blue;
-      // background: #1e5f7e;
       background: transparent;
-      color: #fff;
-      color:  #1e5f7e;
-      border:  1px solid  #1e5f7e;
+      color: $button_text_color;
+      color: $button_bg;
+      border: 1px solid $button_bg;
     }
   }
 }

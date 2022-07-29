@@ -227,6 +227,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/variables.scss';
   .create-form {
     & .choice {
       display: flex;
@@ -236,15 +237,15 @@ export default {
         padding: 5px 10px;
         border:  2px solid transparent;
         &.active {
-          border: 2px solid #000;
+          border: 2px solid $text_color;
         }
       }
       &__income {
-        background: #73eb73;
+        background: $income_color;
       }
       &__outcome {
         margin-left: 20px;
-        background: #ff426e;
+        background: $outcome_color;
       }
     }
     div .record-form {

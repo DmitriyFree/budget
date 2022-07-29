@@ -37,17 +37,18 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/assets/scss/variables.scss';
   .inner td{
     &.outcome span{
        display: block;
        padding: 0 7px;
-       background: #ff426e;
+       background: $outcome_color;
        text-align: center;
     }
     &.income span{
       display: block;
       padding: 0 7px;
-      background: #73eb73;
+      background: $income_color;
       text-align: center;
     }
   }

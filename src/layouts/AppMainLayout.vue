@@ -23,11 +23,10 @@
 
 <script>
 import AppHeader from '@/components/AppHeader.vue'
-import MainContent from '@/components/MainContent.vue'
 import {mapGetters, mapActions} from 'vuex'
 export default {
   name: 'AppMainLayout',
-  components: {AppHeader, MainContent},
+  components: {AppHeader},
   data() {
     return {
       menuId: "balance",
@@ -70,6 +69,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/variables.scss';
   .inner {
   width: 100%;
   height: 100vh;
@@ -78,7 +78,7 @@ export default {
   &__left {
     width: 220px;
     height: 100%;
-    border-right: 1px solid #aaa;
+    border-right: 1px solid $border_color;
   }
   &__right {
     position: relative;
@@ -92,17 +92,12 @@ export default {
     padding: 10px 25px;
     cursor: pointer;
     transition: 0.7s;
-    color: #000;
     &:hover {
-      background: #11aaf340;
+      background: $menu_color;
     }
     &.active {
-      background: #11aaf380;
+      background: $menu_active_color;
     }
   }
-}
-.content {
-  color: #000;
-
 }
 </style>

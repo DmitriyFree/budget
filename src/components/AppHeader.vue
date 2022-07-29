@@ -104,8 +104,9 @@ export default {
 };
 </script>
 <style lang="scss">
+@import '@/assets/scss/variables.scss';
 .header {
-  background: #11aaf3;
+  background: $header_bg;
   padding: 10px 25px;
   display: flex;
   align-items: center;
@@ -115,20 +116,18 @@ export default {
     div {
       width: 20px;
       height: 2px;
-      background: #000;
+      background: $text_color;
       margin: 5px 0;
     }
   }
   &__title {
     font-size: 14px;
     line-height: 26px;
-    color: #000;
     margin-left: 20px;
   }
   &__date {
     font-size: 14px;
     line-height: 26px;
-    color: #000;
     margin-left: 20px;
   }
   &__logout {
@@ -147,7 +146,7 @@ export default {
     top: 46px;
     padding: 8px 25px;
     cursor: pointer;
-    background: #11aaf380;
+    background: $menu_active_color;
     z-index: 100;
 
   }

@@ -165,10 +165,10 @@ export default {
           else await this.removeRecordById(this.target.id)
         } catch (e) {}
         finally {
-          this.activeConfirmModal = false
           this.target = {}
         }
       }
+      this.activeConfirmModal = false
     },
 
     editHandler(record) {
@@ -234,6 +234,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/scss/variables.scss';
   .pick {
     margin: 20px 0 10px;
     display: flex;
@@ -248,7 +249,7 @@ export default {
         display: block;
         outline: none;
         padding: 5px 10px;
-        border: 1px solid rgba(35, 35, 35, 0.5);
+        border: 1px solid $border_color;
         background: transparent;
         line-height: 20px;
         cursor: pointer;
@@ -261,27 +262,26 @@ export default {
     &__type{
       display: flex;
       margin-left: 15px;
-      border: 1px solid rgba(35, 35, 35, 0.5);
+      border: 1px solid $border_color;
       border-radius: 15px;
       overflow: hidden;
       &-item {
         padding: 5px 10px;
-        background: rgba(17, 170, 243, 0.4);
         background: transparent;
         line-height: 20px;
         transition: all 0.5s;
         cursor: pointer;
         &.active {
-          background: #1e5f7e;
-          color: #fff;
+          background: $button_bg;
+          color: $button_text_color;
         }
         &.left {
           padding-left: 20px;
-          border-right: 1px solid rgba(35, 35, 35, 0.5);
+          border-right: 1px solid $border_color;
         }
         &.right {
           padding-right: 20px;
-          border-left: 1px solid rgba(35, 35, 35, 0.5);
+          border-left: 1px solid $border_color;
         }
       }
     }

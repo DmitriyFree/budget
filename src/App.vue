@@ -23,7 +23,8 @@ export default {
 
 <style lang="scss">
 
-$button_bg: #1e5f7e;
+@import '@/assets/scss/variables.scss';
+
 
 * {
   margin: 0;
@@ -33,12 +34,15 @@ $button_bg: #1e5f7e;
 input {
   outline: none;
 }
+body {
+  color: $text_color;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-  .handler {
+.handler {
     padding: 0 20px;
     &__header {
       margin-top: 30px;
@@ -88,7 +92,7 @@ table {
     }
   }
   td, th {
-    border-bottom: 1px solid rgba(35, 35, 35, 0.5);
+    border-bottom: 1px solid $border_color;
     line-height: 28px;
   }
   .td-btn {
@@ -111,7 +115,7 @@ table {
         label {
           display: inline-block;
           font-size: 14px;
-          color: rgba(35, 35, 35, 0.5);;
+          color: $border_color;
         }
         .error {
           color: #e90909;
@@ -124,23 +128,22 @@ table {
         height: 32px;
         width: 220px;
         padding: 0 10px;
-        border: 1px solid rgba(35, 35, 35, 0.5);
+        border: 1px solid $border_color;
         font-size: 16px;
         line-height: 17px;
-        color: #000;
       }
       select {
         display: block;
         outline: none;
         padding: 6px 10px;
-        border: 1px solid rgba(35, 35, 35, 0.5);
+        border: 1px solid $border_color;
         background: transparent;
       }
       &.btn {
         display: inline-block;
         font-size: 14px;
         font-weight: 700;
-        color: #fff;
+        color: $button_text_color;
         background: $button_bg;
         padding: 10px 25px;
         margin-top: 27px;
@@ -187,7 +190,7 @@ table {
     display: flex;
     & .btn {
       padding: 5px 10px;
-      color: #fff;
+      color: $button_text_color;
       background: $button_bg;
       border: none;
       cursor: pointer;

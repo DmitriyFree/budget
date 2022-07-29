@@ -67,7 +67,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .modal {
+@import '@/assets/scss/variables.scss';
+.modal {
     position: absolute;
     top: 0;
     left: 0;
@@ -97,9 +98,8 @@ export default {
     font-size: 18px;
     line-height: 18px;
     font-weight: 700;
-    color: #fff;
-    background: #11aaf3;
-    background: #1e5f7e;
+    color: $button_text_color;
+    background: $button_bg;
     padding: 7px 7px 8px 8px;
     cursor: pointer;
   }
